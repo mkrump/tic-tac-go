@@ -1,4 +1,4 @@
-package game
+package ui
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
@@ -19,11 +19,11 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 
 func TestRenderingNonEmpty3x3Board(t *testing.T) {
 	expected :=
-		"   1   |   X   |   3   \n" +
+		"   1   |   O   |   3   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   4   |   O   |   6   \n" +
+			"   4   |   X   |   6   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   7   |   8   |   X   \n"
+			"   7   |   8   |   O   \n"
 	board := core.MakeBoard(3)
 	board.MakeMove(1, 1)
 	board.MakeMove(4, -1)
@@ -33,11 +33,11 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 
 func TestRenderingNonEmpty4x4Board(t *testing.T) {
 	expected :=
-		"   1   |   X   |   3   |   4   \n" +
+		"   1   |   O   |   3   |   4   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
-			"   5   |   O   |   7   |   8   \n" +
+			"   5   |   X   |   7   |   8   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
-			"   9   |  10   |   X   |  12   \n" +
+			"   9   |  10   |   O   |  12   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
 			"  13   |  14   |  15   |  16   \n"
 	board := core.MakeBoard(4)
