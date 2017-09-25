@@ -1,4 +1,4 @@
-package ui
+package game
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
@@ -9,6 +9,10 @@ import (
 func RenderBoard(board core.Board) string {
 	consoleBoard := boardToConsoleUI(board)
 	return render(consoleBoard, board.Size)
+}
+
+func ConsolePrint(str string) {
+	print(str)
 }
 
 func render(uiBoard []string, gridSize int) string {

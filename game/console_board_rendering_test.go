@@ -1,4 +1,4 @@
-package ui
+package game
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
