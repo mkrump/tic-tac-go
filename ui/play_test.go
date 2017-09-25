@@ -1,4 +1,4 @@
-package consoleui
+package ui
 
 import (
 	"github.com/stretchr/testify/assert"

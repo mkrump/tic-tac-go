@@ -13,25 +13,27 @@ func (e *SquareOccupiedError) Error() string {
 
 //Board primitive data type to used for ttt game
 type Board struct {
-	boardState []int
+	Size       int
+	BoardState []int
 }
 
 //MakeBoard makes a new board of total length = gridSize x gridSize
 func MakeBoard(size int) Board {
 	//
 	return Board{
-		boardState: make([]int, size*size),
+		Size:       size,
+		BoardState: make([]int, size*size),
 	}
 }
 
-func (board Board) makeMove(square int, player int) error {
+func (board *Board) MakeMove(square int, player int) error {
 	if board.squareOccupied(square) {
-		board.boardState[square] = player
+		board.BoardState[square] = player
 		return nil
 	}
 	return &SquareOccupiedError{square: square}
 }
 
 func (board Board) squareOccupied(square int) bool {
-	return board.boardState[square] == 0
+	return board.BoardState[square] == 0
 }

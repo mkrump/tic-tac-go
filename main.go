@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/consoleui"
+	"github.com/sc2nomore/tic-tac-go/ui"
 )
 
 func main() {
-	fmt.Println(consoleui.Play())
+	fmt.Println(ui.Play())
 }
