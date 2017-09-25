@@ -26,6 +26,8 @@ func MakeBoard(size int) Board {
 	}
 }
 
+//MakeMove mutates the Board object to reflect a player move
+//if a square is available else it returns a SquareOccupiedError
 func (board *Board) MakeMove(square int, player int) error {
 	if board.squareOccupied(square) {
 		board.BoardState[square] = player
