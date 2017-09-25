@@ -9,7 +9,7 @@ import (
 func main() {
 	board := core.MakeBoard(3)
 	player := 1
-	game.ConsolePrint(game.RenderBoard(board))
+	game.ConsolePrint("\n" + game.RenderBoard(board) + "\n")
 	for {
 		game.RequestUserMove(os.Stdout)
 		move, err := game.GetUserMove(os.Stdin)
@@ -17,8 +17,11 @@ func main() {
 			println("ERROR")
 			continue
 		}
-		board.MakeMove(move, player)
+		if err := board.MakeMove(move, player); err != nil {
+			println("ERROR")
+			continue
+		}
 		player *= -1
-		game.ConsolePrint(game.RenderBoard(board))
+		game.ConsolePrint("\n" + game.RenderBoard(board) + "\n")
 	}
 }

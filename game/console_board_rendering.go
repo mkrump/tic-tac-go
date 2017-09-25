@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"strings"
 )
@@ -16,7 +17,7 @@ func ConsolePrint(str string) {
 }
 
 func render(uiBoard []string, gridSize int) string {
-	renderedBoard := "\n"
+	renderedBoard := ""
 	for rowNumber := 0; rowNumber < gridSize; rowNumber++ {
 		rowSlice := getRowSlice(rowNumber, gridSize, uiBoard)
 		renderedBoard += renderRowDivider(rowNumber, gridSize)
@@ -30,11 +31,15 @@ func boardToConsoleUI(board core.Board) []string {
 	for i, square := range board.BoardState {
 		switch square {
 		case 1:
-			consoleBoard[i] = "X"
+			//TODO add color maybe using callback?
+			//consoleBoard[i] = fmt.Sprintf("\033[1;31m%s\033[0m", "X")
+			consoleBoard[i] = fmt.Sprintf("%2s", "X")
 		case -1:
-			consoleBoard[i] = "O"
+			//TODO add color maybe using callback?
+			//consoleBoard[i] = fmt.Sprintf("\033[1;32m%s\033[0m", "O")
+			consoleBoard[i] = fmt.Sprintf("%2s", "O")
 		default:
-			consoleBoard[i] = " "
+			consoleBoard[i] = fmt.Sprintf("%2d", i+1)
 		}
 	}
 	return consoleBoard
@@ -47,12 +52,12 @@ func getRowSlice(rowIndex int, gridSize int, board []string) []string {
 }
 
 func renderRow(row []string) string {
-	return "  " + strings.Join(row, "  |  ") + "  \n"
+	return "  " + strings.Join(row, "   |  ") + "   \n"
 }
 
 func renderRowDivider(rowNumber int, gridSize int) string {
 	if rowNumber > 0 {
-		return strings.Repeat("- - - ", gridSize-1) + "- - -\n"
+		return strings.Repeat("- - - - ", gridSize-1) + "- - - -\n"
 	}
 	return ""
 }

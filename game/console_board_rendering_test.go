@@ -7,23 +7,23 @@ import (
 )
 
 func TestRenderingEmpty3x3Board(t *testing.T) {
-	expected := "\n" +
-		"     |     |     \n" +
-		"- - - - - - - - -\n" +
-		"     |     |     \n" +
-		"- - - - - - - - -\n" +
-		"     |     |     \n"
+	expected :=
+		"   1   |   2   |   3   \n" +
+			"- - - - - - - - - - - -\n" +
+			"   4   |   5   |   6   \n" +
+			"- - - - - - - - - - - -\n" +
+			"   7   |   8   |   9   \n"
 	board := core.MakeBoard(3)
 	assert.Equal(t, expected, RenderBoard(board), "")
 }
 
 func TestRenderingNonEmpty3x3Board(t *testing.T) {
-	expected := "\n" +
-		"     |  X  |     \n" +
-		"- - - - - - - - -\n" +
-		"     |  O  |     \n" +
-		"- - - - - - - - -\n" +
-		"     |     |  X  \n"
+	expected :=
+		"   1   |   X   |   3   \n" +
+			"- - - - - - - - - - - -\n" +
+			"   4   |   O   |   6   \n" +
+			"- - - - - - - - - - - -\n" +
+			"   7   |   8   |   X   \n"
 	board := core.MakeBoard(3)
 	board.MakeMove(1, 1)
 	board.MakeMove(4, -1)
@@ -32,14 +32,14 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 }
 
 func TestRenderingNonEmpty4x4Board(t *testing.T) {
-	expected := "\n" +
-		"     |  X  |     |     \n" +
-		"- - - - - - - - - - - -\n" +
-		"     |  O  |     |     \n" +
-		"- - - - - - - - - - - -\n" +
-		"     |     |  X  |     \n" +
-		"- - - - - - - - - - - -\n" +
-		"     |     |     |     \n"
+	expected :=
+		"   1   |   X   |   3   |   4   \n" +
+			"- - - - - - - - - - - - - - - -\n" +
+			"   5   |   O   |   7   |   8   \n" +
+			"- - - - - - - - - - - - - - - -\n" +
+			"   9   |  10   |   X   |  12   \n" +
+			"- - - - - - - - - - - - - - - -\n" +
+			"  13   |  14   |  15   |  16   \n"
 	board := core.MakeBoard(4)
 	board.MakeMove(1, 1)
 	board.MakeMove(5, -1)

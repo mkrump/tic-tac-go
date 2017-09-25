@@ -9,7 +9,7 @@ import (
 func TestGetConsoleInputMac(t *testing.T) {
 	inBuffer := bytes.NewBufferString("1\n")
 	move, _ := GetUserMove(inBuffer)
-	assert.Equal(t, 1, move)
+	assert.Equal(t, 0, move)
 }
 
 func TestGetConsoleInvalidInput(t *testing.T) {
@@ -21,7 +21,7 @@ func TestGetConsoleInvalidInput(t *testing.T) {
 func TestGetConsoleInputWindows(t *testing.T) {
 	inBuffer := bytes.NewBufferString("2\r\n")
 	move, _ := GetUserMove(inBuffer)
-	assert.Equal(t, 2, move)
+	assert.Equal(t, 1, move)
 }
 
 func TestRequestConsoleInput(t *testing.T) {
