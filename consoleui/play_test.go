@@ -1,4 +1,4 @@
-package game
+package consoleui
 
 import (
 	"github.com/stretchr/testify/assert"
