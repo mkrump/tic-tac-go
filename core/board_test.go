@@ -30,3 +30,9 @@ func TestMoveOccupiedSquare4x4(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, expected, board.BoardState)
 }
+
+func TestMoveOutOfBounds(t *testing.T) {
+	board := MakeBoard(3)
+	err := board.MakeMove(100, 1)
+	assert.NotNil(t, err)
+}
