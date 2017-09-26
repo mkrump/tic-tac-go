@@ -2,25 +2,29 @@ package ui
 
 import (
 	"bytes"
+	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestGetConsoleInputMac(t *testing.T) {
-	inBuffer := bytes.NewBufferString("1\n")
-	move, _ := GetUserMove(inBuffer)
-	assert.Equal(t, 0, move)
+func TestGetUserMoveInt(t *testing.T) {
+	mockPlayer := &mocks.Player{}
+	mockPlayer.On("Move").Return(3)
+	move, _ := GetUserMove(mockPlayer)
+	assert.Equal(t, 3, move)
 }
 
-func TestGetConsoleInvalidInput(t *testing.T) {
-	inBuffer := bytes.NewBufferString("A\r\n")
-	_, err := GetUserMove(inBuffer)
+func TestGetUserMoveBadString(t *testing.T) {
+	mockPlayer := &mocks.Player{}
+	mockPlayer.On("Move").Return("A")
+	_, err := GetUserMove(mockPlayer)
 	assert.NotNil(t, err)
 }
 
-func TestGetConsoleInputWindows(t *testing.T) {
-	inBuffer := bytes.NewBufferString("2\r\n")
-	move, _ := GetUserMove(inBuffer)
+func TestGetUserMoveValidString(t *testing.T) {
+	mockPlayer := &mocks.Player{}
+	mockPlayer.On("Move").Return("2")
+	move, _ := GetUserMove(mockPlayer)
 	assert.Equal(t, 1, move)
 }
 
