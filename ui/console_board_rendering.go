@@ -1,4 +1,4 @@
-package game
+package ui
 
 import (
 	"fmt"
@@ -6,14 +6,15 @@ import (
 	"strings"
 )
 
-//RenderBoard returns a string representation of a Board object
-func RenderBoard(board core.Board) string {
+//RenderBoard returns a string representation of a board object
+func RenderBoard(board core.Playable) string {
 	consoleBoard := boardToConsoleUI(board)
-	return render(consoleBoard, board.Size)
+	return render(consoleBoard, board.GridSize())
 }
 
+//ConsolePrint prints string to console
 func ConsolePrint(str string) {
-	print(str)
+	fmt.Println(str)
 }
 
 func render(uiBoard []string, gridSize int) string {
@@ -26,15 +27,15 @@ func render(uiBoard []string, gridSize int) string {
 	return renderedBoard
 }
 
-func boardToConsoleUI(board core.Board) []string {
-	consoleBoard := make([]string, len(board.BoardState))
-	for i, square := range board.BoardState {
+func boardToConsoleUI(board core.Playable) []string {
+	consoleBoard := make([]string, len(board.BoardState()))
+	for i, square := range board.BoardState() {
 		switch square {
-		case 1:
+		case -1:
 			//TODO add color maybe using callback?
 			//consoleBoard[i] = fmt.Sprintf("\033[1;31m%s\033[0m", "X")
 			consoleBoard[i] = fmt.Sprintf("%2s", "X")
-		case -1:
+		case 1:
 			//TODO add color maybe using callback?
 			//consoleBoard[i] = fmt.Sprintf("\033[1;32m%s\033[0m", "O")
 			consoleBoard[i] = fmt.Sprintf("%2s", "O")
