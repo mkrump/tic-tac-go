@@ -1,37 +1,12 @@
-package core
+package playertypes
 
 import (
 	"bufio"
 	"io"
-	"math/rand"
 	"os"
 	"regexp"
 )
 
-type Player interface {
-	Symbol() string
-	Move() interface{}
-}
-
-type ComputerPlayer struct {
-	symbol string
-}
-
-func (computerPlayer ComputerPlayer) Symbol() string {
-	return computerPlayer.symbol
-}
-
-func (computerPlayer ComputerPlayer) Move() interface{} {
-	return rand.Intn(9)
-}
-
-func MakeComputerPlayer(symbol string) ComputerPlayer {
-	return ComputerPlayer{
-		symbol: symbol,
-	}
-}
-
-//----
 type ConsolePlayer struct {
 	symbol string
 	in     io.Reader
