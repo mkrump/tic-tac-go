@@ -1,4 +1,4 @@
-package core
+package boards
 
 import "fmt"
 
@@ -18,13 +18,14 @@ type Board struct {
 }
 
 //Playable is an interface used to play ttt
-//Gridsize size of n for nxn board
-//Boardstate returns an array of ints representing the game board
-//Make move places a place on the board and returns and error if the move is invalid
+//Gridsize size of n for nxn boards
+//Boardstate returns an array of ints representing the game boards
+//Make move places a place on the boards and returns and error if the move is invalid
 type Playable interface {
 	GridSize() int
 	BoardState() []int
 	MakeMove(int, int) error
+	OpenSquares() []int
 }
 
 //MakeBoard makes a new Board of total length = gridSize x gridSize
@@ -37,12 +38,12 @@ func MakeBoard(size int) Board {
 	}
 }
 
-//BoardState returns an array of ints representing the game board
+//BoardState returns an array of ints representing the game boards
 func (board Board) BoardState() []int {
 	return board.boardState
 }
 
-//GridSize size of n for nxn board
+//GridSize size of n for nxn boards
 func (board Board) GridSize() int {
 	return board.size
 }
@@ -55,6 +56,16 @@ func (board Board) MakeMove(square int, player int) error {
 		return nil
 	}
 	return &SquareOccupiedError{square: square}
+}
+
+func (board Board) OpenSquares() []int {
+	var openSquares []int
+	for i, square := range board.BoardState() {
+		if square == 0 {
+			openSquares = append(openSquares, i)
+		}
+	}
+	return openSquares
 }
 
 func (board Board) squareOpen(square int) bool {
