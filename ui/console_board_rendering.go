@@ -3,12 +3,13 @@ package ui
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
+	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"strings"
 )
 
-//RenderBoard returns a string representation of a board object
-func RenderBoard(board core.Playable) string {
-	consoleBoard := boardToConsoleUI(board)
+//RenderBoard returns a string representation of a boards object
+func RenderBoard(board boards.Playable, players core.PlayerMap) string {
+	consoleBoard := boardToConsoleUI(board, players)
 	return render(consoleBoard, board.GridSize())
 }
 
@@ -27,18 +28,18 @@ func render(uiBoard []string, gridSize int) string {
 	return renderedBoard
 }
 
-func boardToConsoleUI(board core.Playable) []string {
+func boardToConsoleUI(board boards.Playable, players core.PlayerMap) []string {
 	consoleBoard := make([]string, len(board.BoardState()))
 	for i, square := range board.BoardState() {
 		switch square {
 		case -1:
 			//TODO add color maybe using callback?
 			//consoleBoard[i] = fmt.Sprintf("\033[1;31m%s\033[0m", "X")
-			consoleBoard[i] = fmt.Sprintf("%2s", "X")
+			consoleBoard[i] = fmt.Sprintf("%2s", players.PlayerSymbol(square))
 		case 1:
 			//TODO add color maybe using callback?
 			//consoleBoard[i] = fmt.Sprintf("\033[1;32m%s\033[0m", "O")
-			consoleBoard[i] = fmt.Sprintf("%2s", "O")
+			consoleBoard[i] = fmt.Sprintf("%2s", players.PlayerSymbol(square))
 		default:
 			consoleBoard[i] = fmt.Sprintf("%2d", i+1)
 		}

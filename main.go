@@ -3,47 +3,59 @@ package main
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
+	"github.com/sc2nomore/tic-tac-go/core/boards"
+	"github.com/sc2nomore/tic-tac-go/core/playertypes"
+	"github.com/sc2nomore/tic-tac-go/core/rules"
 	"github.com/sc2nomore/tic-tac-go/ui"
 	"os"
 )
 
-type Game struct {
-	Players map[int]core.Player
-}
+//type PlayerMap struct {
+//	PlayerMap map[int]core.Player
+//}
 
 func main() {
-	board := core.MakeBoard(3)
-	game := new(Game)
-	ui.ConsolePrint("\n" + ui.RenderBoard(board) + "\n")
-	player := -1
-	consolePlayer := core.MakeConsolePlayer("X")
-	computerPlayer := core.MakeComputerPlayer("O")
-	game.Players = map[int]core.Player{-1: consolePlayer, 1: computerPlayer}
+
+	//Setup
+	consolePlayer := playertypes.MakeConsolePlayer("X")
+	computerPlayer := playertypes.MakeComputerPlayer("O")
+	players := core.MakePlayers(consolePlayer, computerPlayer)
+	rules := rules.TTTRules{}
+	game := core.MakeGame(boards.MakeBoard(3), players, rules)
+
+	//Main
+	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
 	turn := 1
+	errorCount := 0
 	for {
-		ui.RequestUserMove(os.Stdout)
-		move, err := ui.GetUserMove(game.Players[player])
-		if err != nil {
-			println("ERROR")
-			continue
-		}
-		if err := board.MakeMove(move, player); err != nil {
-			println("ERROR")
-			continue
-		}
-		println(game.Players[player].Symbol())
-		ui.ConsolePrint("\n" + ui.RenderBoard(board) + "\n")
-		if core.IsWin(board, player) {
-			ui.ConsolePrint(fmt.Sprintf("%s wins!", game.Players[player].Symbol()))
+		println(fmt.Sprintf("errors: %d", errorCount))
+		if errorCount > 10 {
 			break
 		}
-		if core.IsTie(board) {
+		ui.RequestUserMove(os.Stdout)
+		move, err := ui.GetUserMove(game.ActivePlayer())
+		if err != nil {
+			println("ERROR")
+			errorCount++
+			continue
+		}
+		if err := game.MakeMove(move); err != nil {
+			println("ERROR")
+			errorCount++
+			continue
+		}
+
+		ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
+		if game.IsWin() {
+			ui.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
+			break
+		}
+		if game.IsTie() {
 			ui.ConsolePrint(fmt.Sprintf("Tie..."))
 			break
 		}
 		fmt.Println("turn: ", turn)
-		fmt.Println(board.BoardState())
+		fmt.Println(game.Board.BoardState())
 		turn++
-		player *= -1
 	}
 }

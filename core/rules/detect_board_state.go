@@ -1,7 +1,17 @@
-package core
+package rules
+
+import "github.com/sc2nomore/tic-tac-go/core/boards"
+
+type Rules interface {
+	IsWin(board boards.Playable, player int) bool
+	IsTie(board boards.Playable) bool
+}
+
+type TTTRules struct {
+}
 
 //IsWin returns boolean evaluation if a player has won for the supplied Playable
-func IsWin(playable Playable, player int) bool {
+func (ttt_rules TTTRules) IsWin(playable boards.Playable, player int) bool {
 	gridSize := playable.GridSize()
 	boardState := playable.BoardState()
 	switch {
@@ -19,11 +29,12 @@ func IsWin(playable Playable, player int) bool {
 }
 
 //IsTie returns boolean evaluation is a playable is a tie
-func IsTie(playable Playable) bool {
+func (ttt_rules TTTRules) IsTie(playable boards.Playable) bool {
 	return len(openSquares(playable)) == 0 &&
-		!IsWin(playable, 1) && !IsWin(playable, -1)
+		!ttt_rules.IsWin(playable, 1) && !ttt_rules.IsWin(playable, -1)
 }
 
+//TODO factor out some of this
 func rowWin(gridSize int, boardState []int, player int) bool {
 	for i := 0; i < gridSize; i++ {
 		var total int
@@ -82,7 +93,7 @@ func upDiagWin(gridSize int, boardState []int, player int) bool {
 	return false
 }
 
-func openSquares(playable Playable) []int {
+func openSquares(playable boards.Playable) []int {
 	var openSquaresIndices []int
 	for i, square := range playable.BoardState() {
 		if square == 0 {
