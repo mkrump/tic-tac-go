@@ -65,3 +65,23 @@ func TestOpenSquares(t *testing.T) {
 	assert.Equal(t, expected, board.OpenSquares())
 
 }
+
+func TestUndoMove(t *testing.T) {
+	board := MakeBoard(3)
+
+	board.MakeMove(8, -1)
+	board.UndoMove(8)
+
+	expected := []int{0, 1, 2, 3, 4, 5, 6, 7, 8}
+	assert.Equal(t, expected, board.OpenSquares())
+
+}
+
+func TestSetBoardState(t *testing.T) {
+	board := MakeBoard(3)
+	expected := []int{0, 1, 0, 1, 1, 0, 0, 0, 0}
+	board.SetBoardState(expected)
+
+	assert.Equal(t, expected, board.BoardState())
+
+}

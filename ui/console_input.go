@@ -2,7 +2,6 @@ package ui
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 	"io"
 	"strconv"
 )
@@ -16,10 +15,9 @@ func (e *InvalidInputError) Error() string {
 	return fmt.Sprintf("%s is not valid input", e.input)
 }
 
-//GetUserMove gets user move from io.Reader and converts to int an error is raised
+//ValidateMove gets user move from io.Reader and converts to int an error is raised
 //if input can not be converted to an int
-func GetUserMove(mover playertypes.Player) (int, error) {
-	userMove := mover.Move()
+func ValidateMove(userMove interface{}) (int, error) {
 	switch move := userMove.(type) {
 	case int:
 		return move, nil

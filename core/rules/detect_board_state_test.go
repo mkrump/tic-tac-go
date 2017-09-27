@@ -1,192 +1,192 @@
 package rules
 
 import (
-	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func Test3InRow0IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		1, 1, 1,
 		0, 0, 0,
 		0, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InRow1IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		0, 0, 0,
 		1, 1, 1,
 		0, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InRow2IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		0, 0, 0,
 		0, 0, 0,
 		1, 1, 1,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InColumn0IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		1, 0, 0,
 		1, 0, 0,
 		1, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InColumn1IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		0, 1, 0,
 		0, 1, 0,
 		0, 1, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InColumn2IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		0, 0, 1,
 		0, 0, 1,
 		0, 0, 1,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InDownDiagIsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		1, 0, 0,
 		0, 1, 0,
 		0, 0, 1,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test3InUpDiagIsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		0, 0, 1,
 		0, 1, 0,
 		1, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test4InUpDiagIsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(4)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(4)
+	board.SetBoardState([]int{
 		0, 0, 0, 1,
 		0, 0, 1, 0,
 		0, 1, 0, 0,
 		1, 0, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, 1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, 1), "")
 }
 
 func Test4InDownDiagIsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(4)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(4)
+	board.SetBoardState([]int{
 		-1, 0, 0, 0,
 		0, -1, 0, 0,
 		0, 0, -1, 0,
 		0, 0, 0, -1,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, -1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, -1), "")
 }
 
 func Test4InColumn0IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(4)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(4)
+	board.SetBoardState([]int{
 		-1, 0, 0, 0,
 		-1, 0, 0, 0,
 		-1, 0, 0, 0,
 		-1, 0, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, -1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, -1), "")
 }
 
 func Test4InRow1IsWin(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(4)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(4)
+	board.SetBoardState([]int{
 		0, 0, 0, 0,
 		-1, -1, -1, -1,
 		0, 0, 0, 0,
 		0, 0, 0, 0,
 	})
-
 	tttRules := TTTRules{}
-	assert.False(t, tttRules.IsTie(mockBoard), "")
-	assert.True(t, tttRules.IsWin(mockBoard, -1), "")
+
+	assert.False(t, tttRules.IsTie(board), "")
+	assert.True(t, tttRules.IsWin(board, -1), "")
 }
 
 func Test3IsTie(t *testing.T) {
-	mockBoard := &mocks.Playable{}
-	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("BoardState").Return([]int{
+	board := boards.MakeBoard(3)
+	board.SetBoardState([]int{
 		-1, 1, -1,
 		1, -1, -1,
 		1, -1, 1,
 	})
-
 	tttRules := TTTRules{}
-	assert.True(t, tttRules.IsTie(mockBoard), "")
+
+	assert.True(t, tttRules.IsTie(board), "")
+}
+
+func Test4IsTie(t *testing.T) {
+	board := boards.MakeBoard(4)
+	board.SetBoardState([]int{
+		-1, 1, -1, 1,
+		1, -1, 1, -1,
+		-1, 1, -1, 1,
+		-1, 1, -1, 1,
+	})
+	tttRules := TTTRules{}
+
+	assert.True(t, tttRules.IsTie(board), "")
 }

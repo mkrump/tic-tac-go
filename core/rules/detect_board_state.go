@@ -30,7 +30,7 @@ func (ttt_rules TTTRules) IsWin(playable boards.Playable, player int) bool {
 
 //IsTie returns boolean evaluation is a playable is a tie
 func (ttt_rules TTTRules) IsTie(playable boards.Playable) bool {
-	return len(openSquares(playable)) == 0 &&
+	return len(playable.OpenSquares()) == 0 &&
 		!ttt_rules.IsWin(playable, 1) && !ttt_rules.IsWin(playable, -1)
 }
 
@@ -91,14 +91,4 @@ func upDiagWin(gridSize int, boardState []int, player int) bool {
 		}
 	}
 	return false
-}
-
-func openSquares(playable boards.Playable) []int {
-	var openSquaresIndices []int
-	for i, square := range playable.BoardState() {
-		if square == 0 {
-			openSquaresIndices = append(openSquaresIndices, i)
-		}
-	}
-	return openSquaresIndices
 }

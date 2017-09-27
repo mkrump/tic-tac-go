@@ -25,6 +25,7 @@ type Playable interface {
 	GridSize() int
 	BoardState() []int
 	MakeMove(int, int) error
+	UndoMove(int) error
 	OpenSquares() []int
 }
 
@@ -36,6 +37,10 @@ func MakeBoard(size int) Board {
 		size:       size,
 		boardState: make([]int, size*size),
 	}
+}
+
+func (board *Board) SetBoardState(boardState []int) {
+	board.boardState = boardState
 }
 
 //BoardState returns an array of ints representing the game boards
@@ -51,9 +56,16 @@ func (board Board) GridSize() int {
 //MakeMove mutates the Board object to reflect a player move
 //if a square is available else it returns a SquareOccupiedError
 func (board Board) MakeMove(square int, player int) error {
-	if square >= 0 && square < len(board.BoardState()) && board.squareOpen(square) {
+	if board.inBounds(square) && board.squareOpen(square) {
 		board.boardState[square] = player
 		return nil
+	}
+	return &SquareOccupiedError{square: square}
+}
+
+func (board Board) UndoMove(square int) error {
+	if board.inBounds(square) {
+		board.boardState[square] = 0
 	}
 	return &SquareOccupiedError{square: square}
 }
@@ -66,6 +78,10 @@ func (board Board) OpenSquares() []int {
 		}
 	}
 	return openSquares
+}
+
+func (board Board) inBounds(square int) bool {
+	return square >= 0 && square < len(board.BoardState())
 }
 
 func (board Board) squareOpen(square int) bool {
