@@ -1,10 +1,9 @@
 package ui
 
 import (
-	"bufio"
 	"fmt"
+	"github.com/sc2nomore/tic-tac-go/core"
 	"io"
-	"regexp"
 	"strconv"
 )
 
@@ -19,15 +18,16 @@ func (e *InvalidInputError) Error() string {
 
 //GetUserMove gets user move from io.Reader and converts to int an error is raised
 //if input can not be converted to an int
-func GetUserMove(in io.Reader) (int, error) {
-	re := regexp.MustCompile("\r?\n")
-	reader := bufio.NewReader(in)
-	input := readInput(reader, re)
-	move, err := convertInput(input)
-	if err != nil {
-		return 0, err
+func GetUserMove(mover core.Player) (int, error) {
+	userMove := mover.Move()
+	switch move := userMove.(type) {
+	case int:
+		return move, nil
+	case string:
+		return convertInput(move)
+	default:
+		return 0, &InvalidInputError{}
 	}
-	return move, nil
 }
 
 //RequestUserMove writes to io.Writer message asking user for move
@@ -37,11 +37,8 @@ func RequestUserMove(out io.Writer) {
 
 func convertInput(input string) (int, error) {
 	move, err := strconv.Atoi(input)
+	if err != nil {
+		return 0, err
+	}
 	return move - 1, err
-}
-
-func readInput(reader *bufio.Reader, re *regexp.Regexp) string {
-	str, _ := reader.ReadString('\n')
-	input := re.ReplaceAllString(str, "")
-	return input
 }
