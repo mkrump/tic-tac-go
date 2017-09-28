@@ -14,7 +14,7 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("X")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeBoard(3)
+	board := boards.MakeTTTBoard(3)
 
 	expected :=
 		"   1   |   2   |   3   \n" +
@@ -32,7 +32,7 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeBoard(3)
+	board := boards.MakeTTTBoard(3)
 
 	board.MakeMove(1, 1)
 	board.MakeMove(4, -1)
@@ -53,7 +53,7 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeBoard(4)
+	board := boards.MakeTTTBoard(4)
 
 	board.MakeMove(1, 1)
 	board.MakeMove(5, -1)

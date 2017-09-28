@@ -2,29 +2,25 @@ package ui
 
 import (
 	"bytes"
-	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGetUserMoveInt(t *testing.T) {
-	mockPlayer := &mocks.Player{}
-	mockPlayer.On("Move").Return(3)
-	move, _ := GetUserMove(mockPlayer)
+	move, _ := ValidateMove(3)
+
 	assert.Equal(t, 3, move)
 }
 
 func TestGetUserMoveBadString(t *testing.T) {
-	mockPlayer := &mocks.Player{}
-	mockPlayer.On("Move").Return("A")
-	_, err := GetUserMove(mockPlayer)
+	_, err := ValidateMove("A")
+
 	assert.NotNil(t, err)
 }
 
 func TestGetUserMoveValidString(t *testing.T) {
-	mockPlayer := &mocks.Player{}
-	mockPlayer.On("Move").Return("2")
-	move, _ := GetUserMove(mockPlayer)
+	move, _ := ValidateMove("2")
+
 	assert.Equal(t, 1, move)
 }
 

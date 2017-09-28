@@ -8,12 +8,17 @@ import (
 
 type Game struct {
 	Players PlayerMap
-	Board   boards.Playable
+	Board   boards.Board
 	Rules   rules.Rules
 }
 
+func (game Game) GetMove() interface{} {
+	activePlayer := game.ActivePlayer()
+	return activePlayer.Move(game.Board, game.boardActivePlayer())
+}
+
 //MakeGame constructor for game struct
-func MakeGame(board boards.Playable, players PlayerMap, rules rules.Rules) Game {
+func MakeGame(board boards.Board, players PlayerMap, rules rules.Rules) Game {
 	return Game{
 		Board:   board,
 		Players: players,
@@ -24,7 +29,7 @@ func MakeGame(board boards.Playable, players PlayerMap, rules rules.Rules) Game 
 // IsWin checks if the game is a win for the current player
 // and returns a boolean
 func (game Game) IsWin() bool {
-	return game.Rules.IsWin(game.Board, -1*game.boardCurrentPlayer())
+	return game.Rules.IsWin(game.Board, -1*game.boardActivePlayer())
 }
 
 // IsWin checks if the game is a tie and returns a boolean
@@ -33,18 +38,18 @@ func (game Game) IsTie() bool {
 	return v
 }
 
-// MakeMove attempts make a move and updates the Board state
+// MakeMove attempts make a move and updates the TTTBoard state
 // if valid and returns an error if the move is invalid
 func (game Game) MakeMove(move int) error {
-	return game.Board.MakeMove(move, game.boardCurrentPlayer())
+	return game.Board.MakeMove(move, game.boardActivePlayer())
 }
 
 func (game Game) InActivePlayer() playertypes.Player {
-	return game.Players.Player(-1 * game.boardCurrentPlayer())
+	return game.Players.Player(-1 * game.boardActivePlayer())
 }
 
 func (game Game) ActivePlayer() playertypes.Player {
-	return game.Players.Player(game.boardCurrentPlayer())
+	return game.Players.Player(game.boardActivePlayer())
 }
 
 func (game Game) InActivePlayerMarker() string {
@@ -66,7 +71,7 @@ func MakePlayers(player1 playertypes.Player, player2 playertypes.Player) PlayerM
 	}
 }
 
-func (game Game) boardCurrentPlayer() int {
+func (game Game) boardActivePlayer() int {
 	var currentPlayer int
 	gridSize := game.Board.GridSize()
 	openSquaresCount := len(game.Board.OpenSquares())
