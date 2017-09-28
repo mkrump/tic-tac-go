@@ -10,11 +10,11 @@ type Player struct {
 }
 
 // Move provides a mock function with given fields: board, boardActive
-func (_m *Player) Move(board boards.Playable, boardActive int) interface{} {
+func (_m *Player) Move(board boards.Board, boardActive int) interface{} {
 	ret := _m.Called(board, boardActive)
 
 	var r0 interface{}
-	if rf, ok := ret.Get(0).(func(boards.Playable, int) interface{}); ok {
+	if rf, ok := ret.Get(0).(func(boards.Board, int) interface{}); ok {
 		r0 = rf(board, boardActive)
 	} else {
 		if ret.Get(0) != nil {

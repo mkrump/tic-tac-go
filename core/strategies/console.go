@@ -23,7 +23,7 @@ func readInput(reader *bufio.Reader, re *regexp.Regexp) string {
 	return input
 }
 
-func (consoleStrategy ConsoleStrategy) FindMove(boards.Playable, int) interface{} {
+func (consoleStrategy ConsoleStrategy) FindMove(boards.Board, int) interface{} {
 	re := regexp.MustCompile("\r?\n")
 	reader := bufio.NewReader(consoleStrategy.in)
 	return readInput(reader, re)

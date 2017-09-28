@@ -10,11 +10,11 @@ type Strategy struct {
 }
 
 // FindMove provides a mock function with given fields: _a0, _a1
-func (_m *Strategy) FindMove(_a0 boards.Playable, _a1 int) interface{} {
+func (_m *Strategy) FindMove(_a0 boards.Board, _a1 int) interface{} {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 interface{}
-	if rf, ok := ret.Get(0).(func(boards.Playable, int) interface{}); ok {
+	if rf, ok := ret.Get(0).(func(boards.Board, int) interface{}); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		if ret.Get(0) != nil {

@@ -8,7 +8,7 @@ import (
 
 type Game struct {
 	Players PlayerMap
-	Board   boards.Playable
+	Board   boards.Board
 	Rules   rules.Rules
 }
 
@@ -18,7 +18,7 @@ func (game Game) GetMove() interface{} {
 }
 
 //MakeGame constructor for game struct
-func MakeGame(board boards.Playable, players PlayerMap, rules rules.Rules) Game {
+func MakeGame(board boards.Board, players PlayerMap, rules rules.Rules) Game {
 	return Game{
 		Board:   board,
 		Players: players,
@@ -38,7 +38,7 @@ func (game Game) IsTie() bool {
 	return v
 }
 
-// MakeMove attempts make a move and updates the Board state
+// MakeMove attempts make a move and updates the TTTBoard state
 // if valid and returns an error if the move is invalid
 func (game Game) MakeMove(move int) error {
 	return game.Board.MakeMove(move, game.boardActivePlayer())

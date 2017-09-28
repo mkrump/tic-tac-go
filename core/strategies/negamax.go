@@ -10,7 +10,7 @@ type NegaMaxStrategyAB struct {
 	Rules rules.Rules
 }
 
-func (strat NegaMaxStrategyAB) negamax(playable boards.Playable, player int,
+func (strat NegaMaxStrategyAB) negamax(playable boards.Board, player int,
 	depth int, alpha float64, beta float64) float64 {
 	if strat.Rules.IsWin(playable, -player) {
 		return -1.0 / float64(depth)
@@ -32,7 +32,7 @@ func (strat NegaMaxStrategyAB) negamax(playable boards.Playable, player int,
 	return bestScore
 }
 
-func (strat NegaMaxStrategyAB) FindMove(playable boards.Playable, player int) interface{} {
+func (strat NegaMaxStrategyAB) FindMove(playable boards.Board, player int) interface{} {
 	var bestMove int
 	var moveScore float64
 	bestScore := math.Inf(-1)
@@ -54,7 +54,7 @@ type NegaMaxStrategy struct {
 	Rules rules.Rules
 }
 
-func (strat NegaMaxStrategy) negamax(playable boards.Playable, player int, depth int) float64 {
+func (strat NegaMaxStrategy) negamax(playable boards.Board, player int, depth int) float64 {
 	if strat.Rules.IsWin(playable, -player) {
 		return -1.0 / float64(depth)
 	}
@@ -71,7 +71,7 @@ func (strat NegaMaxStrategy) negamax(playable boards.Playable, player int, depth
 	return bestScore
 }
 
-func (strat NegaMaxStrategy) FindMove(playable boards.Playable, player int) int {
+func (strat NegaMaxStrategy) FindMove(playable boards.Board, player int) int {
 	var bestMove int
 	var moveScore float64
 	bestScore := math.Inf(-1)

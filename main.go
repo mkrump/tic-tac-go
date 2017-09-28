@@ -21,7 +21,7 @@ func main() {
 		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
 	)
 	players := core.MakePlayers(consolePlayer, computerPlayer)
-	game := core.MakeGame(boards.MakeBoard(3), players, rules.TTTRules{})
+	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
 
 	//Main
 	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")

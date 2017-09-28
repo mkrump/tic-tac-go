@@ -6,7 +6,7 @@ import (
 )
 
 func TestMoveOpenSquare3x3(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 
 	board.MakeMove(0, 1)
 
@@ -17,7 +17,7 @@ func TestMoveOpenSquare3x3(t *testing.T) {
 }
 
 func TestMoveOpenSquare4x4(t *testing.T) {
-	board := MakeBoard(4)
+	board := MakeTTTBoard(4)
 
 	board.MakeMove(9, -1)
 
@@ -28,7 +28,7 @@ func TestMoveOpenSquare4x4(t *testing.T) {
 }
 
 func TestMoveOccupiedSquare4x4(t *testing.T) {
-	board := MakeBoard(4)
+	board := MakeTTTBoard(4)
 	board.MakeMove(9, -1)
 
 	err := board.MakeMove(9, 1)
@@ -40,7 +40,7 @@ func TestMoveOccupiedSquare4x4(t *testing.T) {
 }
 
 func TestMoveOutOfBoundsAbove(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 
 	err := board.MakeMove(100, 1)
 
@@ -48,7 +48,7 @@ func TestMoveOutOfBoundsAbove(t *testing.T) {
 }
 
 func TestMoveOutOfBoundsBelow(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 
 	err := board.MakeMove(-100, 1)
 
@@ -56,7 +56,7 @@ func TestMoveOutOfBoundsBelow(t *testing.T) {
 }
 
 func TestOpenSquares(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 
 	board.MakeMove(1, 1)
 	board.MakeMove(8, -1)
@@ -67,7 +67,7 @@ func TestOpenSquares(t *testing.T) {
 }
 
 func TestUndoMove(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 
 	board.MakeMove(8, -1)
 	board.UndoMove(8)
@@ -78,7 +78,7 @@ func TestUndoMove(t *testing.T) {
 }
 
 func TestSetBoardState(t *testing.T) {
-	board := MakeBoard(3)
+	board := MakeTTTBoard(3)
 	expected := []int{0, 1, 0, 1, 1, 0, 0, 0, 0}
 	board.SetBoardState(expected)
 

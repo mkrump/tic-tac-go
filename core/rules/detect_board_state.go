@@ -3,15 +3,15 @@ package rules
 import "github.com/sc2nomore/tic-tac-go/core/boards"
 
 type Rules interface {
-	IsWin(board boards.Playable, player int) bool
-	IsTie(board boards.Playable) bool
+	IsWin(board boards.Board, player int) bool
+	IsTie(board boards.Board) bool
 }
 
 type TTTRules struct {
 }
 
-//IsWin returns boolean evaluation if a player has won for the supplied Playable
-func (ttt_rules TTTRules) IsWin(playable boards.Playable, player int) bool {
+//IsWin returns boolean evaluation if a player has won for the supplied Board
+func (ttt_rules TTTRules) IsWin(playable boards.Board, player int) bool {
 	gridSize := playable.GridSize()
 	boardState := playable.BoardState()
 	switch {
@@ -29,7 +29,7 @@ func (ttt_rules TTTRules) IsWin(playable boards.Playable, player int) bool {
 }
 
 //IsTie returns boolean evaluation is a playable is a tie
-func (ttt_rules TTTRules) IsTie(playable boards.Playable) bool {
+func (ttt_rules TTTRules) IsTie(playable boards.Board) bool {
 	return len(playable.OpenSquares()) == 0 &&
 		!ttt_rules.IsWin(playable, 1) && !ttt_rules.IsWin(playable, -1)
 }

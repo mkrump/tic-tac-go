@@ -7,7 +7,7 @@ import (
 
 type Player interface {
 	Symbol() string
-	Move(board boards.Playable, boardActive int) interface{}
+	Move(board boards.Board, boardActive int) interface{}
 }
 
 type TTTPlayer struct {
@@ -22,7 +22,7 @@ func MakeTTTPlayer(symbol string, strategy strategies.Strategy) TTTPlayer {
 	}
 }
 
-func (player TTTPlayer) Move(board boards.Playable, boardActive int) interface{} {
+func (player TTTPlayer) Move(board boards.Board, boardActive int) interface{} {
 	return player.strat.FindMove(board, boardActive)
 }
 
