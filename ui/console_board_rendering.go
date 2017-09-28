@@ -7,31 +7,9 @@ import (
 	"strings"
 )
 
-type Colorer interface {
-	Color(int string) string
-}
-
-type playerColors struct {
-}
-
-var red = "\033[1;31m%s\033[0m"
-var green = "\033[1;32m%s\033[0m"
-
-func (playerColors) Color(playerNumber int, marker string) string {
-	switch playerNumber {
-	case -1:
-		marker = fmt.Sprintf(green, marker)
-	case 1:
-		marker = fmt.Sprintf(red, marker)
-	default:
-		marker = fmt.Sprintf("%2d", marker)
-	}
-	return marker
-}
-
 //RenderBoard returns a string representation of a boards object
-func RenderBoard(board boards.Board, players core.PlayerMap) string {
-	consoleBoard := boardToConsoleUI(board, players)
+func RenderBoard(board boards.Board, players core.PlayerMap, styler Styler) string {
+	consoleBoard := boardToConsoleUI(board, players, styler)
 	return render(consoleBoard, board.GridSize())
 }
 
@@ -50,21 +28,11 @@ func render(uiBoard []string, gridSize int) string {
 	return renderedBoard
 }
 
-func boardToConsoleUI(board boards.Board, players core.PlayerMap) []string {
+func boardToConsoleUI(board boards.Board, players core.PlayerMap, styler Styler) []string {
 	consoleBoard := make([]string, len(board.BoardState()))
 	for i, square := range board.BoardState() {
-		switch square {
-		case -1:
-			//TODO add color maybe using callback?
-			//consoleBoard[i] = fmt.Sprintf("\033[1;31m%s\033[0m", "X")
-			consoleBoard[i] = fmt.Sprintf("%2s", players.PlayerSymbol(square))
-		case 1:
-			//TODO add color maybe using callback?
-			//consoleBoard[i] = fmt.Sprintf("\033[1;32m%s\033[0m", "O")
-			consoleBoard[i] = fmt.Sprintf("%2s", players.PlayerSymbol(square))
-		default:
-			consoleBoard[i] = fmt.Sprintf("%2d", i+1)
-		}
+		marker, _ := players.PlayerSymbol(square)
+		consoleBoard[i] = styler.Style(square, i, marker)
 	}
 	return consoleBoard
 }

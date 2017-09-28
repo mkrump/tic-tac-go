@@ -8,6 +8,8 @@ import (
 	"testing"
 )
 
+
+
 func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}
 	mockPlayer1.On("Symbol").Return("O")
@@ -15,15 +17,15 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer2.On("Symbol").Return("X")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
 	board := boards.MakeTTTBoard(3)
-
+	styler := SimpleStyle{}
 	expected :=
-		"   1   |   2   |   3   \n" +
+		"   0   |   1   |   2   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   4   |   5   |   6   \n" +
+			"   3   |   4   |   5   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   7   |   8   |   9   \n"
+			"   6   |   7   |   8   \n"
 
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers), "")
+	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
 }
 
 func TestRenderingNonEmpty3x3Board(t *testing.T) {
@@ -33,18 +35,19 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
 	board := boards.MakeTTTBoard(3)
+	styler := SimpleStyle{}
 
 	board.MakeMove(1, 1)
 	board.MakeMove(4, -1)
 	board.MakeMove(8, 1)
 
 	expected :=
-		"   1   |   O   |   3   \n" +
+		"   0   |   O   |   2   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   4   |   X   |   6   \n" +
+			"   3   |   X   |   5   \n" +
 			"- - - - - - - - - - - -\n" +
-			"   7   |   8   |   O   \n"
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers), "")
+			"   6   |   7   |   O   \n"
+	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
 }
 
 func TestRenderingNonEmpty4x4Board(t *testing.T) {
@@ -54,19 +57,20 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
 	board := boards.MakeTTTBoard(4)
+	styler := SimpleStyle{}
 
 	board.MakeMove(1, 1)
 	board.MakeMove(5, -1)
 	board.MakeMove(10, 1)
 
 	expected :=
-		"   1   |   O   |   3   |   4   \n" +
+		"   0   |   O   |   2   |   3   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
-			"   5   |   X   |   7   |   8   \n" +
+			"   4   |   X   |   6   |   7   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
-			"   9   |  10   |   O   |  12   \n" +
+			"   8   |   9   |   O   |  11   \n" +
 			"- - - - - - - - - - - - - - - -\n" +
-			"  13   |  14   |  15   |  16   \n"
+			"  12   |  13   |  14   |  15   \n"
 
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers), "")
+	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
 }

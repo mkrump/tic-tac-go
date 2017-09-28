@@ -15,16 +15,19 @@ func main() {
 
 	//Setup
 	consoleStrategy := strategies.MakeConsoleStrategy(os.Stdin)
-	consolePlayer := playertypes.MakeTTTPlayer("X", consoleStrategy)
+	consolePlayer := playertypes.MakeTTTPlayer("X",
+		consoleStrategy,
+	)
 	computerPlayer := playertypes.MakeTTTPlayer(
 		"O",
 		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
 	)
 	players := core.MakePlayers(consolePlayer, computerPlayer)
 	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
+	styler := ui.ColorStyler{}
 
 	//Main
-	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
+	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players, styler) + "\n")
 	for {
 		ui.RequestUserMove(os.Stdout)
 		move, err := ui.ValidateMove(game.GetMove())
@@ -37,7 +40,7 @@ func main() {
 			continue
 		}
 
-		ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
+		ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players, styler) + "\n")
 		if game.IsWin() {
 			ui.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
 			break
