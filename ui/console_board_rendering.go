@@ -7,6 +7,28 @@ import (
 	"strings"
 )
 
+type Colorer interface {
+	Color(int string) string
+}
+
+type playerColors struct {
+}
+
+var red = "\033[1;31m%s\033[0m"
+var green = "\033[1;32m%s\033[0m"
+
+func (playerColors) Color(playerNumber int, marker string) string {
+	switch playerNumber {
+	case -1:
+		marker = fmt.Sprintf(green, marker)
+	case 1:
+		marker = fmt.Sprintf(red, marker)
+	default:
+		marker = fmt.Sprintf("%2d", marker)
+	}
+	return marker
+}
+
 //RenderBoard returns a string representation of a boards object
 func RenderBoard(board boards.Board, players core.PlayerMap) string {
 	consoleBoard := boardToConsoleUI(board, players)
