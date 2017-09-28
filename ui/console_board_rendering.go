@@ -8,7 +8,7 @@ import (
 )
 
 //RenderBoard returns a string representation of a boards object
-func RenderBoard(board boards.Playable, players core.PlayerMap) string {
+func RenderBoard(board boards.Board, players core.PlayerMap) string {
 	consoleBoard := boardToConsoleUI(board, players)
 	return render(consoleBoard, board.GridSize())
 }
@@ -28,7 +28,7 @@ func render(uiBoard []string, gridSize int) string {
 	return renderedBoard
 }
 
-func boardToConsoleUI(board boards.Playable, players core.PlayerMap) []string {
+func boardToConsoleUI(board boards.Board, players core.PlayerMap) []string {
 	consoleBoard := make([]string, len(board.BoardState()))
 	for i, square := range board.BoardState() {
 		switch square {

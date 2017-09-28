@@ -2,10 +2,6 @@ package core
 
 import "github.com/sc2nomore/tic-tac-go/core/playertypes"
 
-//type PlayerSymbolRetreiver interface {
-//	PlayerSymbol() string
-//}
-
 type PlayerMap struct {
 	Players map[int]playertypes.Player
 }

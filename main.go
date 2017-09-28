@@ -6,42 +6,34 @@ import (
 	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 	"github.com/sc2nomore/tic-tac-go/core/rules"
+	"github.com/sc2nomore/tic-tac-go/core/strategies"
 	"github.com/sc2nomore/tic-tac-go/ui"
 	"os"
 )
 
-//type PlayerMap struct {
-//	PlayerMap map[int]core.Player
-//}
-
 func main() {
 
 	//Setup
-	consolePlayer := playertypes.MakeConsolePlayer("X")
-	computerPlayer := playertypes.MakeComputerPlayer("O")
+	consoleStrategy := strategies.MakeConsoleStrategy(os.Stdin)
+	consolePlayer := playertypes.MakeTTTPlayer("X", consoleStrategy)
+	computerPlayer := playertypes.MakeTTTPlayer(
+		"O",
+		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
+	)
 	players := core.MakePlayers(consolePlayer, computerPlayer)
-	rules := rules.TTTRules{}
-	game := core.MakeGame(boards.MakeBoard(3), players, rules)
+	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
 
 	//Main
 	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
-	turn := 1
-	errorCount := 0
 	for {
-		println(fmt.Sprintf("errors: %d", errorCount))
-		if errorCount > 10 {
-			break
-		}
 		ui.RequestUserMove(os.Stdout)
-		move, err := ui.GetUserMove(game.ActivePlayer())
+		move, err := ui.ValidateMove(game.GetMove())
 		if err != nil {
-			println("ERROR")
-			errorCount++
+			println("ERROR 1")
 			continue
 		}
 		if err := game.MakeMove(move); err != nil {
-			println("ERROR")
-			errorCount++
+			println("ERROR 2")
 			continue
 		}
 
@@ -54,8 +46,5 @@ func main() {
 			ui.ConsolePrint(fmt.Sprintf("Tie..."))
 			break
 		}
-		fmt.Println("turn: ", turn)
-		fmt.Println(game.Board.BoardState())
-		turn++
 	}
 }

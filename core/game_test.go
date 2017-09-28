@@ -119,11 +119,9 @@ func TestGameIsTieCalled(t *testing.T) {
 	mockRules := &mocks.Rules{}
 	game := Game{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
-	mockBoard.On("OpenSquares").Return([]int{
-		0, 1, 2,
-		3, 4, 5,
-		6, 7, 8,
-	})
+	mockBoard.On("OpenSquares").Return([]int{})
+	mockBoard.On("BoardState").Return([]int{})
+
 	mockRules.On("IsTie", mockBoard).Return(false)
 
 	game.IsTie()
@@ -144,9 +142,31 @@ func TestGameIsWinCalled(t *testing.T) {
 		3, 4, 5,
 		6, 7, 8,
 	})
+	mockBoard.On("BoardState").Return([]int{})
+
 	mockRules.On("IsWin", mockBoard, 1).Return(false)
 
 	game.IsWin()
 
 	mockRules.AssertCalled(t, "IsWin", mockBoard, 1)
+}
+
+func TestGameGetMoveRequestsMoveFromActivePlayer(t *testing.T) {
+	mockPlayer1 := &mocks.Player{}
+	mockPlayer2 := &mocks.Player{}
+	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
+	mockBoard := &mocks.Playable{}
+	mockRules := &mocks.Rules{}
+	game := Game{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
+	mockBoard.On("GridSize").Return(3)
+	mockBoard.On("OpenSquares").Return([]int{
+		0, 1, 2,
+		3, 4, 5,
+		6, 7, 8,
+	})
+	mockPlayer1.On("Move", mockBoard, -1).Return(1)
+
+	game.GetMove()
+
+	mockPlayer1.AssertCalled(t, "Move", mockBoard, -1)
 }

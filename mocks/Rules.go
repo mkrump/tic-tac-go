@@ -10,11 +10,11 @@ type Rules struct {
 }
 
 // IsTie provides a mock function with given fields: board
-func (_m *Rules) IsTie(board boards.Playable) bool {
+func (_m *Rules) IsTie(board boards.Board) bool {
 	ret := _m.Called(board)
 
 	var r0 bool
-	if rf, ok := ret.Get(0).(func(boards.Playable) bool); ok {
+	if rf, ok := ret.Get(0).(func(boards.Board) bool); ok {
 		r0 = rf(board)
 	} else {
 		r0 = ret.Get(0).(bool)
@@ -24,11 +24,11 @@ func (_m *Rules) IsTie(board boards.Playable) bool {
 }
 
 // IsWin provides a mock function with given fields: board, player
-func (_m *Rules) IsWin(board boards.Playable, player int) bool {
+func (_m *Rules) IsWin(board boards.Board, player int) bool {
 	ret := _m.Called(board, player)
 
 	var r0 bool
-	if rf, ok := ret.Get(0).(func(boards.Playable, int) bool); ok {
+	if rf, ok := ret.Get(0).(func(boards.Board, int) bool); ok {
 		r0 = rf(board, player)
 	} else {
 		r0 = ret.Get(0).(bool)
