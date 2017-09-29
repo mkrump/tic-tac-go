@@ -6,9 +6,9 @@ type TTTRules struct {
 }
 
 //IsWin returns boolean evaluation if a player has won for the supplied Board
-func (ttt_rules TTTRules) IsWin(playable core.Board, player int) bool {
-	gridSize := playable.GridSize()
-	boardState := playable.BoardState()
+func (ttt_rules TTTRules) IsWin(board core.Board, player int) bool {
+	gridSize := board.GridSize()
+	boardState := board.BoardState()
 	switch {
 	case upDiagWin(gridSize, boardState, player):
 		return true
@@ -27,6 +27,27 @@ func (ttt_rules TTTRules) IsWin(playable core.Board, player int) bool {
 func (ttt_rules TTTRules) IsTie(board core.Board) bool {
 	return len(board.OpenSquares()) == 0 &&
 		!ttt_rules.IsWin(board, 1) && !ttt_rules.IsWin(board, -1)
+}
+
+func (ttt_rules TTTRules) ActivePlayerNumber(board core.Board) int {
+	var currentPlayer int
+	gridSize := board.GridSize()
+	openSquaresCount := len(board.OpenSquares())
+	switch {
+	case isEven(gridSize) && isEven(openSquaresCount):
+		currentPlayer = -1
+	case isEven(gridSize) && isOdd(openSquaresCount):
+		currentPlayer = 1
+	case isOdd(gridSize) && isOdd(openSquaresCount):
+		currentPlayer = -1
+	case isOdd(gridSize) && isEven(openSquaresCount):
+		currentPlayer = 1
+	}
+	return currentPlayer
+}
+
+func (ttt_rules TTTRules) InActivePlayerNumber(board core.Board) int {
+	return -ttt_rules.ActivePlayerNumber(board)
 }
 
 //TODO factor out some of this
@@ -88,3 +109,10 @@ func upDiagWin(gridSize int, boardState []int, player int) bool {
 	return false
 }
 
+func isOdd(n int) bool {
+	return n%2 == 0
+}
+
+func isEven(n int) bool {
+	return n%2 != 0
+}

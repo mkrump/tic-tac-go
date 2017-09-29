@@ -9,6 +9,34 @@ type Rules struct {
 	mock.Mock
 }
 
+// ActivePlayerNumber provides a mock function with given fields: board
+func (_m *Rules) ActivePlayerNumber(board core.Board) int {
+	ret := _m.Called(board)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(core.Board) int); ok {
+		r0 = rf(board)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
+}
+
+// InActivePlayerNumber provides a mock function with given fields: board
+func (_m *Rules) InActivePlayerNumber(board core.Board) int {
+	ret := _m.Called(board)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(core.Board) int); ok {
+		r0 = rf(board)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
+}
+
 // IsTie provides a mock function with given fields: board
 func (_m *Rules) IsTie(board core.Board) bool {
 	ret := _m.Called(board)

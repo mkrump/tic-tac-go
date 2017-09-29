@@ -17,8 +17,10 @@ func (game Game) GamePlayers() core.PlayerMap {
 }
 
 func (game Game) GetMove() interface{} {
+	board := game.GameBoard()
 	activePlayer := game.ActivePlayer()
-	return activePlayer.Move(game.Board, game.boardActivePlayer())
+	activePlayerNumber := game.Rules.ActivePlayerNumber(board)
+	return activePlayer.Move(game.Board, activePlayerNumber)
 }
 
 //MakeGame constructor for game struct
@@ -33,27 +35,34 @@ func MakeGame(board core.Board, players core.PlayerMap, rules core.Rules) Game {
 // IsWin checks if the game is a win for the current player
 // and returns a boolean
 func (game Game) IsWin() bool {
-	return game.Rules.IsWin(game.Board, -1*game.boardActivePlayer())
+	board := game.GameBoard()
+	InActivePlayerNumber := game.Rules.InActivePlayerNumber(board)
+	return game.Rules.IsWin(game.Board,	InActivePlayerNumber)
 }
 
 // IsWin checks if the game is a tie and returns a boolean
 func (game Game) IsTie() bool {
-	v := game.Rules.IsTie(game.Board)
-	return v
+	return game.Rules.IsTie(game.Board)
 }
 
 // MakeMove attempts make a move and updates the TTTBoard state
 // if valid and returns an error if the move is invalid
 func (game Game) MakeMove(move int) error {
-	return game.Board.MakeMove(move, game.boardActivePlayer())
+	board := game.GameBoard()
+	activePlayerNumber := game.Rules.ActivePlayerNumber(board)
+	return game.Board.MakeMove(move, activePlayerNumber)
 }
 
 func (game Game) InActivePlayer() core.Player {
-	return game.Players.Player(-1 * game.boardActivePlayer())
+	board := game.GameBoard()
+	InActivePlayerNumber := game.Rules.InActivePlayerNumber(board)
+	return game.Players.Player(InActivePlayerNumber)
 }
 
 func (game Game) ActivePlayer() core.Player {
-	return game.Players.Player(game.boardActivePlayer())
+	board := game.GameBoard()
+	activePlayerNumber := game.Rules.ActivePlayerNumber(board)
+	return game.Players.Player(activePlayerNumber)
 }
 
 func (game Game) InActivePlayerMarker() string {
@@ -73,29 +82,4 @@ func MakePlayers(player1 core.Player, player2 core.Player) core.PlayerMap {
 			1:  player2,
 		},
 	}
-}
-
-func (game Game) boardActivePlayer() int {
-	var currentPlayer int
-	gridSize := game.Board.GridSize()
-	openSquaresCount := len(game.Board.OpenSquares())
-	switch {
-	case isEven(gridSize) && isEven(openSquaresCount):
-		currentPlayer = -1
-	case isEven(gridSize) && isOdd(openSquaresCount):
-		currentPlayer = 1
-	case isOdd(gridSize) && isOdd(openSquaresCount):
-		currentPlayer = -1
-	case isOdd(gridSize) && isEven(openSquaresCount):
-		currentPlayer = 1
-	}
-	return currentPlayer
-}
-
-func isOdd(n int) bool {
-	return n%2 == 0
-}
-
-func isEven(n int) bool {
-	return n%2 != 0
 }

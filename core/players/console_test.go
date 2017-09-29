@@ -2,9 +2,9 @@ package players
 
 import (
 	"bytes"
-	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func TestGetConsoleInputMac(t *testing.T) {
