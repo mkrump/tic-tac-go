@@ -2,8 +2,7 @@ package uis
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/core/boards"
-	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -14,8 +13,17 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("X")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeTTTBoard(3)
+	mockBoard := &mocks.Board{}
+	mockBoard.On("BoardState").Return([]int{
+		0, 0, 0,
+		0, 0, 0,
+		0, 0, 0,
+	})
+	mockBoard.On("GridSize").Return(3)
+
 	styler := SimpleStyle{}
+	boardRender := MakeTTTBoardRender(styler)
+
 	expected :=
 		"   0   |   1   |   2   \n" +
 			"- - - - - - - - - - - -\n" +
@@ -23,7 +31,7 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 			"- - - - - - - - - - - -\n" +
 			"   6   |   7   |   8   \n"
 
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
+	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
 }
 
 func TestRenderingNonEmpty3x3Board(t *testing.T) {
@@ -32,12 +40,16 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeTTTBoard(3)
-	styler := SimpleStyle{}
+	mockBoard := &mocks.Board{}
+	mockBoard.On("BoardState").Return([]int{
+		0, 1, 0,
+		3, -1, 5,
+		6, 7, 1,
+	})
+	mockBoard.On("GridSize").Return(3)
 
-	board.MakeMove(1, 1)
-	board.MakeMove(4, -1)
-	board.MakeMove(8, 1)
+	styler := SimpleStyle{}
+	boardRender := MakeTTTBoardRender(styler)
 
 	expected :=
 		"   0   |   O   |   2   \n" +
@@ -45,7 +57,8 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 			"   3   |   X   |   5   \n" +
 			"- - - - - - - - - - - -\n" +
 			"   6   |   7   |   O   \n"
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
+
+	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
 }
 
 func TestRenderingNonEmpty4x4Board(t *testing.T) {
@@ -54,12 +67,17 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
-	board := boards.MakeTTTBoard(4)
-	styler := SimpleStyle{}
+	mockBoard := &mocks.Board{}
+	mockBoard.On("BoardState").Return([]int{
+		0, 1, 0, 0,
+		0, -1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 0,
+	})
+	mockBoard.On("GridSize").Return(3)
 
-	board.MakeMove(1, 1)
-	board.MakeMove(5, -1)
-	board.MakeMove(10, 1)
+	styler := SimpleStyle{}
+	boardRender := MakeTTTBoardRender(styler)
 
 	expected :=
 		"   0   |   O   |   2   |   3   \n" +
@@ -70,5 +88,5 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 			"- - - - - - - - - - - - - - - -\n" +
 			"  12   |  13   |  14   |  15   \n"
 
-	assert.Equal(t, expected, RenderBoard(board, mockPlayers, styler), "")
+	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
 }

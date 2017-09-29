@@ -1,12 +1,11 @@
-package core
+package playertypes
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 )
 
 type PlayerMap struct {
-	Players map[int]playertypes.Player
+	Players map[int]Player
 }
 
 type PlayerSymbolNotFoundError struct {
@@ -24,6 +23,6 @@ func (players PlayerMap) PlayerSymbol(player int) (string, error) {
 	return "", &PlayerSymbolNotFoundError{}
 }
 
-func (players PlayerMap) Player(player int) playertypes.Player {
+func (players PlayerMap) Player(player int) Player {
 	return players.Players[player]
 }

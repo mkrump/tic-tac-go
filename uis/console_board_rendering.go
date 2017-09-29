@@ -1,53 +1,61 @@
 package uis
 
 import (
-	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"strings"
 )
 
+type BoardRender interface {
+	RenderBoard(board boards.Board, players core.PlayerMap) string
+}
+
+type TTTBoardRender struct {
+	styler Styler
+}
+
+func MakeTTTBoardRender(style Styler) TTTBoardRender {
+	return TTTBoardRender{
+		styler: style,
+	}
+}
+
 //RenderBoard returns a string representation of a boards object
-func RenderBoard(board boards.Board, players core.PlayerMap, styler Styler) string {
-	consoleBoard := boardToConsoleUI(board, players, styler)
-	return render(consoleBoard, board.GridSize())
+func (tttBoardRender TTTBoardRender) RenderBoard(board boards.Board, players core.PlayerMap) string {
+	styledBoard := tttBoardRender.StyleSquares(board.BoardState(), players)
+	return tttBoardRender.render(styledBoard, board.GridSize())
 }
 
-//ConsolePrint prints string to console
-func ConsolePrint(str string) {
-	fmt.Println(str)
-}
-
-func render(uiBoard []string, gridSize int) string {
+func (tttBoardRender TTTBoardRender) render(styledBoard []string, gridSize int) string {
 	renderedBoard := ""
 	for rowNumber := 0; rowNumber < gridSize; rowNumber++ {
-		rowSlice := getRowSlice(rowNumber, gridSize, uiBoard)
-		renderedBoard += renderRowDivider(rowNumber, gridSize)
-		renderedBoard += renderRow(rowSlice)
+		rowSlice := tttBoardRender.getRowSlice(rowNumber, gridSize, styledBoard)
+		renderedBoard += tttBoardRender.renderRowDivider(rowNumber, gridSize)
+		renderedBoard += tttBoardRender.renderRow(rowSlice)
 	}
 	return renderedBoard
 }
 
-func boardToConsoleUI(board boards.Board, players core.PlayerMap, styler Styler) []string {
-	consoleBoard := make([]string, len(board.BoardState()))
-	for i, square := range board.BoardState() {
+func (tttBoardRender TTTBoardRender) StyleSquares(board []int, players core.PlayerMap) []string {
+	consoleBoard := make([]string, len(board))
+	for i, square := range board {
 		marker, _ := players.PlayerSymbol(square)
-		consoleBoard[i] = styler.Style(square, i, marker)
+		consoleBoard[i] = tttBoardRender.styler.Style(square, i, marker)
 	}
 	return consoleBoard
 }
 
-func getRowSlice(rowIndex int, gridSize int, board []string) []string {
+func (tttBoardRender TTTBoardRender) getRowSlice(rowIndex int, gridSize int, board []string) []string {
 	rowStartIndex := rowIndex * gridSize
 	row := board[rowStartIndex:(rowStartIndex + gridSize)]
 	return row
 }
 
-func renderRow(row []string) string {
+func (tttBoardRender TTTBoardRender) renderRow(row []string) string {
 	return "  " + strings.Join(row, "   |  ") + "   \n"
 }
 
-func renderRowDivider(rowNumber int, gridSize int) string {
+func (tttBoardRender TTTBoardRender) renderRowDivider(rowNumber int, gridSize int) string {
 	if rowNumber > 0 {
 		return strings.Repeat("- - - - ", gridSize-1) + "- - - -\n"
 	}

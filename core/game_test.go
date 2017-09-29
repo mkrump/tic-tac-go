@@ -1,7 +1,7 @@
 package core
 
 import (
-	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

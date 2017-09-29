@@ -26,18 +26,19 @@ func main() {
 	players := core.MakePlayers(computerPlayer, consolePlayer)
 	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
 	styler := uis.ColorStyler{}
+	boardRender := uis.MakeTTTBoardRender(styler)
 
-	console_ui := uis.ConsoleUI{game}
+	console_ui := uis.ConsoleUI{game, boardRender}
 
 	//Main
-	uis.ConsolePrint("\n" + uis.RenderBoard(game.Board, game.Players, styler) + "\n")
+	console_ui.RenderBoard()
 	for {
 		uis.RequestUserMove(os.Stdout)
 		err := console_ui.GetMove()
 		if err != nil {
 			continue
 		}
-		uis.ConsolePrint("\n" + uis.RenderBoard(game.Board, game.Players, styler) + "\n")
+		console_ui.RenderBoard()
 		if game.IsWin() {
 			uis.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
 			break

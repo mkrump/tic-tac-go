@@ -11,17 +11,27 @@ type Game interface {
 	IsTie() bool
 	GetMove() interface{}
 	MakeMove(int) error
+	GameBoard() boards.Board
+	GamePlayers() playertypes.PlayerMap
 }
 
 type TTTGame struct {
-	Players PlayerMap
+	Players playertypes.PlayerMap
 	Board   boards.Board
 	Rules   rules.Rules
 }
 
-func (game TTTGame) GetMove() interface{} {
-	activePlayer := game.ActivePlayer()
-	return activePlayer.Move(game.Board, game.boardActivePlayer())
+func (tttGame TTTGame) GameBoard() boards.Board {
+	return tttGame.Board
+}
+
+func (tttGame TTTGame) GamePlayers() playertypes.PlayerMap {
+	return tttGame.Players
+}
+
+func (tttGame TTTGame) GetMove() interface{} {
+	activePlayer := tttGame.ActivePlayer()
+	return activePlayer.Move(tttGame.Board, tttGame.boardActivePlayer())
 }
 
 //MakeGame constructor for game struct
@@ -35,37 +45,37 @@ func MakeGame(board boards.Board, players PlayerMap, rules rules.Rules) TTTGame 
 
 // IsWin checks if the game is a win for the current player
 // and returns a boolean
-func (game TTTGame) IsWin() bool {
-	return game.Rules.IsWin(game.Board, -1*game.boardActivePlayer())
+func (tttGame TTTGame) IsWin() bool {
+	return tttGame.Rules.IsWin(tttGame.Board, -1*tttGame.boardActivePlayer())
 }
 
 // IsWin checks if the game is a tie and returns a boolean
-func (game TTTGame) IsTie() bool {
-	v := game.Rules.IsTie(game.Board)
+func (tttGame TTTGame) IsTie() bool {
+	v := tttGame.Rules.IsTie(tttGame.Board)
 	return v
 }
 
 // MakeMove attempts make a move and updates the TTTBoard state
 // if valid and returns an error if the move is invalid
-func (game TTTGame) MakeMove(move int) error {
-	return game.Board.MakeMove(move, game.boardActivePlayer())
+func (tttGame TTTGame) MakeMove(move int) error {
+	return tttGame.Board.MakeMove(move, tttGame.boardActivePlayer())
 }
 
-func (game TTTGame) InActivePlayer() playertypes.Player {
-	return game.Players.Player(-1 * game.boardActivePlayer())
+func (tttGame TTTGame) InActivePlayer() playertypes.Player {
+	return tttGame.Players.Player(-1 * tttGame.boardActivePlayer())
 }
 
-func (game TTTGame) ActivePlayer() playertypes.Player {
-	return game.Players.Player(game.boardActivePlayer())
+func (tttGame TTTGame) ActivePlayer() playertypes.Player {
+	return tttGame.Players.Player(tttGame.boardActivePlayer())
 }
 
-func (game TTTGame) InActivePlayerMarker() string {
-	player := game.InActivePlayer()
+func (tttGame TTTGame) InActivePlayerMarker() string {
+	player := tttGame.InActivePlayer()
 	return player.Symbol()
 }
 
-func (game TTTGame) ActivePlayerMarker() string {
-	player := game.ActivePlayer()
+func (tttGame TTTGame) ActivePlayerMarker() string {
+	player := tttGame.ActivePlayer()
 	return player.Symbol()
 }
 
@@ -78,10 +88,10 @@ func MakePlayers(player1 playertypes.Player, player2 playertypes.Player) PlayerM
 	}
 }
 
-func (game TTTGame) boardActivePlayer() int {
+func (tttGame TTTGame) boardActivePlayer() int {
 	var currentPlayer int
-	gridSize := game.Board.GridSize()
-	openSquaresCount := len(game.Board.OpenSquares())
+	gridSize := tttGame.Board.GridSize()
+	openSquaresCount := len(tttGame.Board.OpenSquares())
 	switch {
 	case isEven(gridSize) && isEven(openSquaresCount):
 		currentPlayer = -1
