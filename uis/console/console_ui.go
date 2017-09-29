@@ -27,7 +27,7 @@ func (ui UI) GetMove() error {
 	userMove := ui.Game.GetMove()
 	move, err := ValidateMove(userMove)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(fmt.Sprintf("%s is Invalid Input \n", userMove))
 		return err
 	}
 	if err := ui.Game.MakeMove(move); err != nil {
