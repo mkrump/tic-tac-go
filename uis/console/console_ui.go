@@ -19,7 +19,7 @@ func MakeConsoleUI(game core.Game, render uis.BoardRender) ConsoleUI {
 }
 
 //ConsolePrint prints string to console
-func ConsolePrint(str string) {
+func (ConsoleUI ConsoleUI)  ConsolePrint(str string) {
 	fmt.Println(str)
 }
 
@@ -43,14 +43,14 @@ func (consoleUI ConsoleUI) RenderBoard() {
 	fmt.Println("\n\n" + consoleUI.BoardRenderer.RenderBoard(board, players))
 }
 
-func (consoleUI ConsoleUI) RenderNextGameState() (endGame bool) {
+func (consoleUI ConsoleUI) RenderNextGameState() (message string, endGame bool) {
 	if consoleUI.Game.IsWin() {
-		ConsolePrint(fmt.Sprintf("%s wins!", consoleUI.Game.InActivePlayerMarker()))
-		return false
+		message := fmt.Sprintf("%s wins!", consoleUI.Game.InActivePlayerMarker())
+		return message, false
 	}
 	if consoleUI.Game.IsTie() {
-		ConsolePrint(fmt.Sprintf("Tie..."))
-		return false
+		message := fmt.Sprintf("Tie...")
+		return message, false
 	}
-	return true
+	return "", true
 }

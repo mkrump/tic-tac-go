@@ -28,6 +28,7 @@ func main() {
 
 	//Main
 	playing := true
+	var message string
 	console_ui.RenderBoard()
 	for playing {
 		console.RequestUserMove(os.Stdout)
@@ -36,6 +37,7 @@ func main() {
 			continue
 		}
 		console_ui.RenderBoard()
-		playing = console_ui.RenderNextGameState()
+		message, playing = console_ui.RenderNextGameState()
+		console_ui.ConsolePrint(message)
 	}
 }

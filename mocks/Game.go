@@ -9,6 +9,20 @@ type Game struct {
 	mock.Mock
 }
 
+// ActivePlayerMarker provides a mock function with given fields:
+func (_m *Game) ActivePlayerMarker() string {
+	ret := _m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
+
 // GameBoard provides a mock function with given fields:
 func (_m *Game) GameBoard() core.Board {
 	ret := _m.Called()
@@ -52,6 +66,48 @@ func (_m *Game) GetMove() interface{} {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(interface{})
 		}
+	}
+
+	return r0
+}
+
+// InActivePlayerMarker provides a mock function with given fields:
+func (_m *Game) InActivePlayerMarker() string {
+	ret := _m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
+
+// IsTie provides a mock function with given fields:
+func (_m *Game) IsTie() bool {
+	ret := _m.Called()
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func() bool); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	return r0
+}
+
+// IsWin provides a mock function with given fields:
+func (_m *Game) IsWin() bool {
+	ret := _m.Called()
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func() bool); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(bool)
 	}
 
 	return r0
