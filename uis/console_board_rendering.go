@@ -2,12 +2,12 @@ package uis
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/core/boards"
+	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"strings"
 )
 
 type BoardRender interface {
-	RenderBoard(board boards.Board, players core.PlayerMap) string
+	RenderBoard(board tictactoe.Board, players core.PlayerMap) string
 }
 
 type TTTBoardRender struct {
@@ -20,8 +20,8 @@ func MakeTTTBoardRender(style Styler) TTTBoardRender {
 	}
 }
 
-//RenderBoard returns a string representation of a boards object
-func (tttBoardRender TTTBoardRender) RenderBoard(board boards.Board, players core.PlayerMap) string {
+//RenderBoard returns a string representation of a tictactoe object
+func (tttBoardRender TTTBoardRender) RenderBoard(board tictactoe.Board, players core.PlayerMap) string {
 	styledBoard := tttBoardRender.StyleSquares(board.BoardState(), players)
 	return tttBoardRender.render(styledBoard, board.GridSize())
 }

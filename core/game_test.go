@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
+	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"testing"
 )
 
@@ -12,7 +12,7 @@ func TestCurrentPlayer3x3(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{
 		0, 1, 2,
@@ -33,7 +33,7 @@ func TestCurrentPlayer4x4Start(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockBoard.On("GridSize").Return(4)
 	mockBoard.On("OpenSquares").Return([]int{
 		0, 1, 2, 3,
@@ -55,7 +55,7 @@ func TestCurrentPlayer4x4AfterMoves(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockBoard.On("GridSize").Return(4)
 	mockBoard.On("OpenSquares").Return([]int{
 		0,
@@ -77,7 +77,7 @@ func TestCurrentPlayer3x3AfterMoves(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{
 		1, 2,
@@ -96,7 +96,7 @@ func TestGameMakeMove(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}
 	mockPlayer2 := &mocks.Player{}
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 	mockBoard.On("MakeMove", 1, -1).Return(nil)
 	mockBoard.On("GridSize").Return(3)
@@ -115,7 +115,7 @@ func TestGameIsTieCalled(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}
 	mockPlayer2 := &mocks.Player{}
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockRules := &mocks.Rules{}
 	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
@@ -133,7 +133,7 @@ func TestGameIsWinCalled(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}
 	mockPlayer2 := &mocks.Player{}
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockRules := &mocks.Rules{}
 	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
@@ -155,7 +155,7 @@ func TestGameGetMoveRequestsMoveFromActivePlayer(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}
 	mockPlayer2 := &mocks.Player{}
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	mockRules := &mocks.Rules{}
 	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)

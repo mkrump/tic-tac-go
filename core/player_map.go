@@ -1,4 +1,4 @@
-package playertypes
+package core
 
 import (
 	"fmt"

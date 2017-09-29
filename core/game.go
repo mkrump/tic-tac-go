@@ -1,31 +1,16 @@
 package core
 
-import (
-	"github.com/sc2nomore/tic-tac-go/core/boards"
-	"github.com/sc2nomore/tic-tac-go/core/playertypes"
-	"github.com/sc2nomore/tic-tac-go/core/rules"
-)
-
-type Game interface {
-	IsWin() bool
-	IsTie() bool
-	GetMove() interface{}
-	MakeMove(int) error
-	GameBoard() boards.Board
-	GamePlayers() playertypes.PlayerMap
-}
-
 type TTTGame struct {
-	Players playertypes.PlayerMap
-	Board   boards.Board
-	Rules   rules.Rules
+	Players PlayerMap
+	Board   Board
+	Rules   Rules
 }
 
-func (tttGame TTTGame) GameBoard() boards.Board {
+func (tttGame TTTGame) GameBoard() Board {
 	return tttGame.Board
 }
 
-func (tttGame TTTGame) GamePlayers() playertypes.PlayerMap {
+func (tttGame TTTGame) GamePlayers() PlayerMap {
 	return tttGame.Players
 }
 
@@ -35,7 +20,7 @@ func (tttGame TTTGame) GetMove() interface{} {
 }
 
 //MakeGame constructor for game struct
-func MakeGame(board boards.Board, players PlayerMap, rules rules.Rules) TTTGame {
+func MakeGame(board Board, players PlayerMap, rules Rules) TTTGame {
 	return TTTGame{
 		Board:   board,
 		Players: players,
@@ -61,11 +46,11 @@ func (tttGame TTTGame) MakeMove(move int) error {
 	return tttGame.Board.MakeMove(move, tttGame.boardActivePlayer())
 }
 
-func (tttGame TTTGame) InActivePlayer() playertypes.Player {
+func (tttGame TTTGame) InActivePlayer() Player {
 	return tttGame.Players.Player(-1 * tttGame.boardActivePlayer())
 }
 
-func (tttGame TTTGame) ActivePlayer() playertypes.Player {
+func (tttGame TTTGame) ActivePlayer() Player {
 	return tttGame.Players.Player(tttGame.boardActivePlayer())
 }
 
@@ -79,9 +64,9 @@ func (tttGame TTTGame) ActivePlayerMarker() string {
 	return player.Symbol()
 }
 
-func MakePlayers(player1 playertypes.Player, player2 playertypes.Player) PlayerMap {
+func MakePlayers(player1 Player, player2 Player) PlayerMap {
 	return PlayerMap{
-		Players: map[int]playertypes.Player{
+		Players: map[int]Player{
 			-1: player1,
 			1:  player2,
 		},

@@ -1,17 +1,12 @@
-package rules
+package tictactoe
 
-import "github.com/sc2nomore/tic-tac-go/core/boards"
-
-type Rules interface {
-	IsWin(board boards.Board, player int) bool
-	IsTie(board boards.Board) bool
-}
+import "github.com/sc2nomore/tic-tac-go/core"
 
 type TTTRules struct {
 }
 
 //IsWin returns boolean evaluation if a player has won for the supplied Board
-func (ttt_rules TTTRules) IsWin(playable boards.Board, player int) bool {
+func (ttt_rules TTTRules) IsWin(playable core.Board, player int) bool {
 	gridSize := playable.GridSize()
 	boardState := playable.BoardState()
 	switch {
@@ -29,9 +24,9 @@ func (ttt_rules TTTRules) IsWin(playable boards.Board, player int) bool {
 }
 
 //IsTie returns boolean evaluation is a playable is a tie
-func (ttt_rules TTTRules) IsTie(playable boards.Board) bool {
-	return len(playable.OpenSquares()) == 0 &&
-		!ttt_rules.IsWin(playable, 1) && !ttt_rules.IsWin(playable, -1)
+func (ttt_rules TTTRules) IsTie(board core.Board) bool {
+	return len(board.OpenSquares()) == 0 &&
+		!ttt_rules.IsWin(board, 1) && !ttt_rules.IsWin(board, -1)
 }
 
 //TODO factor out some of this

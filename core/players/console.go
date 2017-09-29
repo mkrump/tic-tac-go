@@ -1,10 +1,10 @@
-package strategies
+package players
 
 import (
 	"bufio"
-	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"io"
 	"regexp"
+	"github.com/sc2nomore/tic-tac-go/core"
 )
 
 type ConsoleStrategy struct {
@@ -23,7 +23,7 @@ func readInput(reader *bufio.Reader, re *regexp.Regexp) string {
 	return input
 }
 
-func (consoleStrategy ConsoleStrategy) FindMove(boards.Board, int) interface{} {
+func (consoleStrategy ConsoleStrategy) FindMove(core.Board, int) interface{} {
 	re := regexp.MustCompile("\r?\n")
 	reader := bufio.NewReader(consoleStrategy.in)
 	return readInput(reader, re)

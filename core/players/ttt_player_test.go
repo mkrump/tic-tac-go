@@ -1,10 +1,9 @@
-package playertypes
+package players
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/core/strategies/mocks"
-	"github.com/sc2nomore/tic-tac-go/core/boards/mocks"
+	"github.com/sc2nomore/tic-tac-go/core/mocks"
 )
 
 func Test3InRow0IsWin(t *testing.T) {

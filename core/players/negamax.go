@@ -1,16 +1,15 @@
-package strategies
+package players
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/boards"
-	"github.com/sc2nomore/tic-tac-go/core/rules"
 	"math"
+	"github.com/sc2nomore/tic-tac-go/core"
 )
 
 type NegaMaxStrategyAB struct {
-	Rules rules.Rules
+	Rules core.Rules
 }
 
-func (strat NegaMaxStrategyAB) negamax(board boards.Board, player int,
+func (strat NegaMaxStrategyAB) negamax(board core.Board, player int,
 	depth int, alpha float64, beta float64) float64 {
 	if strat.Rules.IsWin(board, -player) {
 		return -1.0 / float64(depth)
@@ -32,7 +31,7 @@ func (strat NegaMaxStrategyAB) negamax(board boards.Board, player int,
 	return bestScore
 }
 
-func (strat NegaMaxStrategyAB) FindMove(board boards.Board, player int) interface{} {
+func (strat NegaMaxStrategyAB) FindMove(board core.Board, player int) interface{} {
 	var bestMove int
 	var moveScore float64
 	bestScore := math.Inf(-1)
@@ -51,12 +50,12 @@ func (strat NegaMaxStrategyAB) FindMove(board boards.Board, player int) interfac
 }
 
 type NegaMaxStrategy struct {
-	Rules rules.Rules
+	Rules core.Rules
 }
 
 // Below is same except w/o Alpha Beta Pruning w/ just leaving in for
 // benchmarking purposes. Not used except in if want to rerun benchmarks.
-func (strat NegaMaxStrategy) negamax(board boards.Board, player int, depth int) float64 {
+func (strat NegaMaxStrategy) negamax(board core.Board, player int, depth int) float64 {
 	if strat.Rules.IsWin(board, -player) {
 		return -1.0 / float64(depth)
 	}
@@ -73,7 +72,7 @@ func (strat NegaMaxStrategy) negamax(board boards.Board, player int, depth int) 
 	return bestScore
 }
 
-func (strat NegaMaxStrategy) FindMove(board boards.Board, player int) int {
+func (strat NegaMaxStrategy) FindMove(board core.Board, player int) int {
 	var bestMove int
 	var moveScore float64
 	bestScore := math.Inf(-1)

@@ -1,13 +1,12 @@
-package rules
+package tictactoe
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/boards"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func Test3InRow0IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		1, 1, 1,
 		0, 0, 0,
@@ -20,7 +19,7 @@ func Test3InRow0IsWin(t *testing.T) {
 }
 
 func Test3InRow1IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		0, 0, 0,
 		1, 1, 1,
@@ -33,7 +32,7 @@ func Test3InRow1IsWin(t *testing.T) {
 }
 
 func Test3InRow2IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		0, 0, 0,
 		0, 0, 0,
@@ -46,7 +45,7 @@ func Test3InRow2IsWin(t *testing.T) {
 }
 
 func Test3InColumn0IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		1, 0, 0,
 		1, 0, 0,
@@ -59,7 +58,7 @@ func Test3InColumn0IsWin(t *testing.T) {
 }
 
 func Test3InColumn1IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		0, 1, 0,
 		0, 1, 0,
@@ -72,7 +71,7 @@ func Test3InColumn1IsWin(t *testing.T) {
 }
 
 func Test3InColumn2IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		0, 0, 1,
 		0, 0, 1,
@@ -85,7 +84,7 @@ func Test3InColumn2IsWin(t *testing.T) {
 }
 
 func Test3InDownDiagIsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		1, 0, 0,
 		0, 1, 0,
@@ -98,7 +97,7 @@ func Test3InDownDiagIsWin(t *testing.T) {
 }
 
 func Test3InUpDiagIsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		0, 0, 1,
 		0, 1, 0,
@@ -111,7 +110,7 @@ func Test3InUpDiagIsWin(t *testing.T) {
 }
 
 func Test4InUpDiagIsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := MakeTTTBoard(4)
 	board.SetBoardState([]int{
 		0, 0, 0, 1,
 		0, 0, 1, 0,
@@ -125,7 +124,7 @@ func Test4InUpDiagIsWin(t *testing.T) {
 }
 
 func Test4InDownDiagIsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := MakeTTTBoard(4)
 	board.SetBoardState([]int{
 		-1, 0, 0, 0,
 		0, -1, 0, 0,
@@ -139,7 +138,7 @@ func Test4InDownDiagIsWin(t *testing.T) {
 }
 
 func Test4InColumn0IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := MakeTTTBoard(4)
 	board.SetBoardState([]int{
 		-1, 0, 0, 0,
 		-1, 0, 0, 0,
@@ -153,7 +152,7 @@ func Test4InColumn0IsWin(t *testing.T) {
 }
 
 func Test4InRow1IsWin(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := MakeTTTBoard(4)
 	board.SetBoardState([]int{
 		0, 0, 0, 0,
 		-1, -1, -1, -1,
@@ -167,7 +166,7 @@ func Test4InRow1IsWin(t *testing.T) {
 }
 
 func Test3IsTie(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := MakeTTTBoard(3)
 	board.SetBoardState([]int{
 		-1, 1, -1,
 		1, -1, -1,
@@ -179,7 +178,7 @@ func Test3IsTie(t *testing.T) {
 }
 
 func Test4IsTie(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := MakeTTTBoard(4)
 	board.SetBoardState([]int{
 		-1, 1, -1, 1,
 		1, -1, 1, -1,

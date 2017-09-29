@@ -1,4 +1,4 @@
-package boards
+package tictactoe
 
 import "fmt"
 
@@ -17,18 +17,6 @@ type TTTBoard struct {
 	boardState []int
 }
 
-//Board is an interface used to play ttt
-//Gridsize size of n for nxn boards
-//Boardstate returns an array of ints representing the game boards
-//Make move places a place on the boards and returns and error if the move is invalid
-type Board interface {
-	GridSize() int
-	BoardState() []int
-	MakeMove(int, int) error
-	UndoMove(int) error
-	OpenSquares() []int
-}
-
 //MakeTTTBoard makes a new TTTBoard of total length = gridSize x gridSize
 //have to using MakeTTTBoard
 func MakeTTTBoard(size int) TTTBoard {
@@ -43,12 +31,12 @@ func (board *TTTBoard) SetBoardState(boardState []int) {
 	board.boardState = boardState
 }
 
-//BoardState returns an array of ints representing the game boards
+//BoardState returns an array of ints representing the game tictactoe
 func (board TTTBoard) BoardState() []int {
 	return board.boardState
 }
 
-//GridSize size of n for nxn boards
+//GridSize size of n for nxn tictactoe
 func (board TTTBoard) GridSize() int {
 	return board.size
 }
