@@ -6,14 +6,12 @@ import (
 	"github.com/sc2nomore/tic-tac-go/uis"
 )
 
-
-
 type ConsoleUI struct {
 	Game          core.Game
 	BoardRenderer uis.BoardRender
 }
 
-func MakeConsoleUI(game core.Game, render uis.BoardRender) uis.UI {
+func MakeConsoleUI(game core.Game, render uis.BoardRender) ConsoleUI {
 	return ConsoleUI{
 		Game:          game,
 		BoardRenderer: render,
@@ -43,4 +41,16 @@ func (consoleUI ConsoleUI) RenderBoard() {
 	board := consoleUI.Game.GameBoard()
 	players := consoleUI.Game.GamePlayers()
 	fmt.Println("\n\n" + consoleUI.BoardRenderer.RenderBoard(board, players))
+}
+
+func (consoleUI ConsoleUI) RenderNextGameState() (endGame bool) {
+	if consoleUI.Game.IsWin() {
+		ConsolePrint(fmt.Sprintf("%s wins!", consoleUI.Game.InActivePlayerMarker()))
+		return false
+	}
+	if consoleUI.Game.IsTie() {
+		ConsolePrint(fmt.Sprintf("Tie..."))
+		return false
+	}
+	return true
 }
