@@ -1,4 +1,4 @@
-package playertypes
+package players
 
 import (
 	"github.com/sc2nomore/tic-tac-go/mocks"
@@ -8,7 +8,7 @@ import (
 
 func Test3InRow0IsWin(t *testing.T) {
 	strategy := &mocks.Strategy{}
-	mockBoard := &mocks.Playable{}
+	mockBoard := &mocks.Board{}
 	strategy.On("FindMove", mockBoard, 1).Return(true)
 	player := MakeTTTPlayer("X", strategy)
 
