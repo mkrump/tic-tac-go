@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
-	"github.com/sc2nomore/tic-tac-go/core/players"
-	"os"
 	"github.com/sc2nomore/tic-tac-go/core/games"
-	"github.com/sc2nomore/tic-tac-go/uis/console"
+	"github.com/sc2nomore/tic-tac-go/core/players"
+	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/uis/console"
+	"os"
 )
 
 func setup() uis.UI {
@@ -23,22 +23,22 @@ func setup() uis.UI {
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := console.ColorStyler{}
 	boardRender := console.MakeTTTBoardRender(styler)
-	return console.ConsoleUI{game, boardRender}
+	return console.UI{game, boardRender}
 }
 
 func main() {
-	console_ui := setup()
+	consoleUI := setup()
 	playing := true
 	var message string
-	console_ui.RenderBoard()
+	consoleUI.RenderBoard()
 	for playing {
 		console.RequestUserMove(os.Stdout)
-		err := console_ui.GetMove()
+		err := consoleUI.GetMove()
 		if err != nil {
 			continue
 		}
-		console_ui.RenderBoard()
-		message, playing = console_ui.NextGameState()
-		console_ui.RenderMessage(message)
+		consoleUI.RenderBoard()
+		message, playing = consoleUI.NextGameState()
+		consoleUI.RenderMessage(message)
 	}
 }

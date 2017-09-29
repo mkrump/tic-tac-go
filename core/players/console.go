@@ -2,9 +2,9 @@ package players
 
 import (
 	"bufio"
+	"github.com/sc2nomore/tic-tac-go/core"
 	"io"
 	"regexp"
-	"github.com/sc2nomore/tic-tac-go/core"
 )
 
 type ConsoleStrategy struct {

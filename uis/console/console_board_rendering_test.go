@@ -1,10 +1,10 @@
 package console
 
 import (
-	"github.com/stretchr/testify/assert"
-	"testing"
 	"github.com/sc2nomore/tic-tac-go/core/games"
 	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestRenderingEmpty3x3Board(t *testing.T) {

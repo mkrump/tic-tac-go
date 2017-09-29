@@ -2,10 +2,11 @@ package console
 
 import (
 	"errors"
+	"github.com/sc2nomore/tic-tac-go/core"
+	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {
@@ -37,6 +38,34 @@ func TestRequestUserMoveInvalid(t *testing.T) {
 func TestRequestUserMoveOutBounds(t *testing.T) {
 	mockGame := &mocks.Game{}
 	mockGame.On("GetMove").Return("1000")
+	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(core.ErrOutOfBounds)
+	mockRender := &mocks.BoardRender{}
+
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
+
+	err := consoleUI.GetMove()
+
+	assert.NotNil(t, err)
+	mockGame.AssertCalled(t, "GetMove")
+}
+
+func TestRequestSquareOccupiedBounds(t *testing.T) {
+	mockGame := &mocks.Game{}
+	mockGame.On("GetMove").Return("1")
+	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(core.ErrSquareOccupied)
+	mockRender := &mocks.BoardRender{}
+
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
+
+	err := consoleUI.GetMove()
+
+	assert.NotNil(t, err)
+	mockGame.AssertCalled(t, "GetMove")
+}
+
+func TestRequestUnexpectedError(t *testing.T) {
+	mockGame := &mocks.Game{}
+	mockGame.On("GetMove").Return("1")
 	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(errors.New("SOME ERROR"))
 	mockRender := &mocks.BoardRender{}
 

@@ -4,7 +4,7 @@ import "github.com/sc2nomore/tic-tac-go/core"
 
 type TTTPlayer struct {
 	symbol string
-	strat core.Strategy
+	strat  core.Strategy
 }
 
 func MakeTTTPlayer(symbol string, strategy core.Strategy) TTTPlayer {

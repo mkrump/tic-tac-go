@@ -37,7 +37,7 @@ func MakeGame(board core.Board, players core.PlayerMapper, rules core.Rules) TTT
 func (game TTTGame) IsWin() bool {
 	board := game.GameBoard()
 	InActivePlayerNumber := game.Rules.InActivePlayerNumber(board)
-	return game.Rules.IsWin(game.Board,	InActivePlayerNumber)
+	return game.Rules.IsWin(game.Board, InActivePlayerNumber)
 }
 
 // IsWin checks if the game is a tie and returns a boolean
@@ -74,5 +74,3 @@ func (game TTTGame) ActivePlayerMarker() string {
 	player := game.ActivePlayer()
 	return player.Symbol()
 }
-
-

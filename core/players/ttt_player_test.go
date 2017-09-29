@@ -1,9 +1,9 @@
 package players
 
 import (
+	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func Test3InRow0IsWin(t *testing.T) {

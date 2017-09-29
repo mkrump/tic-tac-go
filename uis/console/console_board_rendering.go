@@ -1,9 +1,9 @@
 package console
 
 import (
-	"strings"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/uis"
+	"strings"
 )
 
 type TTTBoardRender struct {

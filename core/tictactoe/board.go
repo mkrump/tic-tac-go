@@ -1,15 +1,6 @@
 package tictactoe
 
-import "fmt"
-
-//SquareOccupiedError when move attempted for already occupied square
-type SquareOccupiedError struct {
-	square int
-}
-
-func (e *SquareOccupiedError) Error() string {
-	return fmt.Sprintf("square %s is occupied", string(e.square))
-}
+import "github.com/sc2nomore/tic-tac-go/core"
 
 //TTTBoard primitive data type to used for ttt uis
 type TTTBoard struct {
@@ -42,20 +33,25 @@ func (board TTTBoard) GridSize() int {
 }
 
 //MakeMove mutates the TTTBoard object to reflect a player move
-//if a square is available else it returns a SquareOccupiedError
+//if a square is available else it returns a ErrSquareOccupied
 func (board TTTBoard) MakeMove(square int, player int) error {
-	if board.inBounds(square) && board.squareOpen(square) {
+	switch {
+	case board.outOfBounds(square):
+		return core.ErrOutOfBounds
+	case board.squareOccupied(square):
+		return core.ErrSquareOccupied
+	default:
 		board.boardState[square] = player
 		return nil
 	}
-	return &SquareOccupiedError{square: square}
 }
 
 func (board TTTBoard) UndoMove(square int) error {
-	if board.inBounds(square) {
-		board.boardState[square] = 0
+	if board.outOfBounds(square) {
+		return core.ErrOutOfBounds
 	}
-	return &SquareOccupiedError{square: square}
+	board.boardState[square] = 0
+	return nil
 }
 
 func (board TTTBoard) OpenSquares() []int {
@@ -68,10 +64,10 @@ func (board TTTBoard) OpenSquares() []int {
 	return openSquares
 }
 
-func (board TTTBoard) inBounds(square int) bool {
-	return square >= 0 && square < len(board.BoardState())
+func (board TTTBoard) outOfBounds(square int) bool {
+	return square < 0 || square >= len(board.BoardState())
 }
 
-func (board TTTBoard) squareOpen(square int) bool {
-	return board.boardState[square] == 0
+func (board TTTBoard) squareOccupied(square int) bool {
+	return board.boardState[square] != 0
 }

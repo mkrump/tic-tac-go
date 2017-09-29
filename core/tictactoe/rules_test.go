@@ -200,7 +200,7 @@ func Test1ActivePlayerNumber3x3(t *testing.T) {
 	tttRules := TTTRules{}
 
 	assert.Equal(t, tttRules.ActivePlayerNumber(board), 1)
-	assert.Equal(t, tttRules.InActivePlayerNumber(board),-1)
+	assert.Equal(t, tttRules.InActivePlayerNumber(board), -1)
 }
 
 func Test2ActivePlayerNumber3x3(t *testing.T) {
@@ -213,7 +213,7 @@ func Test2ActivePlayerNumber3x3(t *testing.T) {
 	tttRules := TTTRules{}
 
 	assert.Equal(t, tttRules.ActivePlayerNumber(board), -1)
-	assert.Equal(t, tttRules.InActivePlayerNumber(board),1)
+	assert.Equal(t, tttRules.InActivePlayerNumber(board), 1)
 }
 
 func Test1ActivePlayerNumber4x4(t *testing.T) {
@@ -227,7 +227,7 @@ func Test1ActivePlayerNumber4x4(t *testing.T) {
 	tttRules := TTTRules{}
 
 	assert.Equal(t, tttRules.ActivePlayerNumber(board), -1)
-	assert.Equal(t, tttRules.InActivePlayerNumber(board),1)
+	assert.Equal(t, tttRules.InActivePlayerNumber(board), 1)
 }
 
 func Test2ActivePlayerNumber4x4(t *testing.T) {
@@ -241,5 +241,5 @@ func Test2ActivePlayerNumber4x4(t *testing.T) {
 	tttRules := TTTRules{}
 
 	assert.Equal(t, tttRules.ActivePlayerNumber(board), 1)
-	assert.Equal(t, tttRules.InActivePlayerNumber(board),-1)
+	assert.Equal(t, tttRules.InActivePlayerNumber(board), -1)
 }
