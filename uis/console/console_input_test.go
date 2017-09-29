@@ -1,4 +1,4 @@
-package uis
+package console
 
 import (
 	"bytes"

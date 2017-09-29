@@ -1,21 +1,19 @@
-package uis
+package console
 
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
+	"github.com/sc2nomore/tic-tac-go/uis"
 )
 
-type UI interface {
-	GetMove() error
-	RenderBoard()
-}
+
 
 type ConsoleUI struct {
 	Game          core.Game
-	BoardRenderer BoardRender
+	BoardRenderer uis.BoardRender
 }
 
-func MakeConsoleUI(game core.Game, render BoardRender) UI {
+func MakeConsoleUI(game core.Game, render uis.BoardRender) uis.UI {
 	return ConsoleUI{
 		Game:          game,
 		BoardRenderer: render,

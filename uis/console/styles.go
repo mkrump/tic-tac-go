@@ -1,10 +1,6 @@
-package uis
+package console
 
 import "fmt"
-
-type Styler interface {
-	Style(int, int, string) string
-}
 
 type ColorStyler struct {
 }
