@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/sc2nomore/tic-tac-go/uis"
 	"os"
 	"github.com/sc2nomore/tic-tac-go/core/games"
+	"github.com/sc2nomore/tic-tac-go/uis/console"
 )
 
 func main() {
@@ -23,26 +23,26 @@ func main() {
 	)
 	players := games.MakePlayers(computerPlayer, consolePlayer)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
-	styler := uis.ColorStyler{}
-	boardRender := uis.MakeTTTBoardRender(styler)
+	styler := console.ColorStyler{}
+	boardRender := console.MakeTTTBoardRender(styler)
 
-	console_ui := uis.ConsoleUI{game, boardRender}
+	console_ui := console.ConsoleUI{game, boardRender}
 
 	//Main
 	console_ui.RenderBoard()
 	for {
-		uis.RequestUserMove(os.Stdout)
+		console.RequestUserMove(os.Stdout)
 		err := console_ui.GetMove()
 		if err != nil {
 			continue
 		}
 		console_ui.RenderBoard()
 		if game.IsWin() {
-			uis.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
+			console.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
 			break
 		}
 		if game.IsTie() {
-			uis.ConsolePrint(fmt.Sprintf("Tie..."))
+			console.ConsolePrint(fmt.Sprintf("Tie..."))
 			break
 		}
 	}
