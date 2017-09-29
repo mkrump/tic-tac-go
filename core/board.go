@@ -7,3 +7,6 @@ type Board interface {
 	UndoMove(int) error
 	OpenSquares() []int
 }
+
+
+

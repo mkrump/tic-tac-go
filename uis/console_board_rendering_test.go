@@ -1,10 +1,10 @@
 package uis
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/sc2nomore/tic-tac-go/core/games"
+	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func TestRenderingEmpty3x3Board(t *testing.T) {
@@ -12,7 +12,7 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer1.On("Symbol").Return("O")
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("X")
-	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
+	mockPlayers := games.MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Board{}
 	mockBoard.On("BoardState").Return([]int{
 		0, 0, 0,
@@ -31,7 +31,7 @@ func TestRenderingEmpty3x3Board(t *testing.T) {
 			"- - - - - - - - - - - -\n" +
 			"   6   |   7   |   8   \n"
 
-	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
+	assert.Equal(t, expected, boardRender.RenderBoard(mockBoard, mockPlayers), "")
 }
 
 func TestRenderingNonEmpty3x3Board(t *testing.T) {
@@ -39,7 +39,7 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 	mockPlayer1.On("Symbol").Return("X")
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
-	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
+	mockPlayers := games.MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Board{}
 	mockBoard.On("BoardState").Return([]int{
 		0, 1, 0,
@@ -58,7 +58,7 @@ func TestRenderingNonEmpty3x3Board(t *testing.T) {
 			"- - - - - - - - - - - -\n" +
 			"   6   |   7   |   O   \n"
 
-	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
+	assert.Equal(t, expected, boardRender.RenderBoard(mockBoard, mockPlayers), "")
 }
 
 func TestRenderingNonEmpty4x4Board(t *testing.T) {
@@ -66,7 +66,7 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 	mockPlayer1.On("Symbol").Return("X")
 	mockPlayer2 := &mocks.Player{}
 	mockPlayer2.On("Symbol").Return("O")
-	mockPlayers := core.MakePlayers(mockPlayer1, mockPlayer2)
+	mockPlayers := games.MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Board{}
 	mockBoard.On("BoardState").Return([]int{
 		0, 1, 0, 0,
@@ -74,7 +74,7 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 		0, 0, 1, 0,
 		0, 0, 0, 0,
 	})
-	mockBoard.On("GridSize").Return(3)
+	mockBoard.On("GridSize").Return(4)
 
 	styler := SimpleStyle{}
 	boardRender := MakeTTTBoardRender(styler)
@@ -88,5 +88,5 @@ func TestRenderingNonEmpty4x4Board(t *testing.T) {
 			"- - - - - - - - - - - - - - - -\n" +
 			"  12   |  13   |  14   |  15   \n"
 
-	assert.Equal(t, expected, boardRender.Render(mockBoard, mockPlayers), "")
+	assert.Equal(t, expected, boardRender.RenderBoard(mockBoard, mockPlayers), "")
 }

@@ -2,29 +2,27 @@ package main
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/sc2nomore/tic-tac-go/core/rules"
-	"github.com/sc2nomore/tic-tac-go/core/strategies"
 	"github.com/sc2nomore/tic-tac-go/uis"
 	"os"
+	"github.com/sc2nomore/tic-tac-go/core/games"
 )
 
 func main() {
 
 	//Setup
-	consoleStrategy := strategies.MakeConsoleStrategy(os.Stdin)
+	consoleStrategy := players.MakeConsoleStrategy(os.Stdin)
 	consolePlayer := players.MakeTTTPlayer(
 		"X",
 		consoleStrategy,
 	)
 	computerPlayer := players.MakeTTTPlayer(
 		"O",
-		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
+		players.NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}},
 	)
-	players := core.MakePlayers(computerPlayer, consolePlayer)
-	game := core.MakeGame(tictactoe.MakeTTTBoard(3), players, rules.TTTRules{})
+	players := games.MakePlayers(computerPlayer, consolePlayer)
+	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := uis.ColorStyler{}
 	boardRender := uis.MakeTTTBoardRender(styler)
 

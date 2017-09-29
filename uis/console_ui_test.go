@@ -2,10 +2,10 @@ package uis
 
 import (
 	"errors"
-	"github.com/sc2nomore/tic-tac-go/core/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
+	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {
@@ -49,14 +49,17 @@ func TestRequestUserMoveOutBounds(t *testing.T) {
 }
 
 func TestRenderBoard(t *testing.T) {
-	//mockGame := &mocks.Game{}
-	//mockGame.On("Board").Return([]int{})
-	//mockGame.On("Players").Return(mock.AnythingOfType("core.PlayerMap"))
-	//mockRender := &mocks.BoardRender{}
+	mockGame := &mocks.Game{}
+	mockBoard := &mocks.Board{}
+	mockPlayerMapper := &mocks.PlayerMapper{}
+	mockGame.On("GameBoard").Return(mockBoard)
+	mockGame.On("GamePlayers").Return(mockPlayerMapper)
+	mockRender := &mocks.BoardRender{}
+	mockRender.On("RenderBoard", mockBoard, mockPlayerMapper).Return("BOARD")
 
-	//consoleUI := MakeConsoleUI(mockGame, mockRender)
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
 
-	//consoleUI.RenderBoard()
+	consoleUI.RenderBoard()
 
-	//mockGame.AssertCalled(t, "Render")
+	mockRender.AssertCalled(t, "RenderBoard", mockBoard, mockPlayerMapper)
 }
