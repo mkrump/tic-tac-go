@@ -1,9 +1,9 @@
-package ui
+package uis
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 var red = "\033[1;31m%2s\033[0m"

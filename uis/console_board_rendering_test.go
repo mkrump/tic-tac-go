@@ -1,4 +1,4 @@
-package ui
+package uis
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
@@ -7,8 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
-
-
 
 func TestRenderingEmpty3x3Board(t *testing.T) {
 	mockPlayer1 := &mocks.Player{}

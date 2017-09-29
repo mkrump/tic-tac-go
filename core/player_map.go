@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 	"fmt"
+	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 )
 
 type PlayerMap struct {

@@ -11,7 +11,7 @@ func (e *SquareOccupiedError) Error() string {
 	return fmt.Sprintf("square %s is occupied", string(e.square))
 }
 
-//TTTBoard primitive data type to used for ttt ui
+//TTTBoard primitive data type to used for ttt uis
 type TTTBoard struct {
 	size       int
 	boardState []int

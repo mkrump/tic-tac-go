@@ -1,4 +1,4 @@
-package ui
+package uis
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ func RequestUserMove(out io.Writer) {
 func convertInput(input string) (int, error) {
 	move, err := strconv.Atoi(input)
 	if err != nil {
-		return 0, err
+		return 0, &InvalidInputError{input: input}
 	}
 	return move - 1, err
 }

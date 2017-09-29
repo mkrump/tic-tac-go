@@ -19,7 +19,7 @@ func TestCurrentPlayer3x3(t *testing.T) {
 		3, 4, 5,
 		6, 7, 8,
 	})
-	game := Game{Board: mockBoard, Players: mockPlayers}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 
 	assert.Equal(t, "X", game.ActivePlayerMarker())
 	assert.Equal(t, "O", game.InActivePlayerMarker())
@@ -41,7 +41,7 @@ func TestCurrentPlayer4x4Start(t *testing.T) {
 		7, 8, 9, 10,
 		11, 12, 13, 14,
 	})
-	game := Game{Board: mockBoard, Players: mockPlayers}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 
 	assert.Equal(t, "X", game.ActivePlayerMarker())
 	assert.Equal(t, "O", game.InActivePlayerMarker())
@@ -63,7 +63,7 @@ func TestCurrentPlayer4x4AfterMoves(t *testing.T) {
 		7, 8, 9, 10,
 		11, 12, 13, 14,
 	})
-	game := Game{Board: mockBoard, Players: mockPlayers}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 
 	assert.Equal(t, "O", game.ActivePlayerMarker())
 	assert.Equal(t, "X", game.InActivePlayerMarker())
@@ -84,7 +84,7 @@ func TestCurrentPlayer3x3AfterMoves(t *testing.T) {
 		3, 5,
 		6, 7,
 	})
-	game := Game{Board: mockBoard, Players: mockPlayers}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 
 	assert.Equal(t, "O", game.ActivePlayerMarker())
 	assert.Equal(t, "X", game.InActivePlayerMarker())
@@ -97,7 +97,7 @@ func TestGameMakeMove(t *testing.T) {
 	mockPlayer2 := &mocks.Player{}
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Playable{}
-	game := Game{Board: mockBoard, Players: mockPlayers}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers}
 	mockBoard.On("MakeMove", 1, -1).Return(nil)
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{
@@ -117,7 +117,7 @@ func TestGameIsTieCalled(t *testing.T) {
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Playable{}
 	mockRules := &mocks.Rules{}
-	game := Game{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{})
 	mockBoard.On("BoardState").Return([]int{})
@@ -135,7 +135,7 @@ func TestGameIsWinCalled(t *testing.T) {
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Playable{}
 	mockRules := &mocks.Rules{}
-	game := Game{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{
 		0, 1, 2,
@@ -157,7 +157,7 @@ func TestGameGetMoveRequestsMoveFromActivePlayer(t *testing.T) {
 	mockPlayers := MakePlayers(mockPlayer1, mockPlayer2)
 	mockBoard := &mocks.Playable{}
 	mockRules := &mocks.Rules{}
-	game := Game{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
+	game := TTTGame{Board: mockBoard, Players: mockPlayers, Rules: mockRules}
 	mockBoard.On("GridSize").Return(3)
 	mockBoard.On("OpenSquares").Return([]int{
 		0, 1, 2,

@@ -7,7 +7,7 @@ import (
 	"github.com/sc2nomore/tic-tac-go/core/playertypes"
 	"github.com/sc2nomore/tic-tac-go/core/rules"
 	"github.com/sc2nomore/tic-tac-go/core/strategies"
-	"github.com/sc2nomore/tic-tac-go/ui"
+	"github.com/sc2nomore/tic-tac-go/uis"
 	"os"
 )
 
@@ -15,38 +15,35 @@ func main() {
 
 	//Setup
 	consoleStrategy := strategies.MakeConsoleStrategy(os.Stdin)
-	consolePlayer := playertypes.MakeTTTPlayer("X",
+	consolePlayer := playertypes.MakeTTTPlayer(
+		"X",
 		consoleStrategy,
 	)
 	computerPlayer := playertypes.MakeTTTPlayer(
 		"O",
 		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
 	)
-	players := core.MakePlayers(consolePlayer, computerPlayer)
+	players := core.MakePlayers(computerPlayer, consolePlayer)
 	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
-	styler := ui.ColorStyler{}
+	styler := uis.ColorStyler{}
+
+	console_ui := uis.ConsoleUI{game}
 
 	//Main
-	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players, styler) + "\n")
+	uis.ConsolePrint("\n" + uis.RenderBoard(game.Board, game.Players, styler) + "\n")
 	for {
-		ui.RequestUserMove(os.Stdout)
-		move, err := ui.ValidateMove(game.GetMove())
+		uis.RequestUserMove(os.Stdout)
+		err := console_ui.GetMove()
 		if err != nil {
-			println("ERROR 1")
 			continue
 		}
-		if err := game.MakeMove(move); err != nil {
-			println("ERROR 2")
-			continue
-		}
-
-		ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players, styler) + "\n")
+		uis.ConsolePrint("\n" + uis.RenderBoard(game.Board, game.Players, styler) + "\n")
 		if game.IsWin() {
-			ui.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
+			uis.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
 			break
 		}
 		if game.IsTie() {
-			ui.ConsolePrint(fmt.Sprintf("Tie..."))
+			uis.ConsolePrint(fmt.Sprintf("Tie..."))
 			break
 		}
 	}
