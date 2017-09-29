@@ -3,5 +3,6 @@ package uis
 type UI interface {
 	GetMove() error
 	RenderBoard()
-	RenderNextGameState()
+	NextGameState() (message string, endGame bool)
+	RenderMessage(message string)
 }

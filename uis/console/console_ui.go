@@ -18,8 +18,8 @@ func MakeConsoleUI(game core.Game, render uis.BoardRender) ConsoleUI {
 	}
 }
 
-//ConsolePrint prints string to console
-func (ConsoleUI ConsoleUI)  ConsolePrint(str string) {
+//RenderMessage prints string to console
+func (ConsoleUI ConsoleUI) RenderMessage(str string) {
 	fmt.Println(str)
 }
 
@@ -40,16 +40,29 @@ func (consoleUI ConsoleUI) GetMove() error {
 func (consoleUI ConsoleUI) RenderBoard() {
 	board := consoleUI.Game.GameBoard()
 	players := consoleUI.Game.GamePlayers()
+	consoleUI.clearConsole()
 	fmt.Println("\n\n" + consoleUI.BoardRenderer.RenderBoard(board, players))
 }
 
-func (consoleUI ConsoleUI) RenderNextGameState() (message string, endGame bool) {
+func (consoleUI ConsoleUI) winMessage(marker string) string {
+	return fmt.Sprintf("%s's win!", marker)
+}
+
+func (consoleUI ConsoleUI) tieMessage() string {
+	return fmt.Sprintf("Tie...")
+}
+
+func (consoleUI ConsoleUI) clearConsole() {
+	fmt.Print("\033c")
+}
+
+func (consoleUI ConsoleUI) NextGameState() (message string, endGame bool) {
 	if consoleUI.Game.IsWin() {
-		message := fmt.Sprintf("%s wins!", consoleUI.Game.InActivePlayerMarker())
+		message := consoleUI.winMessage(consoleUI.Game.InActivePlayerMarker())
 		return message, false
 	}
 	if consoleUI.Game.IsTie() {
-		message := fmt.Sprintf("Tie...")
+		message := consoleUI.tieMessage()
 		return message, false
 	}
 	return "", true

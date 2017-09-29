@@ -63,3 +63,43 @@ func TestRenderBoard(t *testing.T) {
 
 	mockRender.AssertCalled(t, "RenderBoard", mockBoard, mockPlayerMapper)
 }
+
+func TestRenderNextGameStateWin(t *testing.T) {
+	mockGame := &mocks.Game{}
+	mockGame.On("IsWin").Return(true)
+	mockGame.On("IsTie").Return(false)
+	mockGame.On("InActivePlayerMarker").Return("X")
+	mockRender := &mocks.BoardRender{}
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
+
+	message, playing := consoleUI.NextGameState()
+
+	assert.Equal(t, consoleUI.winMessage("X"), message)
+	assert.False(t, playing, "")
+}
+
+func TestRenderNextGameStateTie(t *testing.T) {
+	mockGame := &mocks.Game{}
+	mockGame.On("IsWin").Return(false)
+	mockGame.On("IsTie").Return(true)
+	mockRender := &mocks.BoardRender{}
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
+
+	message, playing := consoleUI.NextGameState()
+
+	assert.Equal(t, consoleUI.tieMessage(), message)
+	assert.False(t, playing, "")
+}
+
+func TestRenderNextGameStateNoWinorTie(t *testing.T) {
+	mockGame := &mocks.Game{}
+	mockGame.On("IsWin").Return(false)
+	mockGame.On("IsTie").Return(false)
+	mockRender := &mocks.BoardRender{}
+	consoleUI := MakeConsoleUI(mockGame, mockRender)
+
+	message, playing := consoleUI.NextGameState()
+
+	assert.Equal(t, "", message)
+	assert.True(t, playing, "")
+}

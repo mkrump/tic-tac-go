@@ -6,11 +6,10 @@ import (
 	"os"
 	"github.com/sc2nomore/tic-tac-go/core/games"
 	"github.com/sc2nomore/tic-tac-go/uis/console"
+	"github.com/sc2nomore/tic-tac-go/uis"
 )
 
-func main() {
-
-	//Setup
+func setup() uis.UI {
 	consoleStrategy := players.MakeConsoleStrategy(os.Stdin)
 	consolePlayer := players.MakeTTTPlayer(
 		"X",
@@ -24,9 +23,11 @@ func main() {
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := console.ColorStyler{}
 	boardRender := console.MakeTTTBoardRender(styler)
-	console_ui := console.ConsoleUI{game, boardRender}
+	return console.ConsoleUI{game, boardRender}
+}
 
-	//Main
+func main() {
+	console_ui := setup()
 	playing := true
 	var message string
 	console_ui.RenderBoard()
@@ -37,7 +38,7 @@ func main() {
 			continue
 		}
 		console_ui.RenderBoard()
-		message, playing = console_ui.RenderNextGameState()
-		console_ui.ConsolePrint(message)
+		message, playing = console_ui.NextGameState()
+		console_ui.RenderMessage(message)
 	}
 }
