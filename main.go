@@ -1,50 +1,44 @@
 package main
 
 import (
-	"fmt"
-	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/core/boards"
-	"github.com/sc2nomore/tic-tac-go/core/playertypes"
-	"github.com/sc2nomore/tic-tac-go/core/rules"
-	"github.com/sc2nomore/tic-tac-go/core/strategies"
-	"github.com/sc2nomore/tic-tac-go/ui"
+	"github.com/sc2nomore/tic-tac-go/core/games"
+	"github.com/sc2nomore/tic-tac-go/core/players"
+	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
+	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/uis/console"
 	"os"
 )
 
-func main() {
-
-	//Setup
-	consoleStrategy := strategies.MakeConsoleStrategy(os.Stdin)
-	consolePlayer := playertypes.MakeTTTPlayer("X", consoleStrategy)
-	computerPlayer := playertypes.MakeTTTPlayer(
-		"O",
-		strategies.NegaMaxStrategyAB{Rules: rules.TTTRules{}},
+func setup() uis.UI {
+	consoleStrategy := players.MakeConsoleStrategy(os.Stdin)
+	consolePlayer := players.MakeTTTPlayer(
+		"X",
+		consoleStrategy,
 	)
-	players := core.MakePlayers(consolePlayer, computerPlayer)
-	game := core.MakeGame(boards.MakeTTTBoard(3), players, rules.TTTRules{})
+	computerPlayer := players.MakeTTTPlayer(
+		"O",
+		players.NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}},
+	)
+	players := games.MakePlayers(computerPlayer, consolePlayer)
+	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
+	styler := console.ColorStyler{}
+	boardRender := console.MakeTTTBoardRender(styler)
+	return console.UI{game, boardRender}
+}
 
-	//Main
-	ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
-	for {
-		ui.RequestUserMove(os.Stdout)
-		move, err := ui.ValidateMove(game.GetMove())
+func main() {
+	consoleUI := setup()
+	playing := true
+	var message string
+	consoleUI.RenderBoard()
+	for playing {
+		console.RequestUserMove(os.Stdout)
+		err := consoleUI.GetMove()
 		if err != nil {
-			println("ERROR 1")
 			continue
 		}
-		if err := game.MakeMove(move); err != nil {
-			println("ERROR 2")
-			continue
-		}
-
-		ui.ConsolePrint("\n" + ui.RenderBoard(game.Board, game.Players) + "\n")
-		if game.IsWin() {
-			ui.ConsolePrint(fmt.Sprintf("%s wins!", game.InActivePlayerMarker()))
-			break
-		}
-		if game.IsTie() {
-			ui.ConsolePrint(fmt.Sprintf("Tie..."))
-			break
-		}
+		consoleUI.RenderBoard()
+		message, playing = consoleUI.NextGameState()
+		consoleUI.RenderMessage(message)
 	}
 }

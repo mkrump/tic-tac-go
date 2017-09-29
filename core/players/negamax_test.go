@@ -1,21 +1,20 @@
-package strategies
+package players
 
 import (
-	"github.com/sc2nomore/tic-tac-go/core/boards"
-	"github.com/sc2nomore/tic-tac-go/core/rules"
+	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestNegamaxCornerImpliesCenter1(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		-1, 0, 0,
 		0, 0, 0,
 		0, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, 1)
 
@@ -23,14 +22,14 @@ func TestNegamaxCornerImpliesCenter1(t *testing.T) {
 }
 
 func TestNegamaxCornerImpliesCenter2(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		0, 0, 1,
 		0, 0, 0,
 		0, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 
@@ -38,14 +37,14 @@ func TestNegamaxCornerImpliesCenter2(t *testing.T) {
 }
 
 func TestNegamaxCornerImpliesCenter3(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		0, 0, 0,
 		0, 0, 0,
 		0, 0, -1,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, 1)
 
@@ -53,14 +52,14 @@ func TestNegamaxCornerImpliesCenter3(t *testing.T) {
 }
 
 func TestNegamaxCornerImpliesCenter4(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		0, 0, 0,
 		0, 0, 0,
 		1, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 
@@ -68,14 +67,14 @@ func TestNegamaxCornerImpliesCenter4(t *testing.T) {
 }
 
 func TestWinIfOppenentDoesntTakeCenter1(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		-1, 1, 0,
 		0, 0, 0,
 		0, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 
@@ -83,14 +82,14 @@ func TestWinIfOppenentDoesntTakeCenter1(t *testing.T) {
 }
 
 func TestNegamaxCenterImpliesCorner(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		0, 0, 0,
 		0, 1, 0,
 		0, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 	expectedMoves := []int{0, 2, 6, 8}
@@ -99,14 +98,14 @@ func TestNegamaxCenterImpliesCorner(t *testing.T) {
 }
 
 func TestWinInOne2(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		-1, 1, 1,
 		1, -1, 0,
 		-1, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, 1)
 
@@ -114,14 +113,14 @@ func TestWinInOne2(t *testing.T) {
 }
 
 func TestDrawInTwo(t *testing.T) {
-	board := boards.MakeTTTBoard(3)
+	board := tictactoe.MakeTTTBoard(3)
 	boardPosition := []int{
 		-1, 0, 0,
 		-1, 1, 1,
 		1, 0, -1,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 
@@ -129,7 +128,7 @@ func TestDrawInTwo(t *testing.T) {
 }
 
 func Test4x4WinInOne(t *testing.T) {
-	board := boards.MakeTTTBoard(4)
+	board := tictactoe.MakeTTTBoard(4)
 	boardPosition := []int{
 		-1, 1, 0, 0,
 		-1, 1, 0, 0,
@@ -137,7 +136,7 @@ func Test4x4WinInOne(t *testing.T) {
 		0, 0, 0, 0,
 	}
 	board.SetBoardState(boardPosition)
-	strat := NegaMaxStrategyAB{Rules: rules.TTTRules{}}
+	strat := NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}}
 
 	move := strat.FindMove(board, -1)
 
@@ -153,8 +152,8 @@ func Test4x4WinInOne(t *testing.T) {
 //BenchmarkNegaMaxTimeToFirstMove-4      	     100	 146498477 ns/op
 //BenchmarkNegaMaxABTimeToFirstMove-4    	    2000	  10536147 ns/op
 func BenchmarkNegaMaxTimeToSecondMove(b *testing.B) {
-	board := boards.MakeTTTBoard(3)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	board := tictactoe.MakeTTTBoard(3)
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		board.MakeMove(0, -1)
@@ -163,8 +162,8 @@ func BenchmarkNegaMaxTimeToSecondMove(b *testing.B) {
 }
 
 func BenchmarkNegaMaxABTimeToSecondMove(b *testing.B) {
-	board := boards.MakeTTTBoard(3)
-	strat := NegaMaxStrategyAB{Rules: rules.TTTRules{}}
+	board := tictactoe.MakeTTTBoard(3)
+	strat := NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}}
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		board.MakeMove(0, -1)
@@ -173,8 +172,8 @@ func BenchmarkNegaMaxABTimeToSecondMove(b *testing.B) {
 }
 
 func BenchmarkNegaMaxTimeToFirstMove(b *testing.B) {
-	board := boards.MakeTTTBoard(3)
-	strat := NegaMaxStrategy{Rules: rules.TTTRules{}}
+	board := tictactoe.MakeTTTBoard(3)
+	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		strat.FindMove(board, 1)
@@ -182,8 +181,8 @@ func BenchmarkNegaMaxTimeToFirstMove(b *testing.B) {
 }
 
 func BenchmarkNegaMaxABTimeToFirstMove(b *testing.B) {
-	board := boards.MakeTTTBoard(3)
-	strat := NegaMaxStrategyAB{Rules: rules.TTTRules{}}
+	board := tictactoe.MakeTTTBoard(3)
+	strat := NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}}
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		strat.FindMove(board, 1)
