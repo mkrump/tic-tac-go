@@ -80,22 +80,9 @@ func retry(fn func() (string, error)) string {
 }
 
 func (startupMenuRunner StartupMenuRunner) Run() core.Player {
-
-	for {
-		if playerType, err := startupMenuRunner.startUpMenu.PlayerTypePrompt();
-			err != nil {
-			continue
-		} else {
-			for {
-				if playerSymbol, err := startupMenuRunner.startUpMenu.PlayerSymbolPrompt();
-					err != nil {
-					continue
-				} else {
-					return startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
-				}
-			}
-		}
-	}
+		playerType := retry(startupMenuRunner.startUpMenu.PlayerTypePrompt)
+		playerSymbol := retry(startupMenuRunner.startUpMenu.PlayerSymbolPrompt)
+		return startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
 }
 
 //
