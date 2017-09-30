@@ -85,11 +85,11 @@ func TestStartupMenu(t *testing.T) {
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
 	expectedPlayerSelected := players.MakeComputerPlayer("X")
 	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected)
-	startUpMenuRunner := StartupMenuRunner{mockStartupMenus}
+	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
-	playerSelected := startUpMenuRunner.Run()
+	startUpMenuRunner.Run()
 
-	assert.Equal(t, expectedPlayerSelected, playerSelected)
+	assert.Equal(t, expectedPlayerSelected, startUpMenuRunner.players[0])
 }
 
 func TestStartupMenuInvalidThenValid(t *testing.T) {
@@ -99,11 +99,11 @@ func TestStartupMenuInvalidThenValid(t *testing.T) {
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
 	expectedPlayerSelected := players.MakeComputerPlayer("X")
 	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected)
-	startUpMenuRunner := StartupMenuRunner{mockStartupMenus}
+	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
-	playerSelected := startUpMenuRunner.Run()
+	startUpMenuRunner.Run()
 
-	assert.Equal(t, expectedPlayerSelected, playerSelected)
+	assert.Equal(t, expectedPlayerSelected, startUpMenuRunner.players[0])
 }
 
 func TestStartupMenuValidThenInvalid(t *testing.T) {
@@ -113,11 +113,11 @@ func TestStartupMenuValidThenInvalid(t *testing.T) {
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("O", nil).Once()
 	expectedPlayerSelected := players.MakeConsolePlayer("O")
 	mockStartupMenus.On("SelectPlayerType", "1", "O").Return(expectedPlayerSelected)
-	startUpMenuRunner := StartupMenuRunner{mockStartupMenus}
+	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
-	playerSelected := startUpMenuRunner.Run()
+	startUpMenuRunner.Run()
 
-	assert.Equal(t, expectedPlayerSelected, playerSelected)
+	assert.Equal(t, expectedPlayerSelected, startUpMenuRunner.players[0])
 }
 
 //

@@ -2,17 +2,20 @@ package main
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core/games"
-	"github.com/sc2nomore/tic-tac-go/core/players"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
 	"github.com/sc2nomore/tic-tac-go/uis"
 	"github.com/sc2nomore/tic-tac-go/uis/console"
 	"os"
+	"github.com/sc2nomore/tic-tac-go/menus"
 )
 
 func setup() uis.UI {
-	consolePlayer := players.MakeConsolePlayer("X")
-	computerPlayer := players.MakeComputerPlayer("O")
-	players := games.MakePlayers(computerPlayer, consolePlayer)
+	//consolePlayer := players.MakeConsolePlayer("X")
+	//computerPlayer := players.MakeComputerPlayer("O")
+	startupMenu := menus.MakeStartupMenuRunner(menus.NewConsoleMenu(os.Stdin, os.Stdout))
+	startupMenu.Run()
+	player1, player2 := startupMenu.Players()
+	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := console.ColorStyler{}
 	boardRender := console.MakeTTTBoardRender(styler)
