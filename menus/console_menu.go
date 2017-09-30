@@ -4,19 +4,16 @@ import (
 	"io"
 	"regexp"
 	"bufio"
-	"strconv"
 	"github.com/sc2nomore/tic-tac-go/uis"
 	"strings"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
 )
 
-
-
 type StartupMenu interface {
-	PlayerTypePrompt() (int, error)
-	PlayerSymbolPrompt(string, error)
-	SelectPlayerType(core.Player, error)
+	PlayerTypePrompt() (string, error)
+	PlayerSymbolPrompt() (string, error)
+	SelectPlayerType(string, string) core.Player
 }
 
 type ConsoleMenu struct {
@@ -45,26 +42,25 @@ func (consoleMenu ConsoleMenu) PlayerSymbolPrompt() (string, error) {
 	return "", uis.ErrInvalidOption
 }
 
-func (consoleMenu ConsoleMenu) PlayerTypePrompt() (int, error) {
+func (consoleMenu ConsoleMenu) PlayerTypePrompt() (string, error) {
 	reader := bufio.NewReader(consoleMenu.in)
-	input := consoleMenu.readInput(reader)
+	choice := consoleMenu.readInput(reader)
 
-	choice, _ := strconv.Atoi(input)
 	switch choice {
-	case 1:
-		return 1, nil
-	case 2:
-		return 2, nil
+	case "1":
+		return "1", nil
+	case "2":
+		return "2", nil
 	default:
-		return 0, uis.ErrInvalidOption
+		return "0", uis.ErrInvalidOption
 	}
 }
 
-func (consoleMenu ConsoleMenu) SelectPlayerType(playerType int, playerSymbol string) (core.Player, error) {
+func (consoleMenu ConsoleMenu) SelectPlayerType(playerType string, playerSymbol string) (core.Player, error) {
 	switch playerType {
-	case 1:
+	case "1":
 		return players.MakeConsolePlayer(playerSymbol), nil
-	case 2:
+	case "2":
 		return players.MakeComputerPlayer(playerSymbol), nil
 	default:
 		return nil, uis.ErrInvalidOption
@@ -75,8 +71,40 @@ type StartupMenuRunner struct {
 	startUpMenu StartupMenu
 }
 
-//func (startupMenuRunner StartupMenuRunner) Run(StartupMenu) core.Player {
-//	startupMenuRunner.startUpMenu.PlayerTypePrompt()
+func retry(fn func() (string, error)) string {
+	for {
+		if val, err := fn(); err == nil {
+			return val
+		}
+	}
+}
+
+func (startupMenuRunner StartupMenuRunner) Run() core.Player {
+
+	for {
+		if playerType, err := startupMenuRunner.startUpMenu.PlayerTypePrompt();
+			err != nil {
+			continue
+		} else {
+			for {
+				if playerSymbol, err := startupMenuRunner.startUpMenu.PlayerSymbolPrompt();
+					err != nil {
+					continue
+				} else {
+					return startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
+				}
+			}
+		}
+	}
+}
+
 //
 //
+//	for{
+//	playerType, err := startupMenuRunner.startUpMenu.PlayerTypePrompt()
+//	if err == nil{
+//	break
+//}
+//}
+//	return startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
 //}
