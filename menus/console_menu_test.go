@@ -9,60 +9,84 @@ import (
 
 func TestHumanOrComputerPromptValid(t *testing.T) {
 	input := bytes.NewBufferString("2\r\n")
+	output := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{input, output}
 
-	choice, _ := PlayerTypePrompt(input)
+	choice, _ := consoleMenu.PlayerTypePrompt()
 
 	assert.Equal(t, 2, choice)
 }
 
 func TestHumanOrComputerPromptInvalid(t *testing.T) {
 	input := bytes.NewBufferString("NOT VALID\r\n")
+	output := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{input, output}
 
-	_, err := PlayerTypePrompt(input)
+	_, err := consoleMenu.PlayerTypePrompt()
 
 	assert.NotNil(t, err)
 }
 
 func TestHumanOrComputerPromptInvalidChoice(t *testing.T) {
 	input := bytes.NewBufferString("10\r\n")
+	output := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{input, output}
 
-	_, err := PlayerTypePrompt(input)
+	_, err := consoleMenu.PlayerTypePrompt()
 
 	assert.NotNil(t, err)
 }
 
 func TestPlayerSymbolPromptValid(t *testing.T) {
 	input := bytes.NewBufferString("X\r\n")
+	output := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{input, output}
 
-	choice, _ := PlayerSymbolPrompt(input)
+	choice, _ := consoleMenu.PlayerSymbolPrompt()
 
 	assert.Equal(t, "X", choice)
 }
 
 func TestPlayerSymbolPromptInvalidValid(t *testing.T) {
 	input := bytes.NewBufferString("1\r\n")
+	output := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{input, output}
 
-	_, err := PlayerSymbolPrompt(input)
+	_, err := consoleMenu.PlayerSymbolPrompt()
 
 	assert.NotNil(t, err)
 }
 
 
 func TestStartupMenuComputerPlayer(t *testing.T) {
-	playerSelection, _ := SelectPlayerType(2, "X")
+	empty := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{empty, empty}
+
+	playerSelection, _ := consoleMenu.SelectPlayerType(2, "X")
 
 	expectedPlayerType := players.MakeComputerPlayer("X")
-
 	assert.Equal(t, expectedPlayerType, playerSelection)
 }
 
 func TestStartupMenuConsolePlayer(t *testing.T) {
-	playerSelection, _ := SelectPlayerType(1, "X")
+	empty := bytes.NewBufferString("")
+	consoleMenu := ConsoleMenu{empty, empty}
 
-	expectedPlayerType := players.MakeConsolePlayer("X")
+	playerSelection, _ := consoleMenu.SelectPlayerType(1, "O")
 
+	expectedPlayerType := players.MakeConsolePlayer("O")
 	assert.Equal(t, expectedPlayerType, playerSelection)
 }
+
+//func TestStartupMenu(t *testing.T) {
+//	mockStartupMenus := &mocks.StartupMenu{}
+//	mockStartupMenus.On("PlayerTypePrompt", mock.Anything).Return(1)
+//	mockStartupMenus.On("PlayerSymbolPrompt", mock.Anything).Return(1)
+//	mockStartupMenus.On("SelectPlayerType", mock.Anything).Return(1)
+//
+//	expectedPlayerType := players.MakeComputerPlayer("X")
+//	assert.Equal(t, expectedPlayerType, playerSelection)
+//}
 
 //
 //func TestPlayerSymbolPromptDuplicateSymbol(t *testing.T) {
