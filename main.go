@@ -32,6 +32,7 @@ func main() {
 	var message string
 	consoleUI.RenderBoard()
 	for playing {
+		//TODO inject os.Stdout into consoleUI
 		console.RequestUserMove(os.Stdout)
 		err := consoleUI.GetMove()
 		if err != nil {
