@@ -4,42 +4,45 @@ import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/uis"
+	"io"
 )
 
 type UI struct {
 	Game          core.Game
 	BoardRenderer uis.BoardRender
+	out io.Writer
 }
 
-func MakeConsoleUI(game core.Game, render uis.BoardRender) UI {
-	return UI{
+func MakeConsoleUI(game core.Game, render uis.BoardRender, out io.Writer) *UI {
+	return &UI{
 		Game:          game,
 		BoardRenderer: render,
+		out: out,
 	}
 }
 
 //RenderMessage prints string to console
 func (ui UI) RenderMessage(str string) {
-	fmt.Println(str)
+	io.WriteString(ui.out, str)
 }
 
 func (ui UI) GetMove() error {
 	userMove := ui.Game.GetMove()
 	move, err := ValidateMove(userMove)
 	if err != nil {
-		fmt.Println(fmt.Sprintf("%s is Invalid Input \n", userMove))
+		ui.RenderMessage(fmt.Sprintf("%s is Invalid Input \n", userMove))
 		return err
 	}
 	if err := ui.Game.MakeMove(move); err != nil {
 		switch err {
 		case core.ErrOutOfBounds:
-			fmt.Println(fmt.Sprintf("%s is Out of Bounds \n", userMove))
+			ui.RenderMessage(fmt.Sprintf("%s is Out of Bounds \n", userMove))
 			return err
 		case core.ErrSquareOccupied:
-			fmt.Println(fmt.Sprintf("%s is Occupied \n", userMove))
+			ui.RenderMessage(fmt.Sprintf("%s is Occupied \n", userMove))
 			return err
 		default:
-			fmt.Println(err)
+			ui.RenderMessage(fmt.Sprint(err))
 			return err
 		}
 	}
@@ -50,7 +53,7 @@ func (ui UI) RenderBoard() {
 	board := ui.Game.GameBoard()
 	players := ui.Game.GamePlayers()
 	ui.clearConsole()
-	fmt.Println("\n\n" + ui.BoardRenderer.RenderBoard(board, players))
+	ui.RenderMessage(fmt.Sprintf("\n\n" + ui.BoardRenderer.RenderBoard(board, players)))
 }
 
 func (ui UI) winMessage(marker string) string {
@@ -62,7 +65,7 @@ func (ui UI) tieMessage() string {
 }
 
 func (ui UI) clearConsole() {
-	fmt.Print("\033c")
+	ui.RenderMessage("\033c")
 }
 
 func (ui UI) NextGameState() (message string, endGame bool) {

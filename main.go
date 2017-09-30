@@ -10,20 +10,13 @@ import (
 )
 
 func setup() uis.UI {
-	consoleStrategy := players.MakeConsoleStrategy(os.Stdin)
-	consolePlayer := players.MakeTTTPlayer(
-		"X",
-		consoleStrategy,
-	)
-	computerPlayer := players.MakeTTTPlayer(
-		"O",
-		players.NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}},
-	)
+	consolePlayer := players.MakeConsolePlayer("X")
+	computerPlayer := players.MakeComputerPlayer("O")
 	players := games.MakePlayers(computerPlayer, consolePlayer)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := console.ColorStyler{}
 	boardRender := console.MakeTTTBoardRender(styler)
-	return console.UI{game, boardRender}
+	return console.MakeConsoleUI(game, boardRender, os.Stdout)
 }
 
 func main() {
