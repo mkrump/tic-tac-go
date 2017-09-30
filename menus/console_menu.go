@@ -1,9 +1,7 @@
 package menus
 
 import (
-	"io"
 	"regexp"
-	"bufio"
 	"github.com/sc2nomore/tic-tac-go/uis"
 	"strings"
 	"github.com/sc2nomore/tic-tac-go/core"
@@ -17,36 +15,13 @@ type StartupMenu interface {
 	SelectPlayerType(string, string) (core.Player, error)
 }
 
-type ConsoleMenu struct {
-	in  io.Reader
-	out io.Writer
-}
-
-func NewConsoleMenu(in io.Reader, out io.Writer) *ConsoleMenu {
-	return &ConsoleMenu{
-		in:  in,
-		out: out,
-	}
-}
-
-func (consoleMenu ConsoleMenu) RenderMessage(str string) {
-	io.WriteString(consoleMenu.out, str)
-}
-
-func (consoleMenu ConsoleMenu) readInput(reader *bufio.Reader) string {
-	re := regexp.MustCompile("\r?\n")
-	str, _ := reader.ReadString('\n')
-	return re.ReplaceAllString(str, "")
-}
-
 func (consoleMenu ConsoleMenu) PlayerSymbolPrompt() (string, error) {
+	re := regexp.MustCompile("^[A-Z]$")
+
 	consoleMenu.RenderMessage(
 		"Choose a marker [A-Z]: ")
 
-	reader := bufio.NewReader(consoleMenu.in)
-	re := regexp.MustCompile("^[A-Z]$")
-
-	input := consoleMenu.readInput(reader)
+	input := consoleMenu.ReadInput()
 	input = strings.ToUpper(input)
 	switch {
 	case re.MatchString(input):
@@ -63,15 +38,12 @@ func (consoleMenu ConsoleMenu) PlayerTypePrompt() (string, error) {
 		"Choose a player type: \n\n" +
 			"  1. Human Player\n" +
 			"  2. Computer Player\n\n")
-
-	reader := bufio.NewReader(consoleMenu.in)
-	choice := consoleMenu.readInput(reader)
-
+	choice := consoleMenu.ReadInput()
 	switch choice {
 	case "1":
-		return "1", nil
+		return "HUMAN", nil
 	case "2":
-		return "2", nil
+		return "COMPUTER", nil
 	default:
 		return "", uis.ErrInvalidOption
 	}
@@ -79,9 +51,9 @@ func (consoleMenu ConsoleMenu) PlayerTypePrompt() (string, error) {
 
 func (consoleMenu ConsoleMenu) SelectPlayerType(playerType string, playerSymbol string) (core.Player, error) {
 	switch playerType {
-	case "1":
+	case "HUMAN":
 		return players.MakeConsolePlayer(playerSymbol), nil
-	case "2":
+	case "COMPUTER":
 		return players.MakeComputerPlayer(playerSymbol), nil
 	default:
 		return nil, uis.ErrInvalidOption

@@ -16,7 +16,7 @@ func TestHumanOrComputerPromptValid(t *testing.T) {
 
 	choice, _ := consoleMenu.PlayerTypePrompt()
 
-	assert.Equal(t, "2", choice)
+	assert.Equal(t, "COMPUTER", choice)
 }
 
 func TestHumanOrComputerPromptInvalid(t *testing.T) {
@@ -63,7 +63,7 @@ func TestStartupMenuComputerPlayer(t *testing.T) {
 	empty := bytes.NewBufferString("")
 	consoleMenu := ConsoleMenu{empty, empty}
 
-	playerSelection, _ := consoleMenu.SelectPlayerType("2", "X")
+	playerSelection, _ := consoleMenu.SelectPlayerType("COMPUTER", "X")
 
 	expectedPlayerType := players.MakeComputerPlayer("X")
 	assert.Equal(t, expectedPlayerType, playerSelection)
@@ -73,7 +73,7 @@ func TestStartupMenuConsolePlayer(t *testing.T) {
 	empty := bytes.NewBufferString("")
 	consoleMenu := ConsoleMenu{empty, empty}
 
-	playerSelection, _ := consoleMenu.SelectPlayerType("1", "O")
+	playerSelection, _ := consoleMenu.SelectPlayerType("HUMAN", "O")
 
 	expectedPlayerType := players.MakeConsolePlayer("O")
 	assert.Equal(t, expectedPlayerType, playerSelection)
