@@ -13,7 +13,7 @@ func setup() uis.UI {
 	//consolePlayer := players.MakeConsolePlayer("X")
 	//computerPlayer := players.MakeComputerPlayer("O")
 	startupMenu := menus.MakeStartupMenuRunner(menus.NewConsoleMenu(os.Stdin, os.Stdout))
-	startupMenu.Run()
+	startupMenu.Setup()
 	player1, player2 := startupMenu.Players()
 	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})

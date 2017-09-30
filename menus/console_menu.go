@@ -62,7 +62,7 @@ func (consoleMenu ConsoleMenu) PlayerTypePrompt() (string, error) {
 	consoleMenu.RenderMessage(
 		"Choose a player type: \n\n" +
 			"  1. Human Player\n" +
-			"  2. Computer Player\n\n" )
+			"  2. Computer Player\n\n")
 
 	reader := bufio.NewReader(consoleMenu.in)
 	choice := consoleMenu.readInput(reader)
@@ -141,16 +141,20 @@ func (startupMenuRunner *StartupMenuRunner) Players() (player1 core.Player, play
 }
 
 func (startupMenuRunner *StartupMenuRunner) Run() {
+	playerType := retryUntilValid(startupMenuRunner.startUpMenu.PlayerTypePrompt)
+	playerSymbol := retryUntilValid(func() (string, error) {
+		val, err := startupMenuRunner.startUpMenu.PlayerSymbolPrompt()
+		if err == nil {
+			return startupMenuRunner.symbolsAlreadyTaken(val)
+		}
+		return val, err
+	})
+	player, _ := startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
+	startupMenuRunner.players = append(startupMenuRunner.players, player)
+}
+
+func (startupMenuRunner *StartupMenuRunner) Setup() {
 	for len(startupMenuRunner.players) < 2 {
-		playerType := retryUntilValid(startupMenuRunner.startUpMenu.PlayerTypePrompt)
-		playerSymbol := retryUntilValid(func() (string, error) {
-			val, err := startupMenuRunner.startUpMenu.PlayerSymbolPrompt()
-			if err == nil {
-				return startupMenuRunner.symbolsAlreadyTaken(val)
-			}
-			return val, err
-		})
-		player, _ := startupMenuRunner.startUpMenu.SelectPlayerType(playerType, playerSymbol)
-		startupMenuRunner.players = append(startupMenuRunner.players, player)
+		startupMenuRunner.Run()
 	}
 }

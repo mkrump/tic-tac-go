@@ -84,7 +84,7 @@ func TestStartupMenu(t *testing.T) {
 	mockStartupMenus.On("PlayerTypePrompt").Return("2", nil)
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
 	expectedPlayerSelected := players.MakeComputerPlayer("X")
-	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected)
+	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected, nil)
 	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
 	startUpMenuRunner.Run()
@@ -98,7 +98,7 @@ func TestStartupMenuInvalidThenValid(t *testing.T) {
 	mockStartupMenus.On("PlayerTypePrompt").Return("2", nil).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
 	expectedPlayerSelected := players.MakeComputerPlayer("X")
-	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected)
+	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected, nil)
 	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
 	startUpMenuRunner.Run()
@@ -112,7 +112,7 @@ func TestStartupMenuValidThenInvalid(t *testing.T) {
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("", uis.ErrInvalidOption).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("O", nil).Once()
 	expectedPlayerSelected := players.MakeConsolePlayer("O")
-	mockStartupMenus.On("SelectPlayerType", "1", "O").Return(expectedPlayerSelected)
+	mockStartupMenus.On("SelectPlayerType", "1", "O").Return(expectedPlayerSelected, nil)
 	startUpMenuRunner := MakeStartupMenuRunner(mockStartupMenus)
 
 	startUpMenuRunner.Run()
