@@ -74,5 +74,6 @@ func (ui UI) NextGameState() (message string, endGame bool) {
 		message := ui.tieMessage()
 		return message, false
 	}
+	//TODO maybe add a marker plus next move message here
 	return "", true
 }
