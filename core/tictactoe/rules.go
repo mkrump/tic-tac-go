@@ -5,17 +5,12 @@ import "github.com/sc2nomore/tic-tac-go/core"
 type TTTRules struct {
 }
 
-//IsWin returns boolean evaluation if a player has won for the supplied Board
 func (ttt_rules TTTRules) IsWin(board core.Board, player int) bool {
 	gridSize := board.GridSize()
 	boardState := board.BoardState()
-	if isWin(gridSize, boardState, player) {
-		return true
-	}
-	return false
+	return isWin(gridSize, boardState, player)
 }
 
-//IsTie returns boolean evaluation is a playable is a tie
 func (ttt_rules TTTRules) IsTie(board core.Board) bool {
 	return len(board.OpenSquares()) == 0 &&
 		!ttt_rules.IsWin(board, 1) && !ttt_rules.IsWin(board, -1)
@@ -64,10 +59,7 @@ func isWin(gridSize int, boardState []int, player int) bool {
 	return false
 }
 func nEqualsGridSize(count int, gridSize int) bool {
-	if count == gridSize {
-		return true
-	}
-	return false
+	return count == gridSize
 }
 
 func colRowOccupied(col int, row int, player int, boardState []int, gridSize int) int {
