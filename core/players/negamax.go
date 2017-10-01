@@ -54,7 +54,7 @@ type NegaMaxStrategy struct {
 }
 
 // Below is same except w/o Alpha Beta Pruning w/ just leaving in for
-// benchmarking purposes. Not used except in if want to rerun benchmarks.
+// benchmarking purposes. Not used except if want to rerun benchmarks.
 func (strat NegaMaxStrategy) negamax(board core.Board, player int, depth int) float64 {
 	if strat.Rules.IsWin(board, -player) {
 		return -1.0 / float64(depth)

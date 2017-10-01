@@ -1,39 +1,53 @@
 package main
 
 import (
+	"github.com/sc2nomore/tic-tac-go/consolettt"
+	"github.com/sc2nomore/tic-tac-go/consolettt/menus"
+	"github.com/sc2nomore/tic-tac-go/consolettt/uis"
 	"github.com/sc2nomore/tic-tac-go/core/games"
-	"github.com/sc2nomore/tic-tac-go/core/players"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
-	"github.com/sc2nomore/tic-tac-go/uis"
-	"github.com/sc2nomore/tic-tac-go/uis/console"
 	"os"
+	"time"
 )
 
-func setup() uis.UI {
-	consoleStrategy := players.MakeConsoleStrategy(os.Stdin)
-	consolePlayer := players.MakeTTTPlayer(
-		"X",
-		consoleStrategy,
-	)
-	computerPlayer := players.MakeTTTPlayer(
-		"O",
-		players.NegaMaxStrategyAB{Rules: tictactoe.TTTRules{}},
-	)
-	players := games.MakePlayers(computerPlayer, consolePlayer)
+func setup() *uis.ConsoleTTTUI {
+	console := consolettt.NewTTTConsole(os.Stdin, os.Stdout)
+	startupMenu := menus.MakeStartupMenuRunner(menus.NewStartupMenu(console))
+	startupMenu.Setup()
+	player1, player2 := startupMenu.Players()
+	//TODO remove only for quick setup to test game play
+	//player1 := players2.MakeComputerPlayer("O")
+	//player2 := players2.MakeConsolePlayer("X")
+	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
-	styler := console.ColorStyler{}
-	boardRender := console.MakeTTTBoardRender(styler)
-	return console.UI{game, boardRender}
+	styler := uis.ColorStyler{}
+	boardRender := uis.MakeTTTBoardRender(styler)
+	return uis.MakeConsoleUI(game, boardRender, console)
+}
+
+func pacer(fn func() error, minElapsedTime time.Duration) error {
+	start := time.Now()
+	err := fn()
+	currentTime := time.Now()
+	elapsedTime := currentTime.Sub(start)
+	switch {
+	case err != nil:
+		return err
+	case elapsedTime < minElapsedTime:
+		var duration = (minElapsedTime) - elapsedTime
+		time.Sleep(duration)
+	}
+	return err
 }
 
 func main() {
 	consoleUI := setup()
-	playing := true
 	var message string
 	consoleUI.RenderBoard()
+	message, playing := consoleUI.NextGameState()
+	consoleUI.RenderMessage(message)
 	for playing {
-		console.RequestUserMove(os.Stdout)
-		err := consoleUI.GetMove()
+		err := pacer(consoleUI.GetMove, 1*time.Second)
 		if err != nil {
 			continue
 		}

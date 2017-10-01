@@ -2,27 +2,31 @@ package players
 
 import (
 	"bytes"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGetConsoleInputMac(t *testing.T) {
-	consoleStrat := ConsoleStrategy{in: bytes.NewBufferString("1\n")}
+	mockConsole := consolettt.NewTTTConsole(bytes.NewBufferString("1\n"), bytes.NewBufferString(""))
+	consoleStrat := ConsoleStrategy{mockConsole}
 	mockBoard := &mocks.Board{}
 	move := consoleStrat.FindMove(mockBoard, 1).(string)
 	assert.Equal(t, "1", move)
 }
 
 func TestGetConsoleInvalidInput(t *testing.T) {
-	consoleStrat := ConsoleStrategy{in: bytes.NewBufferString("A\r\n")}
+	mockConsole := consolettt.NewTTTConsole(bytes.NewBufferString("A\r\n"), bytes.NewBufferString(""))
+	consoleStrat := ConsoleStrategy{mockConsole}
 	mockBoard := &mocks.Board{}
 	move := consoleStrat.FindMove(mockBoard, 1).(string)
 	assert.Equal(t, "A", move)
 }
 
 func TestGetConsoleInputWindows(t *testing.T) {
-	consoleStrat := ConsoleStrategy{in: bytes.NewBufferString("2\r\n")}
+	mockConsole := consolettt.NewTTTConsole(bytes.NewBufferString("2\r\n"), bytes.NewBufferString(""))
+	consoleStrat := ConsoleStrategy{mockConsole}
 	mockBoard := &mocks.Board{}
 	move := consoleStrat.FindMove(mockBoard, 1).(string)
 	assert.Equal(t, "2", move)
