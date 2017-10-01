@@ -1,4 +1,4 @@
-package uis
+package ui
 
 import "fmt"
 

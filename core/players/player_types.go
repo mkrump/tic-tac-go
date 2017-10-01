@@ -1,9 +1,9 @@
 package players
 
 import (
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"os"
 )
 

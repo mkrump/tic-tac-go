@@ -1,22 +1,21 @@
-package uis
+package ui
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/tttuis"
 	"strings"
 )
 
 type TTTBoardRender struct {
-	styler uis.Styler
+	styler tttuis.Styler
 }
 
-func MakeTTTBoardRender(style uis.Styler) TTTBoardRender {
+func MakeTTTBoardRender(style tttuis.Styler) TTTBoardRender {
 	return TTTBoardRender{
 		styler: style,
 	}
 }
 
-//RenderBoard returns a string representation of a tictactoe object
 func (tttBoardRender TTTBoardRender) RenderBoard(board core.Board, players core.PlayerMapper) string {
 	styledBoard := tttBoardRender.StyleSquares(board.BoardState(), players)
 	return tttBoardRender.render(styledBoard, board.GridSize())
