@@ -37,7 +37,7 @@ func (startupMenu StartupMenu) SelectPlayerType(playerType string, playerSymbol 
 func (startupMenu StartupMenu) PlayerTypePrompt(playerNumber int) (string, error) {
 	startupMenu.console.RenderMessage(
 		fmt.Sprintf(
-			"Choose a player type for player %d. \n\n"+
+			"Choose a player type for PLAYER %d. \n\n"+
 				"  1. Human Player\n"+
 				"  2. Computer Player\n\n" +
 					">: ", playerNumber))
