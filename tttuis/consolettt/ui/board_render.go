@@ -1,16 +1,16 @@
-package uis
+package ui
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/uis"
 	"strings"
+	"github.com/sc2nomore/tic-tac-go/tttuis"
 )
 
 type TTTBoardRender struct {
-	styler uis.Styler
+	styler tttuis.Styler
 }
 
-func MakeTTTBoardRender(style uis.Styler) TTTBoardRender {
+func MakeTTTBoardRender(style tttuis.Styler) TTTBoardRender {
 	return TTTBoardRender{
 		styler: style,
 	}

@@ -1,11 +1,11 @@
-package menus
+package startupmenu
 
 import (
 	"bytes"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core/players"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 func TestHumanOrComputerPromptValid(t *testing.T) {

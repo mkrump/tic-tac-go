@@ -1,8 +1,8 @@
-package uis
+package ui
 
 import (
-	"github.com/sc2nomore/tic-tac-go/uis"
 	"strconv"
+	"github.com/sc2nomore/tic-tac-go/tttuis"
 )
 
 func ValidateMove(userMove interface{}) (int, error) {
@@ -12,14 +12,14 @@ func ValidateMove(userMove interface{}) (int, error) {
 	case string:
 		return convertToInt(move)
 	default:
-		return 0, uis.ErrInvalidInput
+		return 0, tttuis.ErrInvalidInput
 	}
 }
 
 func convertToInt(input string) (int, error) {
 	move, err := strconv.Atoi(input)
 	if err != nil {
-		return 0, uis.ErrInvalidInput
+		return 0, tttuis.ErrInvalidInput
 	}
 	return move - 1, err
 }

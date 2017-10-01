@@ -1,19 +1,19 @@
-package uis
+package ui
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
+	"github.com/sc2nomore/tic-tac-go/tttuis"
 )
 
 type ConsoleTTTUI struct {
 	Game          core.Game
-	BoardRenderer uis.BoardRender
+	BoardRenderer tttuis.BoardRender
 	console       consolettt.Console
 }
 
-func NewConsoleTTTUI(game core.Game, render uis.BoardRender, console consolettt.Console) *ConsoleTTTUI {
+func NewConsoleTTTUI(game core.Game, render tttuis.BoardRender, console consolettt.Console) *ConsoleTTTUI {
 	return &ConsoleTTTUI{
 		Game:          game,
 		BoardRenderer: render,

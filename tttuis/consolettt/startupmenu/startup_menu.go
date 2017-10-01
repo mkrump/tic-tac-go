@@ -1,12 +1,12 @@
-package menus
+package startupmenu
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
 	"regexp"
 	"strings"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 type StartupMenu struct {

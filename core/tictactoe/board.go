@@ -2,7 +2,7 @@ package tictactoe
 
 import "github.com/sc2nomore/tic-tac-go/core"
 
-//TTTBoard primitive data type to used for ttt uis
+//TTTBoard primitive data type to used for tttuis ui
 type TTTBoard struct {
 	size       int
 	boardState []int

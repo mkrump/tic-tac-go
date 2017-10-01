@@ -1,14 +1,14 @@
-package uis
+package ui
 
 import (
 	"bytes"
 	"errors"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {

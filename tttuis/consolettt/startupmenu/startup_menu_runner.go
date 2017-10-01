@@ -1,18 +1,17 @@
-package menus
+package startupmenu
 
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/menus"
-	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/tttuis"
 )
 
 type StartupMenuRunner struct {
-	startUpMenu menus.StartupMenu
+	startUpMenu tttuis.StartupMenu
 	players     []core.Player
 }
 
-func MakeStartupMenuRunner(startupMenu menus.StartupMenu) *StartupMenuRunner {
+func MakeStartupMenuRunner(startupMenu tttuis.StartupMenu) *StartupMenuRunner {
 	return &StartupMenuRunner{
 		startUpMenu: startupMenu,
 		players:     make([]core.Player, 0, 2),
@@ -42,7 +41,7 @@ func (startupMenuRunner *StartupMenuRunner) symbolsAlreadyTaken(symbol string) (
 		fmt.Println(
 			fmt.Sprintf("%s has already been chosen.\n"+
 				"Choose a different symbol.", symbol))
-		return "", uis.ErrInvalidOption
+		return "", tttuis.ErrInvalidOption
 	}
 	return symbol, nil
 }
