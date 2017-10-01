@@ -3,17 +3,17 @@ package menus
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/sc2nomore/tic-tac-go/consoles"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"regexp"
 	"strings"
 	"fmt"
 )
 
 type StartupMenu struct {
-	console consoles.Console
+	console consolettt.Console
 }
 
-func NewStartupMenu(console consoles.Console) *StartupMenu {
+func NewStartupMenu(console consolettt.Console) *StartupMenu {
 	return &StartupMenu{
 		console: console,
 	}
@@ -30,7 +30,7 @@ func (startupMenu StartupMenu) SelectPlayerType(playerType string, playerSymbol 
 	case "COMPUTER":
 		return players.MakeComputerPlayer(playerSymbol), nil
 	default:
-		return nil, consoles.ErrInvalidOption
+		return nil, consolettt.ErrInvalidOption
 	}
 }
 
@@ -51,7 +51,7 @@ func (startupMenu StartupMenu) PlayerTypePrompt(playerNumber int) (string, error
 		startupMenu.console.RenderMessage(
 			fmt.Sprintf(
 				"%s is not valid.\n\n", choice))
-		return "", consoles.ErrInvalidOption
+		return "", consolettt.ErrInvalidOption
 	}
 }
 
@@ -71,6 +71,6 @@ func (startupMenu StartupMenu) PlayerSymbolPrompt() (string, error) {
 		startupMenu.console.RenderMessage(
 			fmt.Sprintf(
 				"%s is not valid.\n", input))
-		return "", consoles.ErrInvalidOption
+		return "", consolettt.ErrInvalidOption
 	}
 }

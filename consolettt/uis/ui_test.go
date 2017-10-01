@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"testing"
 	"bytes"
-	"github.com/sc2nomore/tic-tac-go/consoles"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {
@@ -18,7 +18,7 @@ func TestRequestUserMoveValid(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.GetMove()
@@ -32,7 +32,7 @@ func TestRequestUserMoveInvalid(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
@@ -48,7 +48,7 @@ func TestRequestUserMoveOutBounds(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
@@ -64,7 +64,7 @@ func TestRequestSquareOccupiedBounds(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
@@ -80,7 +80,7 @@ func TestRequestUnexpectedError(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
@@ -99,7 +99,7 @@ func TestRenderBoard(t *testing.T) {
 	mockRender.On("RenderBoard", mockBoard, mockPlayerMapper).Return("BOARD")
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.RenderBoard()
@@ -115,7 +115,7 @@ func TestRenderNextGameStateWin(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
@@ -131,7 +131,7 @@ func TestRenderNextGameStateTie(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
@@ -144,14 +144,15 @@ func TestRenderNextGameStateNoWinorTie(t *testing.T) {
 	mockGame := &mocks.Game{}
 	mockGame.On("IsWin").Return(false)
 	mockGame.On("IsTie").Return(false)
+	mockGame.On("ActivePlayerMarker").Return("X")
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
 	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 
-	assert.Equal(t, "", message)
+	assert.NotNil(t, message)
 	assert.True(t, playing, "")
 }

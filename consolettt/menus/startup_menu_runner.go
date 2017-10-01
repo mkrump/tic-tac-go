@@ -41,7 +41,7 @@ func (startupMenuRunner *StartupMenuRunner) symbolsAlreadyTaken(symbol string) (
 	if contains(alreadyChosen, symbol) {
 		fmt.Println(
 			fmt.Sprintf("%s has already been chosen.\n"+
-				"Choose a different symbol.\n", symbol))
+				"Choose a different symbol.", symbol))
 		return "", uis.ErrInvalidOption
 	}
 	return symbol, nil

@@ -1,4 +1,4 @@
-package consoles
+package consolettt
 
 type Console interface {
 	RenderMessage(str string)

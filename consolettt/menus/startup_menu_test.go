@@ -5,14 +5,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"bytes"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/sc2nomore/tic-tac-go/consoles"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/mocks"
 )
 
 func TestHumanOrComputerPromptValid(t *testing.T) {
 	input := bytes.NewBufferString("2\r\n")
 	output := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(input, output)
+	mockConsole := consolettt.NewTTTConsole(input, output)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	choice, _ := startupMenu.PlayerTypePrompt(1)
@@ -23,7 +23,7 @@ func TestHumanOrComputerPromptValid(t *testing.T) {
 func TestHumanOrComputerPromptInvalid(t *testing.T) {
 	input := bytes.NewBufferString("NOT VALID\r\n")
 	output := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(input, output)
+	mockConsole := consolettt.NewTTTConsole(input, output)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	_, err := startupMenu.PlayerTypePrompt(1)
@@ -34,7 +34,7 @@ func TestHumanOrComputerPromptInvalid(t *testing.T) {
 func TestHumanOrComputerPromptInvalidChoice(t *testing.T) {
 	input := bytes.NewBufferString("10\r\n")
 	output := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(input, output)
+	mockConsole := consolettt.NewTTTConsole(input, output)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	_, err := startupMenu.PlayerTypePrompt(1)
@@ -45,7 +45,7 @@ func TestHumanOrComputerPromptInvalidChoice(t *testing.T) {
 func TestPlayerSymbolPromptValid(t *testing.T) {
 	input := bytes.NewBufferString("X\r\n")
 	output := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(input, output)
+	mockConsole := consolettt.NewTTTConsole(input, output)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	choice, _ := startupMenu.PlayerSymbolPrompt()
@@ -56,7 +56,7 @@ func TestPlayerSymbolPromptValid(t *testing.T) {
 func TestPlayerSymbolPromptInvalidValid(t *testing.T) {
 	input := bytes.NewBufferString("1\r\n")
 	output := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(input, output)
+	mockConsole := consolettt.NewTTTConsole(input, output)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	_, err := startupMenu.PlayerSymbolPrompt()
@@ -66,7 +66,7 @@ func TestPlayerSymbolPromptInvalidValid(t *testing.T) {
 
 func TestStartupMenuComputerPlayer(t *testing.T) {
 	empty := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(empty, empty)
+	mockConsole := consolettt.NewTTTConsole(empty, empty)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	playerSelection, _ := startupMenu.SelectPlayerType("COMPUTER", "X")
@@ -77,7 +77,7 @@ func TestStartupMenuComputerPlayer(t *testing.T) {
 
 func TestStartupMenuConsolePlayer(t *testing.T) {
 	empty := bytes.NewBufferString("")
-	mockConsole := consoles.NewTTTConsole(empty, empty)
+	mockConsole := consolettt.NewTTTConsole(empty, empty)
 	startupMenu := NewStartupMenu(*mockConsole)
 
 	playerSelection, _ := startupMenu.SelectPlayerType("HUMAN", "O")
@@ -101,7 +101,7 @@ func TestStartupMenu(t *testing.T) {
 
 func TestStartupMenuInvalidThenValid(t *testing.T) {
 	mockStartupMenus := &mocks.StartupMenu{}
-	mockStartupMenus.On("PlayerTypePrompt", 1).Return("", consoles.ErrInvalidOption).Once()
+	mockStartupMenus.On("PlayerTypePrompt", 1).Return("", consolettt.ErrInvalidOption).Once()
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
 	expectedPlayerSelected := players.MakeComputerPlayer("X")
@@ -116,7 +116,7 @@ func TestStartupMenuInvalidThenValid(t *testing.T) {
 func TestStartupMenuValidThenInvalid(t *testing.T) {
 	mockStartupMenus := &mocks.StartupMenu{}
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("1", nil).Once()
-	mockStartupMenus.On("PlayerSymbolPrompt").Return("", consoles.ErrInvalidOption).Once()
+	mockStartupMenus.On("PlayerSymbolPrompt").Return("", consolettt.ErrInvalidOption).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("O", nil).Once()
 	expectedPlayerSelected := players.MakeConsolePlayer("O")
 	mockStartupMenus.On("SelectPlayerType", "1", "O").Return(expectedPlayerSelected, nil)
