@@ -5,10 +5,10 @@ import (
 	"errors"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {

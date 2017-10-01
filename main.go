@@ -1,24 +1,21 @@
 package main
 
 import (
-	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
-	"os"
+	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core/games"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt/startupmenu"
 	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt/ui"
+	"os"
 	"time"
-	"fmt"
-	players2 "github.com/sc2nomore/tic-tac-go/core/players"
 )
 
 func setup() *ui.ConsoleTTTUI {
 	console := consolettt.NewTTTConsole(os.Stdin, os.Stdout)
-	//startupMenu := startupmenu.MakeStartupMenuRunner(startupmenu.NewStartupMenu(console))
-	//startupMenu.Setup()
-	//player1, player2 := startupMenu.Players()
-	//TODO remove only for quick setup to test game play
-	player2 := players2.MakeComputerPlayer("O")
-	player1 := players2.MakeConsolePlayer("X")
+	startupMenu := startupmenu.MakeStartupMenuRunner(startupmenu.NewStartupMenu(console))
+	startupMenu.Setup()
+	player1, player2 := startupMenu.Players()
 	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(4), players, tictactoe.TTTRules{})
 	styler := ui.ColorStyler{}

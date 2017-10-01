@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"regexp"
 	"strings"
-	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 type StartupMenu struct {

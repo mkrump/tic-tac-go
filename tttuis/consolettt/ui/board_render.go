@@ -2,8 +2,8 @@ package ui
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"
-	"strings"
 	"github.com/sc2nomore/tic-tac-go/tttuis"
+	"strings"
 )
 
 type TTTBoardRender struct {

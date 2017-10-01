@@ -3,9 +3,9 @@ package startupmenu
 import (
 	"bytes"
 	"github.com/sc2nomore/tic-tac-go/core/players"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 func TestHumanOrComputerPromptValid(t *testing.T) {
@@ -84,5 +84,3 @@ func TestStartupMenuConsolePlayer(t *testing.T) {
 	expectedPlayerType := players.MakeConsolePlayer("O")
 	assert.Equal(t, expectedPlayerType, playerSelection)
 }
-
-

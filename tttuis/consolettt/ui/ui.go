@@ -3,8 +3,8 @@ package ui
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"github.com/sc2nomore/tic-tac-go/tttuis"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 )
 
 type ConsoleTTTUI struct {

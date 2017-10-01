@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"strconv"
 	"github.com/sc2nomore/tic-tac-go/tttuis"
+	"strconv"
 )
 
 func ValidateMove(userMove interface{}) (int, error) {

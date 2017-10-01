@@ -1,11 +1,11 @@
 package startupmenu
 
 import (
-	"testing"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/stretchr/testify/assert"
 	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestStartupMenu(t *testing.T) {
