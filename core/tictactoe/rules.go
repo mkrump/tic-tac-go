@@ -48,14 +48,14 @@ func isWin(gridSize int, boardState []int, player int) bool {
 	for row := 0; row < gridSize; row++ {
 		var nInRow int
 		var nInCol int
-		nInDownDiag += downDiagOccupied(boardState, row, gridSize, player)
-		nInUpdDiag += upDiagOccupied(boardState, gridSize, row, player)
+		nInDownDiag += downDiagOccupied(row, player, boardState, gridSize)
+		nInUpdDiag += upDiagOccupied(row, player, boardState, gridSize)
 		if nEqualsGridSize(nInUpdDiag, gridSize) || nEqualsGridSize(nInDownDiag, gridSize) {
 			return true
 		}
 		for col := 0; col < gridSize; col++ {
-			nInRow += rowOccupied(boardState, row, gridSize, col, player)
-			nInCol += colOccupied(boardState, col, gridSize, row, player)
+			nInRow += rowColOccupied(row, col, player, boardState, gridSize)
+			nInCol += colRowOccupied(col, row, player, boardState, gridSize)
 			if nEqualsGridSize(nInRow, gridSize) || nEqualsGridSize(nInCol, gridSize) {
 				return true
 			}
@@ -70,19 +70,20 @@ func nEqualsGridSize(count int, gridSize int) bool {
 	return false
 }
 
-func colOccupied(boardState []int, col int, gridSize int, row int, player int) int {
+func colRowOccupied(col int, row int, player int, boardState []int, gridSize int) int {
 	if boardState[col*gridSize+row] == player {
 		return 1
 	}
 	return 0
 }
-func rowOccupied(boardState []int, row int, gridSize int, col int, player int) int {
+
+func rowColOccupied(row int, col int, player int, boardState []int, gridSize int) int {
 	if boardState[row*gridSize+col] == player {
 		return 1
 	}
 	return 0
 }
-func downDiagOccupied(boardState []int, row int, gridSize int, player int) int {
+func downDiagOccupied(row int, player int, boardState []int, gridSize int) int {
 	//y = a + mx w/ a=0 m=gridsize+1
 	if boardState[row*(gridSize+1)] == player {
 		return 1
@@ -90,7 +91,7 @@ func downDiagOccupied(boardState []int, row int, gridSize int, player int) int {
 	return 0
 }
 
-func upDiagOccupied(boardState []int, gridSize int, row int, player int) int {
+func upDiagOccupied(row int, player int, boardState []int, gridSize int) int {
 	//y = a + mx w/ a=gridsize*(gridsize-1) m=-(gridsize-1)
 	if boardState[gridSize*(gridSize-1)-(gridSize-1)*row] == player {
 		return 1

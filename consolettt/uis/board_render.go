@@ -16,7 +16,6 @@ func MakeTTTBoardRender(style uis.Styler) TTTBoardRender {
 	}
 }
 
-//RenderBoard returns a string representation of a tictactoe object
 func (tttBoardRender TTTBoardRender) RenderBoard(board core.Board, players core.PlayerMapper) string {
 	styledBoard := tttBoardRender.StyleSquares(board.BoardState(), players)
 	return tttBoardRender.render(styledBoard, board.GridSize())

@@ -19,7 +19,7 @@ func TestRequestUserMoveValid(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.GetMove()
 
@@ -33,7 +33,7 @@ func TestRequestUserMoveInvalid(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -49,7 +49,7 @@ func TestRequestUserMoveOutBounds(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -65,7 +65,7 @@ func TestRequestSquareOccupiedBounds(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -81,7 +81,7 @@ func TestRequestUnexpectedError(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -100,7 +100,7 @@ func TestRenderBoard(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.RenderBoard()
 
@@ -116,7 +116,7 @@ func TestRenderNextGameStateWin(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 
@@ -132,7 +132,7 @@ func TestRenderNextGameStateTie(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 
@@ -149,7 +149,7 @@ func TestRenderNextGameStateNoWinorTie(t *testing.T) {
 	outBuffer := bytes.NewBufferString("")
 	inBuffer := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(inBuffer, outBuffer)
-	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
+	consoleUI := NewConsoleTTTUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 

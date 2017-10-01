@@ -13,7 +13,7 @@ type ConsoleTTTUI struct {
 	console       consolettt.Console
 }
 
-func MakeConsoleUI(game core.Game, render uis.BoardRender, console consolettt.Console) *ConsoleTTTUI {
+func NewConsoleTTTUI(game core.Game, render uis.BoardRender, console consolettt.Console) *ConsoleTTTUI {
 	return &ConsoleTTTUI{
 		Game:          game,
 		BoardRenderer: render,
@@ -21,7 +21,6 @@ func MakeConsoleUI(game core.Game, render uis.BoardRender, console consolettt.Co
 	}
 }
 
-//RenderMessage prints string to consolettt
 func (ui ConsoleTTTUI) RenderMessage(str string) {
 	ui.console.RenderMessage(str)
 }
