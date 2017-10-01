@@ -4,6 +4,7 @@ Go (golang) console version of Tic-Tac-Toe
 ## Setup Go environment
 
 - Install [Go](https://golang.org/doc/install)
+    - On mac `brew install go` should work
 - Setup workspace as described [here](https://golang.org/doc/code.html#Workspaces)
     - The typical setup is to create a `go` directory in `$HOME` with subdirectories for 
     `bin`, `pkg`, and `src`
