@@ -2,9 +2,9 @@ package menus
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/uis"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/menus"
+	"github.com/sc2nomore/tic-tac-go/uis"
 )
 
 type StartupMenuRunner struct {

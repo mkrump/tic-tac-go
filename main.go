@@ -1,25 +1,23 @@
 package main
 
 import (
-	"os"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
+	"github.com/sc2nomore/tic-tac-go/consolettt/menus"
+	"github.com/sc2nomore/tic-tac-go/consolettt/uis"
 	"github.com/sc2nomore/tic-tac-go/core/games"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
-	//"github.com/sc2nomore/tic-tac-go/consolettt/menus"
-	"github.com/sc2nomore/tic-tac-go/consolettt/uis"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
-	//"time"
-	players2 "github.com/sc2nomore/tic-tac-go/core/players"
+	"os"
 	"time"
 )
 
-func Setup() *uis.ConsoleTTTUI {
+func setup() *uis.ConsoleTTTUI {
 	console := consolettt.NewTTTConsole(os.Stdin, os.Stdout)
-	//startupMenu := menus.MakeStartupMenuRunner(menus.NewStartupMenu(console))
-	//startupMenu.Setup()
-	//player1, player2 := startupMenu.Players()
-	//players := games.MakePlayers(player1, player2)
-	player1 := players2.MakeComputerPlayer("O")
-	player2 := players2.MakeConsolePlayer("X")
+	startupMenu := menus.MakeStartupMenuRunner(menus.NewStartupMenu(console))
+	startupMenu.Setup()
+	player1, player2 := startupMenu.Players()
+	//TODO remove only for quick setup to test game play
+	//player1 := players2.MakeComputerPlayer("O")
+	//player2 := players2.MakeConsolePlayer("X")
 	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
 	styler := uis.ColorStyler{}
@@ -27,23 +25,31 @@ func Setup() *uis.ConsoleTTTUI {
 	return uis.MakeConsoleUI(game, boardRender, console)
 }
 
+func pacer(fn func() error, minElapsedTime time.Duration) error {
+	start := time.Now()
+	err := fn()
+	currentTime := time.Now()
+	elapsedTime := currentTime.Sub(start)
+	switch {
+	case err != nil:
+		return err
+	case elapsedTime < minElapsedTime:
+		var duration = (minElapsedTime) - elapsedTime
+		time.Sleep(duration)
+	}
+	return err
+}
+
 func main() {
-	consoleUI := Setup()
-	playing := true
+	consoleUI := setup()
 	var message string
 	consoleUI.RenderBoard()
-	message, playing = consoleUI.NextGameState()
+	message, playing := consoleUI.NextGameState()
 	consoleUI.RenderMessage(message)
 	for playing {
-		start := time.Now()
-		err := consoleUI.GetMove()
+		err := pacer(consoleUI.GetMove, 1*time.Second)
 		if err != nil {
 			continue
-		}
-		t := time.Now()
-		elapsed := t.Sub(start)
-		if elapsed < time.Second*1 {
-			time.Sleep(time.Second*1 - elapsed)
 		}
 		consoleUI.RenderBoard()
 		message, playing = consoleUI.NextGameState()

@@ -1,12 +1,12 @@
 package menus
 
 import (
+	"fmt"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"regexp"
 	"strings"
-	"fmt"
 )
 
 type StartupMenu struct {
@@ -39,8 +39,8 @@ func (startupMenu StartupMenu) PlayerTypePrompt(playerNumber int) (string, error
 		fmt.Sprintf(
 			"Choose a player type for PLAYER %d. \n\n"+
 				"  1. Human Player\n"+
-				"  2. Computer Player\n\n" +
-					">: ", playerNumber))
+				"  2. Computer Player\n\n"+
+				">: ", playerNumber))
 	choice := startupMenu.console.ReadInput()
 	switch choice {
 	case "1":

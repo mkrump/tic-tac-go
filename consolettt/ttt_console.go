@@ -1,8 +1,8 @@
 package consolettt
 
 import (
-	"io"
 	"bufio"
+	"io"
 	"regexp"
 )
 
@@ -15,9 +15,9 @@ func (console TTTConsole) ClearConsole() {
 	console.RenderMessage("\033c")
 }
 
-func NewTTTConsole(in io.Reader, out io.Writer)  *TTTConsole {
+func NewTTTConsole(in io.Reader, out io.Writer) *TTTConsole {
 	return &TTTConsole{
-		in: in,
+		in:  in,
 		out: out,
 	}
 }

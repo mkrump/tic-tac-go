@@ -2,10 +2,10 @@ package players
 
 import (
 	"bytes"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 )
 
 func TestGetConsoleInputMac(t *testing.T) {

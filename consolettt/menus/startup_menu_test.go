@@ -1,12 +1,12 @@
 package menus
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"bytes"
-	"github.com/sc2nomore/tic-tac-go/core/players"
 	"github.com/sc2nomore/tic-tac-go/consolettt"
+	"github.com/sc2nomore/tic-tac-go/core/players"
 	"github.com/sc2nomore/tic-tac-go/mocks"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestHumanOrComputerPromptValid(t *testing.T) {
@@ -126,4 +126,3 @@ func TestStartupMenuValidThenInvalid(t *testing.T) {
 
 	assert.Equal(t, expectedPlayerSelected, startUpMenuRunner.players[0])
 }
-

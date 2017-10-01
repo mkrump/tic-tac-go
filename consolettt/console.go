@@ -5,7 +5,3 @@ type Console interface {
 	ClearConsole()
 	ReadInput() string
 }
-
-
-
-
