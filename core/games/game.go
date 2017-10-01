@@ -23,7 +23,6 @@ func (game TTTGame) GetMove() interface{} {
 	return activePlayer.Move(game.Board, activePlayerNumber)
 }
 
-//MakeGame constructor for game struct
 func MakeGame(board core.Board, players core.PlayerMapper, rules core.Rules) TTTGame {
 	return TTTGame{
 		Board:   board,
@@ -32,21 +31,16 @@ func MakeGame(board core.Board, players core.PlayerMapper, rules core.Rules) TTT
 	}
 }
 
-// IsWin checks if the game is a win for the current player
-// and returns a boolean
 func (game TTTGame) IsWin() bool {
 	board := game.GameBoard()
 	InActivePlayerNumber := game.Rules.InActivePlayerNumber(board)
 	return game.Rules.IsWin(game.Board, InActivePlayerNumber)
 }
 
-// IsWin checks if the game is a tie and returns a boolean
 func (game TTTGame) IsTie() bool {
 	return game.Rules.IsTie(game.Board)
 }
 
-// MakeMove attempts make a move and updates the TTTBoard state
-// if valid and returns an error if the move is invalid
 func (game TTTGame) MakeMove(move int) error {
 	board := game.GameBoard()
 	activePlayerNumber := game.Rules.ActivePlayerNumber(board)

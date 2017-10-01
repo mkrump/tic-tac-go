@@ -1,10 +1,10 @@
-package menus
+package startupmenu
 
 import (
 	"fmt"
-	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/core/players"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
 	"regexp"
 	"strings"
 )

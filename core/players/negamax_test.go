@@ -144,13 +144,13 @@ func Test4x4WinInOne(t *testing.T) {
 }
 
 // Use `go test` cmd below to to reproduce benchmark results.
-// go test -run=XXX -bench=. -benchtime=10s
+// go test ./... -run=XXX -bench=. -benchtime=10s
 // Average ns per function call (far right number).
-// AlphaBeta is apprx an order of magnitude faster
-// BenchmarkNegaMaxTimeToSecondMove-4     	    1000	  16345956 ns/op
-// BenchmarkNegaMaxABTimeToSecondMove-4   	   10000	   2042362 ns/op
-// BenchmarkNegaMaxTimeToFirstMove-4      	     100	 146498477 ns/op
-// BenchmarkNegaMaxABTimeToFirstMove-4    	    2000	  10536147 ns/op
+// AlphaBeta is approximately an order of magnitude faster
+//BenchmarkNegaMaxTimeToSecondMove-4     	    2000	  10418429 ns/op
+//BenchmarkNegaMaxABTimeToSecondMove-4   	   10000	   1374189 ns/op
+//BenchmarkNegaMaxTimeToFirstMove-4      	     200	  96913242 ns/op
+//BenchmarkNegaMaxABTimeToFirstMove-4    	    2000	   7235914 ns/op
 func BenchmarkNegaMaxTimeToSecondMove(b *testing.B) {
 	board := tictactoe.MakeTTTBoard(3)
 	strat := NegaMaxStrategy{Rules: tictactoe.TTTRules{}}

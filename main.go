@@ -1,39 +1,36 @@
 package main
 
 import (
-	"github.com/sc2nomore/tic-tac-go/consolettt"
-	"github.com/sc2nomore/tic-tac-go/consolettt/menus"
-	"github.com/sc2nomore/tic-tac-go/consolettt/uis"
 	"github.com/sc2nomore/tic-tac-go/core/games"
 	"github.com/sc2nomore/tic-tac-go/core/tictactoe"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt/startupmenu"
+	"github.com/sc2nomore/tic-tac-go/tttuis/consolettt/ui"
 	"os"
 	"time"
 )
 
-func setup() *uis.ConsoleTTTUI {
+func setup() *ui.ConsoleTTTUI {
 	console := consolettt.NewTTTConsole(os.Stdin, os.Stdout)
-	startupMenu := menus.MakeStartupMenuRunner(menus.NewStartupMenu(console))
+	startupMenu := startupmenu.MakeRunner(startupmenu.NewStartupMenu(console))
 	startupMenu.Setup()
 	player1, player2 := startupMenu.Players()
-	//TODO remove only for quick setup to test game play
-	//player1 := players2.MakeComputerPlayer("O")
-	//player2 := players2.MakeConsolePlayer("X")
 	players := games.MakePlayers(player1, player2)
 	game := games.MakeGame(tictactoe.MakeTTTBoard(3), players, tictactoe.TTTRules{})
-	styler := uis.ColorStyler{}
-	boardRender := uis.MakeTTTBoardRender(styler)
-	return uis.MakeConsoleUI(game, boardRender, console)
+	styler := ui.ColorStyler{}
+	boardRender := ui.MakeTTTBoardRender(styler)
+	return ui.NewConsoleTTTUI(game, boardRender, console)
 }
 
 func pacer(fn func() error, minElapsedTime time.Duration) error {
 	start := time.Now()
 	err := fn()
+	if err != nil {
+		return err
+	}
 	currentTime := time.Now()
 	elapsedTime := currentTime.Sub(start)
-	switch {
-	case err != nil:
-		return err
-	case elapsedTime < minElapsedTime:
+	if elapsedTime < minElapsedTime {
 		var duration = (minElapsedTime) - elapsedTime
 		time.Sleep(duration)
 	}

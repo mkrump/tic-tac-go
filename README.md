@@ -30,9 +30,10 @@ go get github.com/sc2nomore/tic-tac-go
 ```markdown
 tic-tac-go
 ```
+* This assumes that the go `bin` directory was added to `PATH`. If this wasn't done the binary can be found in `$GOPATH/go/bin`.
 
 ## Run tests
-From the project directory `tic-tac-go` run `go test`
+From the project directory `tic-tac-go` 
 ```markdown
 go test ./...
 ```

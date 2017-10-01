@@ -1,4 +1,4 @@
-package uis
+package tttuis
 
 type UI interface {
 	GetMove() error
