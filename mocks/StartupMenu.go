@@ -10,6 +10,11 @@ type StartupMenu struct {
 	mock.Mock
 }
 
+// ClearMenu provides a mock function with given fields:
+func (_m *StartupMenu) ClearMenu() {
+	_m.Called()
+}
+
 // PlayerSymbolPrompt provides a mock function with given fields:
 func (_m *StartupMenu) PlayerSymbolPrompt() (string, error) {
 	ret := _m.Called()
