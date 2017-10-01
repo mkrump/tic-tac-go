@@ -31,20 +31,20 @@ func (_m *StartupMenu) PlayerSymbolPrompt() (string, error) {
 	return r0, r1
 }
 
-// PlayerTypePrompt provides a mock function with given fields:
-func (_m *StartupMenu) PlayerTypePrompt() (string, error) {
-	ret := _m.Called()
+// PlayerTypePrompt provides a mock function with given fields: playerNumber
+func (_m *StartupMenu) PlayerTypePrompt(playerNumber int) (string, error) {
+	ret := _m.Called(playerNumber)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func() string); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int) string); ok {
+		r0 = rf(playerNumber)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(playerNumber)
 	} else {
 		r1 = ret.Error(1)
 	}

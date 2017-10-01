@@ -54,15 +54,15 @@ func (ui UI) RenderBoard() {
 	board := ui.Game.GameBoard()
 	players := ui.Game.GamePlayers()
 	ui.console.ClearConsole()
-	ui.RenderMessage(fmt.Sprintf("\n\n" + ui.BoardRenderer.RenderBoard(board, players)))
+	ui.RenderMessage(fmt.Sprintf("\n\n" + ui.BoardRenderer.RenderBoard(board, players)) + "\n")
 }
 
 func (ui UI) winMessage(marker string) string {
-	return fmt.Sprintf("%s's win!", marker)
+	return fmt.Sprintf("%s's win! \n\n", marker)
 }
 
 func (ui UI) tieMessage() string {
-	return fmt.Sprintf("Tie...")
+	return "Tie... \n\n"
 }
 
 func (ui UI) NextGameState() (message string, endGame bool) {

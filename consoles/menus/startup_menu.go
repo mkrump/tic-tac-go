@@ -19,6 +19,10 @@ func NewStartupMenu(console consoles.Console) *StartupMenu {
 	}
 }
 
+func (startupMenu StartupMenu) ClearMenu() {
+	startupMenu.console.ClearConsole()
+}
+
 func (startupMenu StartupMenu) SelectPlayerType(playerType string, playerSymbol string) (core.Player, error) {
 	switch playerType {
 	case "HUMAN":
@@ -30,11 +34,13 @@ func (startupMenu StartupMenu) SelectPlayerType(playerType string, playerSymbol 
 	}
 }
 
-func (startupMenu StartupMenu) PlayerTypePrompt() (string, error) {
+func (startupMenu StartupMenu) PlayerTypePrompt(playerNumber int) (string, error) {
 	startupMenu.console.RenderMessage(
-		"Choose a player type: \n\n" +
-			"  1. Human Player\n" +
-			"  2. Computer Player\n\n")
+		fmt.Sprintf(
+			"Choose a player type for player %d. \n\n"+
+				"  1. Human Player\n"+
+				"  2. Computer Player\n\n" +
+					">: ", playerNumber))
 	choice := startupMenu.console.ReadInput()
 	switch choice {
 	case "1":
@@ -42,6 +48,9 @@ func (startupMenu StartupMenu) PlayerTypePrompt() (string, error) {
 	case "2":
 		return "COMPUTER", nil
 	default:
+		startupMenu.console.RenderMessage(
+			fmt.Sprintf(
+				"%s is not valid.\n\n", choice))
 		return "", consoles.ErrInvalidOption
 	}
 }
@@ -50,7 +59,8 @@ func (startupMenu StartupMenu) PlayerSymbolPrompt() (string, error) {
 	re := regexp.MustCompile("^[A-Z]$")
 
 	startupMenu.console.RenderMessage(
-		"Choose a marker [A-Z]: ")
+		"\nChoose a marker [A-Z].\n\n" +
+			">: ")
 
 	input := startupMenu.console.ReadInput()
 	input = strings.ToUpper(input)
@@ -59,7 +69,8 @@ func (startupMenu StartupMenu) PlayerSymbolPrompt() (string, error) {
 		return input, nil
 	default:
 		startupMenu.console.RenderMessage(
-			fmt.Sprintf("%s is invalid. Please choose marker A-Z.", input))
+			fmt.Sprintf(
+				"%s is not valid.\n", input))
 		return "", consoles.ErrInvalidOption
 	}
 }

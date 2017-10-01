@@ -40,8 +40,8 @@ func (startupMenuRunner *StartupMenuRunner) symbolsAlreadyTaken(symbol string) (
 	alreadyChosen := startupMenuRunner.playerSymbols()
 	if contains(alreadyChosen, symbol) {
 		fmt.Println(
-			fmt.Sprintf("%s has already been chosen. "+
-				"Please choose a different symbol", symbol))
+			fmt.Sprintf("%s has already been chosen.\n"+
+				"Choose a different symbol.\n", symbol))
 		return "", uis.ErrInvalidOption
 	}
 	return symbol, nil
@@ -59,8 +59,10 @@ func (startupMenuRunner *StartupMenuRunner) Players() (player1 core.Player, play
 	return startupMenuRunner.players[0], startupMenuRunner.players[1]
 }
 
-func (startupMenuRunner *StartupMenuRunner) Run() {
-	playerType := retryUntilValid(startupMenuRunner.startUpMenu.PlayerTypePrompt)
+func (startupMenuRunner *StartupMenuRunner) Run(playerNumber int) {
+	playerType := retryUntilValid(func() (string, error) {
+		return startupMenuRunner.startUpMenu.PlayerTypePrompt(playerNumber)
+	})
 	playerSymbol := retryUntilValid(func() (string, error) {
 		val, err := startupMenuRunner.startUpMenu.PlayerSymbolPrompt()
 		if err == nil {
@@ -74,6 +76,8 @@ func (startupMenuRunner *StartupMenuRunner) Run() {
 
 func (startupMenuRunner *StartupMenuRunner) Setup() {
 	for len(startupMenuRunner.players) < 2 {
-		startupMenuRunner.Run()
+		players := len(startupMenuRunner.players)
+		startupMenuRunner.startUpMenu.ClearMenu()
+		startupMenuRunner.Run(players + 1)
 	}
 }
