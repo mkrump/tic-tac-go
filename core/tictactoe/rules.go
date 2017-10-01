@@ -9,18 +9,10 @@ type TTTRules struct {
 func (ttt_rules TTTRules) IsWin(board core.Board, player int) bool {
 	gridSize := board.GridSize()
 	boardState := board.BoardState()
-	switch {
-	case upDiagWin(gridSize, boardState, player):
+	if isWin(gridSize, boardState, player) {
 		return true
-	case downDiagWin(gridSize, boardState, player):
-		return true
-	case rowWin(gridSize, boardState, player):
-		return true
-	case colWin(gridSize, boardState, player):
-		return true
-	default:
-		return false
 	}
+	return false
 }
 
 //IsTie returns boolean evaluation is a playable is a tie
@@ -50,63 +42,60 @@ func (ttt_rules TTTRules) InActivePlayerNumber(board core.Board) int {
 	return -ttt_rules.ActivePlayerNumber(board)
 }
 
-//TODO factor out some of this
-func rowWin(gridSize int, boardState []int, player int) bool {
-	for i := 0; i < gridSize; i++ {
-		var total int
-		for j := 0; j < gridSize; j++ {
-			if boardState[i*gridSize+j] == player {
-				total++
-			}
-			if total == gridSize {
+func isWin(gridSize int, boardState []int, player int) bool {
+	var nInDownDiag int
+	var nInUpdDiag int
+	for row := 0; row < gridSize; row++ {
+		var nInRow int
+		var nInCol int
+		nInDownDiag += downDiagOccupied(boardState, row, gridSize, player)
+		nInUpdDiag += upDiagOccupied(boardState, gridSize, row, player)
+		if nEqualsGridSize(nInUpdDiag, gridSize) || nEqualsGridSize(nInDownDiag, gridSize) {
+			return true
+		}
+		for col := 0; col < gridSize; col++ {
+			nInRow += rowOccupied(boardState, row, gridSize, col, player)
+			nInCol += colOccupied(boardState, col, gridSize, row, player)
+			if nEqualsGridSize(nInRow, gridSize) || nEqualsGridSize(nInCol, gridSize) {
 				return true
 			}
 		}
 	}
 	return false
 }
-
-func colWin(gridSize int, boardState []int, player int) bool {
-	for i := 0; i < gridSize; i++ {
-		var total int
-		for j := 0; j < gridSize; j++ {
-			if boardState[i+j*gridSize] == player {
-				total++
-			}
-			if total == gridSize {
-				return true
-			}
-		}
+func nEqualsGridSize(count int, gridSize int) bool {
+	if count == gridSize {
+		return true
 	}
 	return false
 }
 
-func downDiagWin(gridSize int, boardState []int, player int) bool {
-	var total int
-	for i := 0; i < gridSize; i++ {
-		//y = a + mx w/ a=0 m=gridsize+1
-		if boardState[i*(gridSize+1)] == player {
-			total++
-		}
-		if total == gridSize {
-			return true
-		}
+func colOccupied(boardState []int, col int, gridSize int, row int, player int) int {
+	if boardState[col*gridSize+row] == player {
+		return 1
 	}
-	return false
+	return 0
+}
+func rowOccupied(boardState []int, row int, gridSize int, col int, player int) int {
+	if boardState[row*gridSize+col] == player {
+		return 1
+	}
+	return 0
+}
+func downDiagOccupied(boardState []int, row int, gridSize int, player int) int {
+	//y = a + mx w/ a=0 m=gridsize+1
+	if boardState[row*(gridSize+1)] == player {
+		return 1
+	}
+	return 0
 }
 
-func upDiagWin(gridSize int, boardState []int, player int) bool {
-	var total int
-	for i := 0; i < gridSize; i++ {
-		//y = a + mx w/ a=gridsize*(gridsize-1) m=-(gridsize-1)
-		if boardState[gridSize*(gridSize-1)-(gridSize-1)*i] == player {
-			total++
-		}
-		if total == gridSize {
-			return true
-		}
+func upDiagOccupied(boardState []int, gridSize int, row int, player int) int {
+	//y = a + mx w/ a=gridsize*(gridsize-1) m=-(gridsize-1)
+	if boardState[gridSize*(gridSize-1)-(gridSize-1)*row] == player {
+		return 1
 	}
-	return false
+	return 0
 }
 
 func isOdd(n int) bool {
