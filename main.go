@@ -25,12 +25,12 @@ func setup() *ui.ConsoleTTTUI {
 func pacer(fn func() error, minElapsedTime time.Duration) error {
 	start := time.Now()
 	err := fn()
+	if err != nil {
+		return err
+	}
 	currentTime := time.Now()
 	elapsedTime := currentTime.Sub(start)
-	switch {
-	case err != nil:
-		return err
-	case elapsedTime < minElapsedTime:
+	if elapsedTime < minElapsedTime {
 		var duration = (minElapsedTime) - elapsedTime
 		time.Sleep(duration)
 	}
