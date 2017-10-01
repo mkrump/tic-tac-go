@@ -1,30 +1,21 @@
 package players
 
 import (
-	"bufio"
+	"github.com/sc2nomore/tic-tac-go/consolettt"
 	"github.com/sc2nomore/tic-tac-go/core"
-	"io"
-	"regexp"
 )
 
 type ConsoleStrategy struct {
-	in io.Reader
+	console consolettt.Console
 }
 
-func MakeConsoleStrategy(in io.Reader) ConsoleStrategy {
+func MakeConsoleStrategy(console consolettt.Console) ConsoleStrategy {
 	return ConsoleStrategy{
-		in: in,
+		console: console,
 	}
 }
 
-func readInput(reader *bufio.Reader, re *regexp.Regexp) string {
-	str, _ := reader.ReadString('\n')
-	input := re.ReplaceAllString(str, "")
-	return input
-}
-
 func (consoleStrategy ConsoleStrategy) FindMove(core.Board, int) interface{} {
-	re := regexp.MustCompile("\r?\n")
-	reader := bufio.NewReader(consoleStrategy.in)
-	return readInput(reader, re)
+	consoleStrategy.console.RenderMessage("Select an open square: ")
+	return consoleStrategy.console.ReadInput()
 }

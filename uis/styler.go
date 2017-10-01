@@ -1,5 +1,5 @@
 package uis
 
 type Styler interface {
-	Style(int, int, string) string
+	Style(square int, squareIndex int, marker string) string
 }

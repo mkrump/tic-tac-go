@@ -5,5 +5,6 @@ import (
 )
 
 var (
-	ErrInvalidInput = errors.New("uis: invalid input")
+	ErrInvalidInput  = errors.New("uis: invalid input")
+	ErrInvalidOption = errors.New("uis: invalid option")
 )
