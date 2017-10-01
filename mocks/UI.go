@@ -22,7 +22,33 @@ func (_m *UI) GetMove() error {
 	return r0
 }
 
+// NextGameState provides a mock function with given fields:
+func (_m *UI) NextGameState() (string, bool) {
+	ret := _m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 bool
+	if rf, ok := ret.Get(1).(func() bool); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Get(1).(bool)
+	}
+
+	return r0, r1
+}
+
 // RenderBoard provides a mock function with given fields:
 func (_m *UI) RenderBoard() {
 	_m.Called()
+}
+
+// RenderMessage provides a mock function with given fields: message
+func (_m *UI) RenderMessage(message string) {
+	_m.Called(message)
 }

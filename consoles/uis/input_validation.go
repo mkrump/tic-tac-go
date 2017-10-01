@@ -1,8 +1,7 @@
-package console
+package uis
 
 import (
 	"github.com/sc2nomore/tic-tac-go/uis"
-	"io"
 	"strconv"
 )
 
@@ -17,11 +16,6 @@ func ValidateMove(userMove interface{}) (int, error) {
 	default:
 		return 0, uis.ErrInvalidInput
 	}
-}
-
-//RequestUserMove writes to io.Writer message asking user for move
-func RequestUserMove(out io.Writer) {
-	io.WriteString(out, "Select an open square: ")
 }
 
 func convertToInt(input string) (int, error) {

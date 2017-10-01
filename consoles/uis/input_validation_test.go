@@ -1,7 +1,6 @@
-package console
+package uis
 
 import (
-	"bytes"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -24,8 +23,3 @@ func TestGetUserMoveValidString(t *testing.T) {
 	assert.Equal(t, 1, move)
 }
 
-func TestRequestConsoleInput(t *testing.T) {
-	outBuffer := bytes.NewBufferString("")
-	RequestUserMove(outBuffer)
-	assert.Equal(t, "Select an open square: ", outBuffer.String())
-}

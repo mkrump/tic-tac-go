@@ -1,4 +1,4 @@
-package console
+package uis
 
 import (
 	"errors"
@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"testing"
 	"bytes"
+	"github.com/sc2nomore/tic-tac-go/consoles"
 )
 
 func TestRequestUserMoveValid(t *testing.T) {
@@ -16,7 +17,9 @@ func TestRequestUserMoveValid(t *testing.T) {
 	mockGame.On("MakeMove", 8).Return(nil)
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.GetMove()
 
@@ -28,7 +31,9 @@ func TestRequestUserMoveInvalid(t *testing.T) {
 	mockGame.On("GetMove").Return("ABC")
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -42,7 +47,9 @@ func TestRequestUserMoveOutBounds(t *testing.T) {
 	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(core.ErrOutOfBounds)
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -56,7 +63,9 @@ func TestRequestSquareOccupiedBounds(t *testing.T) {
 	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(core.ErrSquareOccupied)
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -70,7 +79,9 @@ func TestRequestUnexpectedError(t *testing.T) {
 	mockGame.On("MakeMove", mock.AnythingOfType("int")).Return(errors.New("SOME ERROR"))
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	err := consoleUI.GetMove()
 
@@ -87,7 +98,9 @@ func TestRenderBoard(t *testing.T) {
 	mockRender := &mocks.BoardRender{}
 	mockRender.On("RenderBoard", mockBoard, mockPlayerMapper).Return("BOARD")
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	consoleUI.RenderBoard()
 
@@ -101,7 +114,9 @@ func TestRenderNextGameStateWin(t *testing.T) {
 	mockGame.On("InActivePlayerMarker").Return("X")
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 
@@ -115,7 +130,9 @@ func TestRenderNextGameStateTie(t *testing.T) {
 	mockGame.On("IsTie").Return(true)
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 
@@ -129,7 +146,9 @@ func TestRenderNextGameStateNoWinorTie(t *testing.T) {
 	mockGame.On("IsTie").Return(false)
 	mockRender := &mocks.BoardRender{}
 	outBuffer := bytes.NewBufferString("")
-	consoleUI := MakeConsoleUI(mockGame, mockRender, outBuffer)
+	inBuffer := bytes.NewBufferString("")
+	mockConsole := consoles.NewTTTConsole(inBuffer, outBuffer)
+	consoleUI := MakeConsoleUI(mockGame, mockRender, mockConsole)
 
 	message, playing := consoleUI.NextGameState()
 

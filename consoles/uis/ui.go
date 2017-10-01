@@ -1,32 +1,33 @@
-package console
+package uis
 
 import (
 	"fmt"
 	"github.com/sc2nomore/tic-tac-go/core"
 	"github.com/sc2nomore/tic-tac-go/uis"
-	"io"
+	"github.com/sc2nomore/tic-tac-go/consoles"
 )
 
 type UI struct {
 	Game          core.Game
 	BoardRenderer uis.BoardRender
-	out io.Writer
+	console consoles.Console
 }
 
-func MakeConsoleUI(game core.Game, render uis.BoardRender, out io.Writer) *UI {
+func MakeConsoleUI(game core.Game, render uis.BoardRender, console consoles.Console) *UI {
 	return &UI{
 		Game:          game,
 		BoardRenderer: render,
-		out: out,
+		console: console,
 	}
 }
 
-//RenderMessage prints string to console
+//RenderMessage prints string to consoles
 func (ui UI) RenderMessage(str string) {
-	io.WriteString(ui.out, str)
+	ui.console.RenderMessage(str)
 }
 
 func (ui UI) GetMove() error {
+	ui.console.RenderMessage("Select an open square: ")
 	userMove := ui.Game.GetMove()
 	move, err := ValidateMove(userMove)
 	if err != nil {
@@ -52,7 +53,7 @@ func (ui UI) GetMove() error {
 func (ui UI) RenderBoard() {
 	board := ui.Game.GameBoard()
 	players := ui.Game.GamePlayers()
-	ui.clearConsole()
+	ui.console.ClearConsole()
 	ui.RenderMessage(fmt.Sprintf("\n\n" + ui.BoardRenderer.RenderBoard(board, players)))
 }
 
@@ -62,10 +63,6 @@ func (ui UI) winMessage(marker string) string {
 
 func (ui UI) tieMessage() string {
 	return fmt.Sprintf("Tie...")
-}
-
-func (ui UI) clearConsole() {
-	ui.RenderMessage("\033c")
 }
 
 func (ui UI) NextGameState() (message string, endGame bool) {

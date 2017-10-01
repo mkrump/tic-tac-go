@@ -1,4 +1,4 @@
-package console
+package uis
 
 import (
 	"github.com/sc2nomore/tic-tac-go/core"

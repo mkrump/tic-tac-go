@@ -1,71 +1,18 @@
 package menus
 
 import (
-	"regexp"
-	"github.com/sc2nomore/tic-tac-go/uis"
-	"strings"
-	"github.com/sc2nomore/tic-tac-go/core"
-	"github.com/sc2nomore/tic-tac-go/core/players"
 	"fmt"
+	"github.com/sc2nomore/tic-tac-go/uis"
+	"github.com/sc2nomore/tic-tac-go/core"
+	"github.com/sc2nomore/tic-tac-go/menus"
 )
 
-type StartupMenu interface {
-	PlayerTypePrompt() (string, error)
-	PlayerSymbolPrompt() (string, error)
-	SelectPlayerType(string, string) (core.Player, error)
-}
-
-func (consoleMenu ConsoleMenu) PlayerSymbolPrompt() (string, error) {
-	re := regexp.MustCompile("^[A-Z]$")
-
-	consoleMenu.RenderMessage(
-		"Choose a marker [A-Z]: ")
-
-	input := consoleMenu.ReadInput()
-	input = strings.ToUpper(input)
-	switch {
-	case re.MatchString(input):
-		return input, nil
-	default:
-		consoleMenu.RenderMessage(
-			fmt.Sprintf("%s is invalid. Please choose marker A-Z.", input))
-		return "", uis.ErrInvalidOption
-	}
-}
-
-func (consoleMenu ConsoleMenu) PlayerTypePrompt() (string, error) {
-	consoleMenu.RenderMessage(
-		"Choose a player type: \n\n" +
-			"  1. Human Player\n" +
-			"  2. Computer Player\n\n")
-	choice := consoleMenu.ReadInput()
-	switch choice {
-	case "1":
-		return "HUMAN", nil
-	case "2":
-		return "COMPUTER", nil
-	default:
-		return "", uis.ErrInvalidOption
-	}
-}
-
-func (consoleMenu ConsoleMenu) SelectPlayerType(playerType string, playerSymbol string) (core.Player, error) {
-	switch playerType {
-	case "HUMAN":
-		return players.MakeConsolePlayer(playerSymbol), nil
-	case "COMPUTER":
-		return players.MakeComputerPlayer(playerSymbol), nil
-	default:
-		return nil, uis.ErrInvalidOption
-	}
-}
-
 type StartupMenuRunner struct {
-	startUpMenu StartupMenu
+	startUpMenu menus.StartupMenu
 	players     []core.Player
 }
 
-func MakeStartupMenuRunner(startupMenu StartupMenu) *StartupMenuRunner {
+func MakeStartupMenuRunner(startupMenu menus.StartupMenu) *StartupMenuRunner {
 	return &StartupMenuRunner{
 		startUpMenu: startupMenu,
 		players:     make([]core.Player, 0, 2),
