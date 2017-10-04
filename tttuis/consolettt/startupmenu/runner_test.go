@@ -53,7 +53,7 @@ func TestStartupMenuSymbolTaken(t *testing.T) {
 	mockStartupMenus := &mocks.StartupMenu{}
 	expectedPlayer := players.MakeComputerPlayer("X")
 
-	mockStartupMenus.On("ClearMenu", ).Return()
+	mockStartupMenus.On("ClearMenu").Return()
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil).Once()
 	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayer, nil).Once()
@@ -70,7 +70,7 @@ func TestStartupMenuEntireFlow(t *testing.T) {
 	expectedPlayer1 := players.MakeComputerPlayer("X")
 	expectedPlayer2 := players.MakeConsolePlayer("O")
 
-	mockStartupMenus.On("ClearMenu", ).Return()
+	mockStartupMenus.On("ClearMenu").Return()
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil).Once()
 	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayer1, nil).Once()
