@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestHumanOrComputerPromptValid(t *testing.T) {
+func TestPromptComputer(t *testing.T) {
 	input := bytes.NewBufferString("2\r\n")
 	output := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(input, output)
@@ -17,6 +17,17 @@ func TestHumanOrComputerPromptValid(t *testing.T) {
 	choice, _ := startupMenu.PlayerTypePrompt(1)
 
 	assert.Equal(t, "COMPUTER", choice)
+}
+
+func TestPromptHuman(t *testing.T) {
+	input := bytes.NewBufferString("1\r\n")
+	output := bytes.NewBufferString("")
+	mockConsole := consolettt.NewTTTConsole(input, output)
+	startupMenu := NewStartupMenu(*mockConsole)
+
+	choice, _ := startupMenu.PlayerTypePrompt(1)
+
+	assert.Equal(t, "HUMAN", choice)
 }
 
 func TestHumanOrComputerPromptInvalid(t *testing.T) {
@@ -75,6 +86,17 @@ func TestStartupMenuComputerPlayer(t *testing.T) {
 }
 
 func TestStartupMenuConsolePlayer(t *testing.T) {
+	empty := bytes.NewBufferString("")
+	mockConsole := consolettt.NewTTTConsole(empty, empty)
+	startupMenu := NewStartupMenu(*mockConsole)
+
+	playerSelection, _ := startupMenu.SelectPlayerType("HUMAN", "O")
+
+	expectedPlayerType := players.MakeConsolePlayer("O")
+	assert.Equal(t, expectedPlayerType, playerSelection)
+}
+
+func TestStartupMenu_ClearMenu(t *testing.T) {
 	empty := bytes.NewBufferString("")
 	mockConsole := consolettt.NewTTTConsole(empty, empty)
 	startupMenu := NewStartupMenu(*mockConsole)
