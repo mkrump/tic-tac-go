@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestStartupMenu(t *testing.T) {
+func TestStartupMenuValid(t *testing.T) {
 	mockStartupMenus := &mocks.StartupMenu{}
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil)
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
@@ -24,10 +24,10 @@ func TestStartupMenu(t *testing.T) {
 func TestStartupMenuInvalidThenValid(t *testing.T) {
 	mockStartupMenus := &mocks.StartupMenu{}
 	mockStartupMenus.On("PlayerTypePrompt", 1).Return("", consolettt.ErrInvalidOption).Once()
-	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
+	mockStartupMenus.On("PlayerTypePrompt", 1).Return("1", nil).Once()
 	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil)
-	expectedPlayerSelected := players.MakeComputerPlayer("X")
-	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayerSelected, nil)
+	expectedPlayerSelected := players.MakeConsolePlayer("X")
+	mockStartupMenus.On("SelectPlayerType", "1", "X").Return(expectedPlayerSelected, nil)
 	startUpMenuRunner := MakeRunner(mockStartupMenus)
 
 	startUpMenuRunner.Run(1)
@@ -47,4 +47,42 @@ func TestStartupMenuValidThenInvalid(t *testing.T) {
 	startUpMenuRunner.Run(1)
 
 	assert.Equal(t, expectedPlayerSelected, startUpMenuRunner.players[0])
+}
+
+func TestStartupMenuSymbolTaken(t *testing.T) {
+	mockStartupMenus := &mocks.StartupMenu{}
+	expectedPlayer := players.MakeComputerPlayer("X")
+
+	mockStartupMenus.On("ClearMenu", ).Return()
+	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
+	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil).Once()
+	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayer, nil).Once()
+	startUpMenuRunner := MakeRunner(mockStartupMenus)
+
+	startUpMenuRunner.Run(1)
+	_, err := startUpMenuRunner.symbolsAlreadyTaken("X")
+
+	assert.NotNil(t, err)
+}
+
+func TestStartupMenuEntireFlow(t *testing.T) {
+	mockStartupMenus := &mocks.StartupMenu{}
+	expectedPlayer1 := players.MakeComputerPlayer("X")
+	expectedPlayer2 := players.MakeConsolePlayer("O")
+
+	mockStartupMenus.On("ClearMenu", ).Return()
+	mockStartupMenus.On("PlayerTypePrompt", 1).Return("2", nil).Once()
+	mockStartupMenus.On("PlayerSymbolPrompt").Return("X", nil).Once()
+	mockStartupMenus.On("SelectPlayerType", "2", "X").Return(expectedPlayer1, nil).Once()
+
+	mockStartupMenus.On("PlayerTypePrompt", 2).Return("2", nil).Once()
+	mockStartupMenus.On("PlayerSymbolPrompt").Return("O", nil).Once()
+	mockStartupMenus.On("SelectPlayerType", "2", "O").Return(expectedPlayer2, nil).Once()
+	startUpMenuRunner := MakeRunner(mockStartupMenus)
+
+	startUpMenuRunner.Setup()
+	player1, player2 := startUpMenuRunner.Players()
+
+	assert.Equal(t, expectedPlayer1, player1)
+	assert.Equal(t, expectedPlayer2, player2)
 }
