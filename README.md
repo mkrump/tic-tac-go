@@ -36,5 +36,6 @@ tic-tac-go
 ## Run tests
 From the project directory `tic-tac-go` 
 ```markdown
+go get ./...
 go test ./...
 ```
